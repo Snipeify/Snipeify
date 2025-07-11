@@ -1,643 +1,377 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>10v10 Manhunt History - Modern Edition</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Story of Manhunt ?v?</title>
+<style>
+  /* Reset & basics */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body {
+    margin:0; padding:0;
+    background: #0e0a16;
+    color: #ddd;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-  <!-- Google Fonts -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Outfit:wght@400;700&display=swap"
-    rel="stylesheet"
-  />
+  /* Container */
+  .container {
+    max-width: 1000px;
+    margin: 3rem auto 6rem;
+    padding: 0 1.5rem;
+  }
 
-  <style>
-    /* Root colors */
-    :root {
-      --bg: #0a001a;
-      --bg-dark: #05000d;
-      --accent: #c77dff;
-      --accent-glow: #cc00ff;
-      --text: #e9e1ff;
-      --glass: rgba(60, 0, 100, 0.25);
-      --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-      --shadow-glow: 0 0 12px var(--accent-glow);
-    }
+  /* Title */
+  header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  header h1 {
+    font-weight: 900;
+    font-size: 3rem;
+    color: #9c4dcc;
+    letter-spacing: 0.07em;
+    text-shadow: 0 0 8px #9c4dccaa;
+    user-select: none;
+  }
+  header h1::after {
+    content: "";
+    display: block;
+    width: 6rem;
+    height: 3px;
+    background: #9c4dcc;
+    margin: 0.7rem auto 0;
+    border-radius: 2px;
+    filter: drop-shadow(0 0 5px #9c4dccaa);
+  }
 
-    /* Reset & base */
-    * {
-      box-sizing: border-box;
-    }
+  /* Tabs Navigation */
+  nav.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+    user-select: none;
+  }
+  nav.tabs button {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #9c4dccaa;
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    border-radius: 40px;
+    margin: 0 0.35rem;
+  }
+  nav.tabs button:hover {
+    color: #d3b7f7;
+  }
+  nav.tabs button.active {
+    color: #fff;
+    background: linear-gradient(135deg, #a04ddc, #5c23a6);
+    box-shadow: 0 0 10px #a04ddc88, 0 0 30px #5c23a6cc;
+  }
+  nav.tabs button.active::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 25%;
+    width: 50%;
+    height: 3px;
+    background: #f6a7ff;
+    border-radius: 3px;
+    animation: underline-pulse 1.2s infinite alternate;
+  }
+  @keyframes underline-pulse {
+    0% {opacity: 0.3;}
+    100% {opacity: 1;}
+  }
 
-    body, html {
-      margin: 0;
-      height: 100%;
-      font-family: 'Outfit', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      overflow-x: hidden;
-      position: relative;
-    }
+  /* Content */
+  section.tab-content {
+    animation: fadeInContent 0.6s ease forwards;
+    line-height: 1.65;
+    font-size: 1.05rem;
+    max-width: 900px;
+    margin: 0 auto;
+    padding-bottom: 2rem;
+  }
+  @keyframes fadeInContent {
+    from {opacity: 0; transform: translateY(8px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+  section.tab-content h2 {
+    color: #b084f7;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    font-size: 2rem;
+    text-shadow: 0 0 6px #a35debaa;
+  }
+  section.tab-content p {
+    margin-bottom: 1rem;
+    text-indent: 1.3em;
+  }
+  section.tab-content p strong {
+    color: #d1aaff;
+  }
+  section.tab-content ul {
+    margin: 1rem 0 1.5rem 1.8rem;
+  }
+  section.tab-content ul li {
+    margin-bottom: 0.5rem;
+  }
+  section.tab-content em {
+    display: block;
+    margin-top: 1rem;
+    color: #a683d9cc;
+    font-size: 0.9rem;
+    text-align: center;
+  }
 
-    /* Background particle canvas */
-    #particle-canvas {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 0;
-      pointer-events: none;
-      background: radial-gradient(circle at center, #1a0040, #0a001a);
-    }
+  /* Special highlights */
+  .highlight {
+    color: #d3b7f7;
+    font-weight: 700;
+    text-shadow: 0 0 10px #c292fcaa;
+  }
 
-    /* Container */
-    .container {
-      position: relative;
-      z-index: 10;
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 40px 20px 80px;
-    }
+  /* Scrollbar style */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #150f2a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #8a49c2;
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #ad6cda;
+  }
 
-    /* Header */
-    header {
-      text-align: center;
-      margin-bottom: 40px;
-      user-select: none;
-      filter: drop-shadow(var(--shadow-glow));
-    }
-
-    header img {
-      width: 100px;
-      border-radius: 14px;
-      box-shadow: var(--shadow-glow);
-      margin-bottom: 12px;
-      transition: transform var(--transition);
-      cursor: default;
-    }
-
-    header img:hover {
-      transform: scale(1.1) rotate(5deg);
-    }
-
+  /* Responsive typography */
+  @media (max-width: 600px) {
     header h1 {
-      font-family: 'Orbitron', sans-serif;
-      font-weight: 600;
-      font-size: 3rem;
-      color: var(--accent);
-      text-shadow: 0 0 20px var(--accent-glow);
-      margin: 0 0 8px;
+      font-size: 2rem;
     }
-
-    header p {
-      font-size: 1.1rem;
-      opacity: 0.75;
-      letter-spacing: 0.05em;
+    nav.tabs button {
+      font-size: 0.95rem;
+      padding: 0.6rem 1rem;
+      margin: 0 0.2rem;
     }
-
-    /* Nav bar */
-    nav {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 14px;
-      background: var(--bg-dark);
-      padding: 12px 20px;
-      border-radius: 14px;
-      box-shadow: 0 0 20px var(--accent-glow);
-      user-select: none;
-      margin-bottom: 40px;
-      position: sticky;
-      top: 10px;
-      z-index: 15;
+    section.tab-content h2 {
+      font-size: 1.5rem;
     }
-
-    nav button {
-      background: transparent;
-      border: 2px solid var(--accent);
-      color: var(--accent);
-      padding: 12px 20px;
-      border-radius: 12px;
-      font-weight: 700;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 0 6px transparent;
-      filter: drop-shadow(0 0 0 transparent);
-    }
-
-    nav button:hover {
-      background: var(--accent);
-      color: var(--bg-dark);
-      box-shadow: var(--shadow-glow);
-      filter: drop-shadow(var(--shadow-glow));
-    }
-
-    nav button.active {
-      background: var(--accent);
-      color: var(--bg-dark);
-      box-shadow: var(--shadow-glow);
-      filter: drop-shadow(var(--shadow-glow));
-      cursor: default;
-    }
-
-    /* Section container */
-    .section {
-      display: none;
-      animation: fadeSlideIn 0.6s ease forwards;
-    }
-
-    .section.active {
-      display: block;
-    }
-
-    /* Section headings */
-    h2 {
-      font-family: 'Orbitron', sans-serif;
-      font-weight: 600;
-      font-size: 2.4rem;
-      color: var(--accent);
-      text-shadow: 0 0 12px var(--accent-glow);
-      margin-bottom: 24px;
-      user-select: text;
-    }
-
-    /* Paragraph & lists */
-    p, li {
-      font-size: 1.15rem;
-      line-height: 1.7;
-      color: var(--text);
-      user-select: text;
-    }
-
-    ul {
-      padding-left: 24px;
-      margin-top: 12px;
-      margin-bottom: 24px;
-    }
-
-    /* Images in content */
-    .section img.content-image {
-      width: 100%;
-      max-height: 320px;
-      object-fit: cover;
-      border-radius: 16px;
-      margin-top: 24px;
-      box-shadow: var(--shadow-glow);
-      user-select: none;
-      transition: transform 0.4s ease;
-      cursor: default;
-    }
-
-    .section img.content-image:hover {
-      transform: scale(1.02);
-    }
-
-    /* Footer */
-    footer {
-      text-align: center;
-      padding: 24px 12px;
-      font-size: 0.9rem;
-      color: #b3a0ffaa;
-      border-top: 1px solid #33006644;
-      user-select: none;
-    }
-
-    /* Fade and slide in animation */
-    @keyframes fadeSlideIn {
-      0% {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Comment system styles */
-    .comment-container {
-      margin-top: 10px;
-    }
-
-    .comment-form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      max-width: 480px;
-    }
-
-    .comment-form input,
-    .comment-form textarea {
-      background: var(--bg-dark);
-      border: 1.8px solid var(--accent);
-      border-radius: 8px;
-      padding: 12px 14px;
-      font-size: 1rem;
-      color: var(--text);
-      resize: vertical;
-      transition: border-color 0.3s ease;
-    }
-
-    .comment-form input:focus,
-    .comment-form textarea:focus {
-      outline: none;
-      border-color: var(--accent-glow);
-      box-shadow: 0 0 10px var(--accent-glow);
-    }
-
-    .comment-form button {
-      align-self: flex-start;
-      background: var(--accent);
-      color: var(--bg-dark);
-      border: none;
-      padding: 12px 24px;
-      font-weight: 700;
-      font-size: 1rem;
-      border-radius: 12px;
-      cursor: pointer;
-      box-shadow: var(--shadow-glow);
-      transition: background-color 0.3s ease;
-    }
-
-    .comment-form button:hover {
-      background: #9e4fff;
-      box-shadow: 0 0 15px #a639ff;
-    }
-
-    .comments-list {
-      margin-top: 20px;
-      max-width: 480px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      user-select: text;
-    }
-
-    .comment {
-      background: var(--glass);
-      padding: 14px 20px;
-      border-radius: 12px;
-      box-shadow: inset 0 0 6px #330066aa;
-      border: 1px solid #44008888;
-      word-wrap: break-word;
-    }
-
-    .comment .author {
-      font-weight: 700;
-      color: var(--accent);
-      margin-bottom: 6px;
-      user-select: text;
-    }
-
-    /* Audio controls style */
-    audio {
-      position: fixed;
-      bottom: 15px;
-      right: 20px;
-      border-radius: 16px;
-      box-shadow: var(--shadow-glow);
-      outline: none;
-      background: var(--bg-dark);
-      filter: drop-shadow(var(--shadow-glow));
-      z-index: 50;
-    }
-
-    /* Scrollbar for comments and content */
-    ::-webkit-scrollbar {
-      width: 10px;
-    }
-    ::-webkit-scrollbar-track {
-      background: var(--bg-dark);
-      border-radius: 12px;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: var(--accent);
-      border-radius: 12px;
-      box-shadow: inset 0 0 3px #440088aa;
-    }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-      nav button {
-        padding: 8px 14px;
-        font-size: 0.9rem;
-      }
-      header h1 {
-        font-size: 2.2rem;
-      }
-    }
-  </style>
+  }
+</style>
 </head>
-
 <body>
-  <!-- Particle Background Canvas -->
-  <canvas id="particle-canvas"></canvas>
+  <header>
+    <h1>The Story of Manhunt ?v?</h1>
+  </header>
 
-  <div class="container">
-    <header>
-      <!-- Put your main header image here -->
-      <img src="images/header-logo.png" alt="Snipeify Skin" />
-      <h1>📜 History of 10v10 Manhunt</h1>
-      <p>By: Farwelll — Nov 12, 2024</p>
-    </header>
+  <nav class="tabs" role="tablist" aria-label="Manhunt Story Tabs">
+    <button class="tab-link active" role="tab" aria-selected="true" aria-controls="tab-intro" id="tab-intro-btn" tabindex="0">Introduction</button>
+    <button class="tab-link" role="tab" aria-selected="false" aria-controls="tab-2020" id="tab-2020-btn" tabindex="-1">2020: Dawn of a New</button>
+    <button class="tab-link" role="tab" aria-selected="false" aria-controls="tab-2021" id="tab-2021-btn" tabindex="-1">2021: The Nova Era</button>
+    <button class="tab-link" role="tab" aria-selected="false" aria-controls="tab-2022" id="tab-2022-btn" tabindex="-1">2022: Corruption and Conflict</button>
+    <button class="tab-link" role="tab" aria-selected="false" aria-controls="tab-2023" id="tab-2023-btn" tabindex="-1">2023: Blossoming and Withering</button>
+    <button class="tab-link" role="tab" aria-selected="false" aria-controls="tab-2024" id="tab-2024-btn" tabindex="-1">2024: The Renaissance</button>
+    <button class="tab-link" role="tab" aria-selected="false" aria-controls="tab-2025" id="tab-2025-btn" tabindex="-1">2025: Past, Present, & Future</button>
+  </nav>
 
-    <nav aria-label="Primary Navigation">
-      <button class="active" data-tab="intro">Introduction to the Manhunt Kit</button>
-      <button data-tab="2020">2020: Dawn of a New</button>
-      <button data-tab="2021">2021: The Nova Era</button>
-      <button data-tab="2022">2022: Corruption and Conflict</button>
-      <button data-tab="2023">2023: Blossoming and Withering</button>
-      <button data-tab="2024">2024: The Renaissance</button>
-      <button data-tab="comments">Comments</button>
-    </nav>
-
-    <section id="intro" class="section active" role="tabpanel" tabindex="0" aria-labelledby="tab-intro">
-      <h2>Introduction to the Manhunt Kit</h2>
-      <p>
-        The Manhunt Kit is a PvP Legacy custom kit inspired by Dream's Manhunt challenge. It features a variety of items like pearls,
-        cobwebs, knockback swords, and lava buckets to simulate the intense chase and combat style popularized by Dream’s videos.
-      </p>
-      <p>
-        Over the years, this kit has evolved into a unique meta within the PvP Legacy community, fostering new strategies and gameplay styles.
-      </p>
-      <!-- Image placeholder: put your intro tab image here -->
-      <img
-        src="images/intro-image.png"
-        alt="Introduction to Manhunt Kit"
-        class="content-image"
-        loading="lazy"
-      />
+  <main class="container">
+    <section id="tab-intro" class="tab-content" role="tabpanel" aria-labelledby="tab-intro-btn">
+      <h2>Introduction</h2>
+      <p><strong>Manhunt Kit</strong>, is a concept put together by Minecraft players, inspired by the famous content creator ‘Dream’. Manhunt kit is an inventory full of mixed and matched items, related to Dream’s famous challenge “Manhunt”, containing worldly items such as pearls, knockback sword, TNT, cobwebs, fishing rod, lava, and many more.</p>
+      <p>The goal of the kit was to replicate the Manhunt experience in the PvP kit server known as ‘PvP Legacy’. This kit stood out different from any other, popularizing in the gamemode ‘Custom ?v?’, solely due to being given the thrill of being hunted, and chasing players down.</p>
+      <p>This simple concept attracted the eyes of thousands, even some of Minecraft’s best fighters, and biggest content creators. Till this day, the community grows bigger than ever, in hopes to feel the thrill others experienced many years ago.</p>
     </section>
 
-    <section id="2020" class="section" role="tabpanel" tabindex="0" aria-labelledby="tab-2020">
+    <section id="tab-2020" class="tab-content" role="tabpanel" aria-labelledby="tab-2020-btn" hidden>
       <h2>2020: Dawn of a New</h2>
-      <p>
-        As Dream’s fame skyrocketed, players like <strong>Bwilliance</strong> recreated the Manhunt concept within PvP Legacy.
-        Utilizing the Natural Forest map and custom kits, she developed the first official Manhunt Kit in November 2020.
-      </p>
-      <p>
-        This kit became popular among players like Ronalmar, 1aye, and Dowqe, who adapted it further for Custom ?v? modes,
-        spawning the first generation of elite manhunters.
-      </p>
-      <!-- Image placeholder: put your 2020 tab image here -->
-      <img src="images/2020-dawn.png" alt="2020 Dawn of a New Era" class="content-image" loading="lazy" />
+      <h3 class="highlight">Bwilliance; The Creator</h3>
+      <p>With the newfound rise of popular Minecraft Content creator ‘Dream’, came significant attention to his viral challenge “Manhunt”. The concept of Manhunt is simple: 1 player is chosen to beat the game before every other player can kill him.</p>
+      <p>The concept of freeworld PvP and a wild variety of items and strategies is what interested some players, among those players is one named Bwilliance.</p>
+      <p>Bwilliance, in search of a 1.9+ PvP server back in 2020, came across a server called ‘PvP Legacy’. PvP Legacy is a custom kits server, meaning you can fight anyone, with anything, with no limitations.</p>
+      <p>Bwilliance, whilst experimenting on the server, came across a certain map; “Natural Forest”.</p>
+      <h3 class="highlight">Natural Forest</h3>
+      <p>This map created a connection to Bwilliance, as she realized how similar it was to normal vanilla generation. After looking further into the tools in the custom kit server, she also realized it had the items necessary to replicate an average inventory used in a Manhunt, sparking the creation of what's now known as, ‘Manhunt Kit’.</p>
+      <p>Bwilliance spent days tweaking this kit overtime, as it wasn’t perfect due to the server’s limitations. She used this kit originally to play 1v1s just for fun, and some of her opponents also found her kit intriguing, some even asking for the kit for themselves, specifically; Ronalmar, Dowqe, & 1aye.</p>
+      <p>These players started to make this kit their own, by adding, removing, and tweaking minor details into their own unique manhunt kit.</p>
+      <p><em>The First Ever Manhunt Kit; Bwilliance’s kit | Made November, 2020</em></p>
+      <p>Eventually these few players started using this kit in a gamemode called Custom ?v?, a mode where any amount of players can fit in 2 teams, up to 10 players per team.</p>
+      <p>With this rapid exposition to up to 20 players at a time, the kit began to popularize exponentially, being shared left and right, many players had the kit and began tweaking it in their own unique way as well.</p>
+      <p>Whilst it was growing popular fast, it was still very new to many. Players were often confused upon seeing the kit so the kit owners often had to explain its purpose and how to play.</p>
+      <p>In the short few months that Manhunt Kit had spread, a select few players that stood out from the rest were able to become some of the first pro manhunt players; <strong>Ronalmar, 1aye, MegaMrTota, gluuuuuuuuuuuu, Bwilliance, and Dowqe.</strong> These 6 players are known as; <strong>The First Generation.</strong></p>
+
+      <h3 class="highlight">Ronalmar & 1aye; The Meta Brothers</h3>
+      <p>Ronalmar and 1aye were 2 of the most revolutionary players of all time, even up to 4 years later their impact can be seen in every manhunt game.</p>
+      <p>Ronalmar and 1aye joined PvP Legacy 2 years prior to the initial creation of Manhunt Kit, and once they discovered the kit itself made by Bwilliance, they were driven to find metas to change the game.</p>
+      <p>In just the few months of their first finding of the kit, they managed to create some of the most significant technology even to this day, with things such as TNT Rodding, piston cannons, KB carting, spray cannons, and some game breaking bugs.</p>
+      <p>When the 2 of them first started playing Manhunt Kit, a problem kept occurring to them: anytime they had been outnumbered, say 5v1, not even the best player in the world could win in raw PvP.</p>
+      <p>This problem was bigger than many think, due to the big teams that go up to 10 players against 10 players.</p>
+      <p>To solve this, the 2 of them developed trapping strats, and the entire concept of skybasing into Manhunt Kit.</p>
+      <p>They were the first to successfully take advantage of skybasing, and with the combination of TNT rodding, the 2 of them deemed unstoppable to many others.</p>
+      <p>With just a few short months, these 2 players created the most game changing tech known to manhunt, and unknowingly, shaped the entire revolutionary history for years to come.</p>
     </section>
 
-    <section id="2021" class="section" role="tabpanel" tabindex="0" aria-labelledby="tab-2021">
+    <section id="tab-2021" class="tab-content" role="tabpanel" aria-labelledby="tab-2021-btn" hidden>
       <h2>2021: The Nova Era</h2>
-      <p>
-        The community expanded rapidly with specializations emerging across PvP, TNT, skybasing, clutching, and trapping.
-        Players mastered multiple categories, enriching gameplay complexity.
-      </p>
-      <p>
-        The '?v? Custom Hangout' Discord launched, creating a social hub for elite players like Nen8, wwomp, Zypol, and Dreammn.
-      </p>
-      <!-- Image placeholder: put your 2021 tab image here -->
-      <img src="images/2021-nova.png" alt="2021 Nova Era" class="content-image" loading="lazy" />
+      <p>2021 was seemingly the era producing the most plentiful players that still conquer manhunt to this day.</p>
+      <p>As 2020 was the year of producing and shaping Manhunt Kit as a whole, 2021 was solely dedicated to player growth and adaptation.</p>
+      <p>With the constant popularity and rise of the gamemode, the people it reached spread like wildfire causing hundreds of newcomers within just months.</p>
+      <p>And with such a variety of sculpted categories and skills, players stopped focusing on figuring out the kit, and figuring out what category of playstyle they fell under.</p>
+      <p>Manhunt Kit skills mainly fall under the following categories; <strong>PvP, TNT, Skybasing, Clutching, and Trapping.</strong></p>
+      <p>This wide variety of skill sets is what made Manhunt Kit unique, giving each player a set of strengths and weaknesses.</p>
+      <p>The average player falls under at least 1 category, which is what they are commonly used to.</p>
+      <p>Majority of players had fallen under the PvP category, but soon after the revolution of TNT, players started spreading their skill sets.</p>
+      <p>Soon some players mastered both PvP and TNT, posing a bigger threat.</p>
+      <p>And yet the more they played some even mastered up to 3 different categories.</p>
+      <p>With the sudden rise of players, the lobbies had become more challenging than ever, but that only pushed players to grow even further.</p>
+      <p>And by mid 2021, The Nova Era, had produced some of the greatest 10v10ers, that even 3 years later, are still some of the most terrifying individuals to this day.</p>
+      <p>Players such as; <strong>Nen8, Unglowing, Blozer, wwomp, Dreammn, Promprero, 227ping, Farwelll, Zypol, MachineGunX, StatusTaken, Roiii, 1Nxnja, NotSoJelly</strong>, and many more.</p>
+      <p>These players would total to around 30 if not more, that had all fully grasped at <strong>LEAST 2 different categories</strong>, some more than others.</p>
+
+      <p>Naturally, when hundreds of players that shared the same passion with one another, played with one another daily, friendships formed.</p>
+      <p>The gamemode itself started to feel like a true community, with some friends groups here and there.</p>
+      <p>SMP’s started to form, with some of the top players, building connections to one another.</p>
+      <p>And as the community started to feel more and more whole, 2 players; <strong>Dowqe, and gluuuuuuuuuuu</strong>, had created the first ever discord server, “?v? Custom Hangout”.</p>
+
+      <h3 class="highlight">Custom ?v? Hangout | Created Oct 31st, 2021</h3>
+      <p>This discord server initially started off small, inviting only some of the most elite players during The Nova Era.</p>
+      <p>And with people being friends with others, naturally more and more got invited, till over a hundred 10v10ers created an active friendly community server.</p>
+      <p>The Manhunt Kit community was stronger, and closer than ever, with the elite players being able to talk to one another, they all only grew more and more powerful, all being dedicated to growing one another.</p>
+      <p>Giving 2021, the name <strong>“The Nova Era”</strong>; The birth of many stars.</p>
     </section>
 
-    <section id="2022" class="section" role="tabpanel" tabindex="0" aria-labelledby="tab-2022">
+    <section id="tab-2022" class="tab-content" role="tabpanel" aria-labelledby="tab-2022-btn" hidden>
       <h2>2022: Corruption and Conflict</h2>
-      <p>
-        The rise of new generations brought unbalanced kits, overpowered items, and toxicity, causing many veterans to leave.
-        Players like <strong>SkyHasFallen_</strong> exploited lower-skill lobbies, pushing community divisions.
-      </p>
-      <!-- Image placeholder: put your 2022 tab image here -->
-      <img src="images/2022-corruption.png" alt="2022 Corruption and Conflict" class="content-image" loading="lazy" />
+      <p>Early 2022, the production of star players slows down, producing a few more significant players until coming to a halt.</p>
+      <p>In a year and a half, the greatest players known to Minecraft had skyrocketed in skill far beyond anyone had imagined, players were as good as ever, and 10v10 was at its peak.</p>
+      <p>Unfortunately, good things only come temporarily.</p>
+      <p>Mid 2022, the first ever batch of players that was truly considered to be “new gens” came about.</p>
+      <p>Whilst new players was what was once welcomed and a blessing, had become a curse coming back to strike the community.</p>
+      <p>‘Newgens’ had begun abusing Ronalmar’s KB carting, what was once an overpowered technique, turned into an abuse of free power, and a technique that is now considered ‘dishonorable’.</p>
+      <p>New players started resulting in being distant from the original community, turning the manhunt kit into something entirely dishonorable.</p>
+      <p>As new players got a hold of the kit to themselves, they started adding drastic changes, such as enchanted golden apples, 1 minute borders, totems, crystals, anchors, and many more.</p>
+      <p>This unimaginably popularized amongst new players and half of the 10v10s were corrupted with 1 shot items, Manhunt was far beyond recognition and soon after, older veterans started to quit.</p>
+
+      <p><em>An average kit from 2022, containing various overpowered items many despised</em></p>
+
+      <p>10v10 Manhunt Kit was lower than it's ever been, and as the term ‘new gen’ got thrown around, many grew to despise them and the community segregated away from the new.</p>
+      <p>Along with the newgen kits everyone despised, many of the newer players had commonly been toxic as well.</p>
+      <p>Both old and new, hated one another, the community was simply; split in half.</p>
+
+      <p>But that wasn’t the only war taking place, 2022 was the era of topstats grinding.</p>
+      <p>Winstreaks were amongst the most commonly grinded, and to obtain a high winstreak in 10v10, players often resulted in using parties of players.</p>
+      <p>The most known win streak party, was led by the player SkyHasFallen_, his team contained the players; KetaIsMine, Usesser, Maynenator, ItzFuzz_, MCC9limellamas, TidePods, VinnyGate, TheEman223, and few more.</p>
+      <p>This party was often looked down on by other manhunters, due to the way he obtained his winstreak.</p>
+      <p>Sky and his party often went to lobbies with worse players, and used slightly rigged kits to get their wins, many had seen this as dishonorable and cheap.</p>
+      <p>And in retaliation, other elite players made their own parties to surpass Sky.</p>
+      <p>Many had gotten close to his 208 winstreak, but many fell short.</p>
+      <p>For months traveling onto years many parties were made, and none had surpassed.</p>
+
+      <h3 class="highlight">Top players 1-15 for Topstats win streak Custom?v?</h3>
     </section>
 
-    <section id="2023" class="section" role="tabpanel" tabindex="0" aria-labelledby="tab-2023">
+    <section id="tab-2023" class="tab-content" role="tabpanel" aria-labelledby="tab-2023-btn" hidden>
       <h2>2023: Blossoming and Withering</h2>
-      <p>
-        Despite decline, innovators like <strong>Pobob</strong> and <strong>Farwelll</strong> revolutionized TNT gameplay.
-        Pobob's slime cannons and Farwelll's Slam Rod revival sparked a TNT golden age, though spam pushed veterans away.
-      </p>
-      <!-- Image placeholder: put your 2023 tab image here -->
-      <img src="images/2023-blossom.png" alt="2023 Blossoming and Withering" class="content-image" loading="lazy" />
+      <p>2023, after years of absence and lack of metas/technology, players started producing viable TNT technology like never before.</p>
+      <p>Last burst of technology as such, hasn’t appeared since 2020, during the Ronalmar & 1aye period.</p>
+      <p>TNT Technician Pobob, grasped the potential of slime cannons, as he started producing never seen cannons of his own, he was the first to truly master the concept of slime cannons.</p>
+      <p>Amongst that, he even created a few TNT rods that were so difficult, only top players were capable of pulling them off.</p>
+      <p>Alongside Pobob’s massive revolution, player Farwelll fixated an old TNTrod mechanism ‘Slam Rodding’, this easy technique was misused back then, and creating a viable new efficient way to use it much easier, had a big impact on new gens.</p>
+      <p>As Slam rodding was popularized more and more, newgens started spamming it throughout lobbies, turning the old vanilla terrain to fields of dynamite.</p>
+      <p>These creations had heightened TNT popularity through the roof for the first time in 3 years, creating the 2nd TNT revolution.</p>
+
+      <p><em>A mathematical equation graphing the velocity of a TNT rod | By Pobob</em></p>
+
+      <p>And truly, as amazing as it was, it was poor timing.</p>
+      <p>A small group of 10v10 veterans, formally called the ‘Kool Gamers’, had risen a big problem on the Manhunt Kit community, this group of people had contributed child P**n and z**phelia amongst one another, many documents were written in favor of exposing them and getting rid of them.</p>
+      <p>And as disgusting as it was, the community couldn’t do anything except wish the worst for them.</p>
+      <p>With the still constant problem of newgens, and the new problem of pedophilia, veterans slowly quit, and if veterans quit other old players found it no fun causing a chain reaction of people leaving 10v10 for good.</p>
+      <p>By late 2023, it was even rare to see another old player as it was, players were daily leaving different 10v10 discord servers.</p>
+      <p>It was inevitable, but nobody believed it would be because of this. The death of 10v10 as it was served upon them and nobody could do anything but watch the memories of 3 years slowly dust away.</p>
+
+      <p><em>A popular screenshot, containing 18 of some of the most significant 10v10ers of all time. Taken July 2023, before the soon downfall of 10v10.</em></p>
     </section>
 
-    <section id="2024" class="section" role="tabpanel" tabindex="0" aria-labelledby="tab-2024">
+    <section id="tab-2024" class="tab-content" role="tabpanel" aria-labelledby="tab-2024-btn" hidden>
       <h2>2024: The Renaissance</h2>
-      <p>
-        The community sees a renaissance, combining old-school strategies with fresh innovation.
-        Players balance meta gameplay with creative freedom, shaping a new era for 10v10 Manhunt.
-      </p>
-      <!-- Image placeholder: put your 2024 tab image here -->
-      <img src="images/2024-renaissance.png" alt="2024 Renaissance" class="content-image" loading="lazy" />
+      <p>The foreseen death of 10v10 had a lasting impact, leaving some on a path forwards whilst others in a state of nostalgia.</p>
+      <p>Some can admit that Manhunt Kit had died too soon, while others, thought it wasn't yet over.</p>
+      <p>Players; Monkmad & Dreammn, still felt defeated to SkyHasFallen_’s win streak party, and decided to try one last time.</p>
+      <p>They gathered a small group of top players such as MegaMrTota, Kalitey, BeegBoiBiYeeshi, SuccoDiFrutta, MachineGunX, and more.</p>
+      <p>This party initially was for fun, but eventually MegaMrTota and Dreammn contained high win streaks with potential.</p>
+      <p>As Tota had lost his due to computer errors, it was left to Dreammn to finish it off.</p>
+      <p>The winstreak party caught wind of others and soon other players began to try to stop them, but they couldn’t.</p>
+      <p>Eventually the winstreak party turned into a discord server, which had accidentally grew to be a new 10v10 hangout with some of the top 10v10ers only residing in it.</p>
+      <p>As more and more this win streak grew, more and more old veterans slowly returned.</p>
+      <p>Many older veterans all started coming back slowly, players like 227ping, wwomp, woopilas, Curlifrys, and many more.</p>
+      <p>It was an era of rebirth and renew, as 10v10 started to appear like it was 2021 all over again.</p>
+      <p>And by April 4th, 2024, Dreammn’s win streak party had passed Sky’s World Record, as they were the first to do so, in years.</p>
+
+      <p>As the party continued to push Dreammn’s winstreak just a bit further, Dreammn ended off at a 240 win streak… But that didn’t satisfy him.</p>
+      <p>Dreammn, on his own, surmounted an extra 145 more wins on top of his 240 win streak without any overpowered party, nearly doubling the old world record held by Sky, to an astonishing 385 wins.</p>
+
+      <p>Amongst all, as many Manhunt veterans slowly returned, 2024 showed promise to players, some believing that 2025 might be the next Nova Era.</p>
+      <p>With a sudden rise of promising newgens and the coming of oldgens the clash of eras is inevitable, all the players can do is sit and watch the Past, Present, and Future unfold into a skirmish of timelines.</p>
     </section>
 
-    <section id="comments" class="section" role="tabpanel" tabindex="0" aria-labelledby="tab-comments">
-      <h2>Comments</h2>
-      <p>Share your thoughts on the history and evolution of 10v10 Manhunt!</p>
-
-      <div class="comment-container">
-        <form id="comment-form" class="comment-form" aria-label="Add a comment">
-          <input
-            type="text"
-            id="author"
-            name="author"
-            placeholder="Your Name"
-            aria-required="true"
-            required
-            autocomplete="off"
-          />
-          <textarea
-            id="comment-text"
-            name="comment-text"
-            rows="4"
-            placeholder="Your Comment"
-            aria-required="true"
-            required
-            autocomplete="off"
-          ></textarea>
-          <button type="submit">Post Comment</button>
-        </form>
-
-        <div id="comments-list" class="comments-list" aria-live="polite" aria-relevant="additions"></div>
-      </div>
+    <section id="tab-2025" class="tab-content" role="tabpanel" aria-labelledby="tab-2025-btn" hidden>
+      <h2>2025: Past, Present, & Future</h2>
+      <p><em>(Content to be added as history unfolds...)</em></p>
     </section>
-  </div>
-
-  <!-- Custom Lobby Music -->
-  <audio
-    id="lobby-music"
-    src="audio/lobby-music.mp3"
-    autoplay
-    loop
-    muted
-    controls
-    aria-label="Lobby background music controls"
-  >
-    Your browser does not support the audio element.
-  </audio>
+  </main>
 
   <script>
-    (() => {
-      // Tab navigation
-      const buttons = document.querySelectorAll('nav button');
-      const sections = document.querySelectorAll('.section');
+    // Tabs JS
+    const tabs = document.querySelectorAll('nav.tabs button.tab-link');
+    const panels = document.querySelectorAll('section.tab-content');
 
-      function showTab(id, button) {
-        sections.forEach((sec) => {
-          if (sec.id === id) {
-            sec.classList.add('active');
-            sec.setAttribute('tabindex', '0');
-          } else {
-            sec.classList.remove('active');
-            sec.setAttribute('tabindex', '-1');
-          }
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => {
+        // Deactivate all tabs & panels
+        tabs.forEach(t => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+          t.setAttribute('tabindex', '-1');
         });
-        buttons.forEach((btn) => btn.classList.remove('active'));
-        if (button) button.classList.add('active');
-      }
+        panels.forEach(panel => panel.hidden = true);
 
-      buttons.forEach((btn) => {
-        btn.addEventListener('click', (e) => {
-          const tabId = btn.getAttribute('data-tab');
-          showTab(tabId, btn);
-        });
+        // Activate clicked tab & panel
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        tab.setAttribute('tabindex', '0');
+        panels[i].hidden = false;
+        panels[i].focus?.();
       });
+    });
 
-      // Show first tab by default
-      showTab('intro', document.querySelector('nav button[data-tab="intro"]'));
-
-      // Comment system logic (simple client-side)
-      const commentForm = document.getElementById('comment-form');
-      const commentsList = document.getElementById('comments-list');
-
-      commentForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const author = commentForm.author.value.trim();
-        const commentText = commentForm['comment-text'].value
-  // Tab navigation
-  const buttons = document.querySelectorAll('nav button');
-  const sections = document.querySelectorAll('.section');
-
-  function showTab(id, button) {
-    sections.forEach((sec) => {
-      if (sec.id === id) {
-        sec.classList.add('active');
-        sec.setAttribute('tabindex', '0');
-      } else {
-        sec.classList.remove('active');
-        sec.setAttribute('tabindex', '-1');
+    // Keyboard navigation for tabs (Left/Right arrows)
+    let currentTab = 0;
+    document.querySelector('nav.tabs').addEventListener('keydown', e => {
+      if(e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        tabs[currentTab].setAttribute('tabindex', '-1');
+        if(e.key === 'ArrowRight') {
+          currentTab = (currentTab + 1) % tabs.length;
+        } else {
+          currentTab = (currentTab - 1 + tabs.length) % tabs.length;
+        }
+        tabs[currentTab].setAttribute('tabindex', '0');
+        tabs[currentTab].focus();
       }
     });
-    buttons.forEach((btn) => btn.classList.remove('active'));
-    if (button) button.classList.add('active');
-  }
-
-  buttons.forEach((btn) => {
-    btn.addEventListener('click', (e) => {
-      const tabId = btn.getAttribute('data-tab');
-      showTab(tabId, btn);
-    });
-  });
-
-  // Show first tab by default
-  showTab('intro', document.querySelector('nav button[data-tab="intro"]'));
-
-  // Comment system logic (client-side only)
-  const commentForm = document.getElementById('comment-form');
-  const commentsList = document.getElementById('comments-list');
-
-  commentForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const author = commentForm.author.value.trim();
-    const commentText = commentForm['comment-text'].value.trim();
-
-    if (author === '' || commentText === '') {
-      alert('Please fill out both your name and comment.');
-      return;
-    }
-
-    // Create comment element
-    const commentEl = document.createElement('div');
-    commentEl.classList.add('comment');
-
-    const authorEl = document.createElement('div');
-    authorEl.classList.add('author');
-    authorEl.textContent = author;
-
-    const textEl = document.createElement('div');
-    textEl.classList.add('text');
-    textEl.textContent = commentText;
-
-    commentEl.appendChild(authorEl);
-    commentEl.appendChild(textEl);
-
-    // Add comment at the top
-    commentsList.prepend(commentEl);
-
-    // Clear form
-    commentForm.reset();
-  });
-
-  // Simple Particle Background
-  const canvas = document.getElementById('particle-canvas');
-  const ctx = canvas.getContext('2d');
-  let particlesArray = [];
-  let width, height;
-
-  function initCanvas() {
-    width = window.innerWidth;
-    height = window.innerHeight;
-    canvas.width = width;
-    canvas.height = height;
-  }
-
-  window.addEventListener('resize', () => {
-    initCanvas();
-  });
-
-  class Particle {
-    constructor() {
-      this.x = Math.random() * width;
-      this.y = Math.random() * height;
-      this.size = Math.random() * 2 + 1;
-      this.speedX = (Math.random() - 0.5) * 0.3;
-      this.speedY = (Math.random() - 0.5) * 0.3;
-      this.alpha = Math.random() * 0.6 + 0.4;
-    }
-    update() {
-      this.x += this.speedX;
-      this.y += this.speedY;
-
-      if (this.x > width) this.x = 0;
-      else if (this.x < 0) this.x = width;
-
-      if (this.y > height) this.y = 0;
-      else if (this.y < 0) this.y = height;
-    }
-    draw() {
-      ctx.beginPath();
-      ctx.fillStyle = `rgba(199,125,255,${this.alpha})`;
-      ctx.shadowColor = 'rgba(204,0,255,0.7)';
-      ctx.shadowBlur = 10;
-      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fill();
-    }
-  }
-
-  function createParticles(num = 120) {
-    particlesArray = [];
-    for (let i = 0; i < num; i++) {
-      particlesArray.push(new Particle());
-    }
-  }
-
-  function animate() {
-    ctx.clearRect(0, 0, width, height);
-    particlesArray.forEach((p) => {
-      p.update();
-      p.draw();
-    });
-    requestAnimationFrame(animate);
-  }
-
-  // Init everything
-  initCanvas();
-  createParticles();
-  animate();
-})();
+  </script>
+</body>
+</html>
