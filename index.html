@@ -3,92 +3,134 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>⚔️ Axe PvP Guide - Snipeify</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <title>Minecraft Axe PvP Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Outfit:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body {
+    :root {
+      --main-bg: #0a0a0a;
+      --card-bg: rgba(40, 0, 60, 0.3);
+      --accent: #c77dff;
+      --glow: #ff00ff;
+      --text: #f0eaff;
+    }
+
+    * {
       margin: 0;
-      background: #0e0e0e;
-      color: #ccc;
-      font-family: 'Orbitron', sans-serif;
-      overflow-x: hidden;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      scroll-behavior: smooth;
+      background: var(--main-bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
     }
 
     header {
-      background: linear-gradient(to right, #3f0066, #6600cc);
-      padding: 30px;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 0 20px var(--glow);
+      padding: 40px 20px;
       text-align: center;
-      box-shadow: 0 0 20px #6600cc;
-      animation: glowIn 2s ease-in-out;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
     header h1 {
-      color: white;
+      font-family: 'Orbitron', sans-serif;
+      color: var(--accent);
       font-size: 3em;
-      text-shadow: 0 0 10px #9900ff, 0 0 20px #6600cc;
+      text-shadow: 0 0 10px var(--accent);
     }
 
-    .section {
-      padding: 40px 20px;
-      max-width: 1000px;
-      margin: auto;
-      animation: fadeInUp 1s ease-in-out;
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 50px 20px;
     }
 
-    .section h2 {
-      color: #bb66ff;
-      text-shadow: 0 0 8px #a633ff;
+    .card {
+      background: var(--card-bg);
+      border: 1px solid #5e007d;
+      border-radius: 20px;
+      box-shadow: 0 0 25px #8a00ff33;
+      padding: 30px;
+      margin: 30px 0;
+      backdrop-filter: blur(20px);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: fadeInUp 0.9s ease both;
     }
 
-    .section p {
-      line-height: 1.7;
+    .card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 40px #cc00ff88;
+    }
+
+    h2 {
+      font-size: 2em;
+      color: var(--accent);
+      margin-bottom: 15px;
+      text-shadow: 0 0 10px var(--accent);
+    }
+
+    p, li {
       font-size: 1.1em;
+      line-height: 1.7em;
     }
 
-    .tips {
-      background: #1a1a1a;
-      border-left: 5px solid #9933ff;
-      padding: 20px;
-      margin-top: 20px;
-      box-shadow: 0 0 10px #6600cc;
+    ul {
+      padding-left: 20px;
     }
 
     footer {
-      background: #111;
       text-align: center;
-      padding: 20px;
+      padding: 30px;
       font-size: 0.9em;
-      color: #777;
+      color: #aaa;
+      background: #080008;
+      border-top: 1px solid #330033;
       margin-top: 60px;
-      border-top: 1px solid #333;
     }
 
-    a {
-      color: #cc66ff;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-shadow: 0 0 6px #bb33ff;
+    footer span {
+      display: block;
+      margin-top: 5px;
+      font-size: 0.85em;
+      color: #777;
     }
 
     @keyframes fadeInUp {
-      from {
+      0% {
         opacity: 0;
         transform: translateY(40px);
       }
-      to {
+      100% {
         opacity: 1;
         transform: translateY(0);
       }
     }
 
-    @keyframes glowIn {
-      from {
-        box-shadow: 0 0 0 transparent;
+    .author-tag {
+      font-size: 0.95em;
+      color: #999;
+      margin-top: 10px;
+      text-align: center;
+      font-style: italic;
+      text-shadow: 0 0 5px #9900ff;
+    }
+
+    .card ul li::before {
+      content: "🗡️ ";
+    }
+
+    @media screen and (max-width: 768px) {
+      header h1 {
+        font-size: 2em;
       }
-      to {
-        box-shadow: 0 0 20px #6600cc;
+      h2 {
+        font-size: 1.5em;
       }
     }
   </style>
@@ -96,66 +138,66 @@
 <body>
 
   <header>
-    <h1>⚔️ Axe PvP Guide</h1>
-    <p>Master the art of combat in Minecraft using axes</p>
+    <h1>⚔️ Minecraft Axe PvP Guide</h1>
+    <div class="author-tag">Written with 💜 by @Harmoney</div>
   </header>
 
-  <div class="section">
-    <h2>📜 Introduction</h2>
-    <p>
-      Axe PvP is a high-skill PvP style mostly used in **1.9+ Minecraft** versions. Unlike sword PvP, it focuses on **precision, cooldowns, and armor durability**.
-    </p>
-  </div>
+  <div class="container">
+    <div class="card">
+      <h2>🔥 What is Axe PvP?</h2>
+      <p>Axe PvP is a competitive combat style in Minecraft Java Edition 1.9+ that focuses on timing and raw damage over spam clicking. It prioritizes precision, shield breaks, and burst damage using axes instead of swords.</p>
+    </div>
 
-  <div class="section">
-    <h2>💡 Basics of Axe Combat</h2>
-    <div class="tips">
+    <div class="card">
+      <h2>🪓 Advantages of Axes</h2>
       <ul>
-        <li>Axes deal **more damage per hit** than swords.</li>
-        <li>They **disable shields** for 5 seconds if used properly.</li>
-        <li>Longer **cooldown** (1.1s), but harder hits.</li>
-        <li>Less combo-heavy, more **timing-based**.</li>
+        <li>Massive damage output — ideal for crit combos.</li>
+        <li>Instantly disables enemy shields for 5 seconds.</li>
+        <li>Breaks armor faster due to higher durability damage.</li>
+        <li>Pairs well with strength and critical hits.</li>
       </ul>
     </div>
-  </div>
 
-  <div class="section">
-    <h2>🧠 Timing & Critical Hits</h2>
-    <p>
-      The key to dominating Axe PvP is **perfect hit timing**. Always wait for the axe cooldown bar to fill up (1.1 seconds). Jump hits (critical hits) deal **extra damage** — land while falling, not while jumping up.
-    </p>
-  </div>
-
-  <div class="section">
-    <h2>🛡️ Shield Breaking</h2>
-    <p>
-      Axes are ideal for disabling enemy shields. When the player is blocking, a well-timed axe hit will **break the shield block** for **5 seconds**, exposing them.
-    </p>
-  </div>
-
-  <div class="section">
-    <h2>🧪 Potions & Buffs</h2>
-    <div class="tips">
+    <div class="card">
+      <h2>🎯 PvP Mechanics & Tips</h2>
       <ul>
-        <li><strong>Strength I</strong>: Massive bonus to axe damage</li>
-        <li><strong>Swiftness</strong>: Helps with mobility and repositioning</li>
-        <li><strong>Instant Health</strong>: Good for clutch fights</li>
+        <li>⚡ Use cooldown timing — never spam swing.</li>
+        <li>🛡️ Time shield breaks to open enemy defense.</li>
+        <li>🌀 Strafe left-right to become harder to hit.</li>
+        <li>🔮 Jump + hit mid-air for crits (time it perfectly).</li>
+        <li>💨 Crouch before jump to reduce particle trails.</li>
       </ul>
     </div>
-  </div>
 
-  <div class="section">
-    <h2>📈 Tips to Improve</h2>
-    <ul class="tips">
-      <li>Use **hit-and-back** tactics. Don’t spam.</li>
-      <li>Learn to **circle strafe** and stay unpredictable.</li>
-      <li>Practice shield baiting – fake hits to break blocks.</li>
-      <li>Always keep your **armor repaired** – axes shred durability fast.</li>
-    </ul>
+    <div class="card">
+      <h2>🛠️ Gear Recommendations</h2>
+      <p>
+        <strong>Armor:</strong> Netherite/Diamond with Protection IV<br>
+        <strong>Axe:</strong> Netherite Axe, Sharpness V, Efficiency, Unbreaking<br>
+        <strong>Extras:</strong> Shield, Strength Potions, Golden Apples, Pearls
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>⚙️ Combos & Openers</h2>
+      <p>
+        Start with a shield disable, then follow up with 2 timed crits. Use strafes to dodge hits and open up angles. If the enemy gaps, switch to pressuring with movement, then punish when they panic.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>🏆 Best Practice Servers</h2>
+      <ul>
+        <li>🔗 PvP Legacy (Direct Axe Duels)</li>
+        <li>⚔️ Minemen Club (Low latency, competitive)</li>
+        <li>🎮 MCC Island (Mini-game combat training)</li>
+      </ul>
+    </div>
   </div>
 
   <footer>
-    Made by <a href="https://github.com/Snipeify" target="_blank">Snipeify</a> | Minecraft PvP Guide © 2025
+    <p>© 2025 Snipeify's PvP Guide. All rights reserved.</p>
+    <span>Created with style by @Harmoney 💜</span>
   </footer>
 
 </body>
