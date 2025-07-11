@@ -1,11 +1,162 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Snipeify</title>
-    <meta charset="UTF-8" />
-  </head>
-  <body>
-    <h1>Welcome to Snipeify!</h1>
-    <p>This is the official Snipeify site hosted on GitHub Pages.</p>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>⚔️ Axe PvP Guide - Snipeify</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: #0e0e0e;
+      color: #ccc;
+      font-family: 'Orbitron', sans-serif;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: linear-gradient(to right, #3f0066, #6600cc);
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 0 20px #6600cc;
+      animation: glowIn 2s ease-in-out;
+    }
+
+    header h1 {
+      color: white;
+      font-size: 3em;
+      text-shadow: 0 0 10px #9900ff, 0 0 20px #6600cc;
+    }
+
+    .section {
+      padding: 40px 20px;
+      max-width: 1000px;
+      margin: auto;
+      animation: fadeInUp 1s ease-in-out;
+    }
+
+    .section h2 {
+      color: #bb66ff;
+      text-shadow: 0 0 8px #a633ff;
+    }
+
+    .section p {
+      line-height: 1.7;
+      font-size: 1.1em;
+    }
+
+    .tips {
+      background: #1a1a1a;
+      border-left: 5px solid #9933ff;
+      padding: 20px;
+      margin-top: 20px;
+      box-shadow: 0 0 10px #6600cc;
+    }
+
+    footer {
+      background: #111;
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      color: #777;
+      margin-top: 60px;
+      border-top: 1px solid #333;
+    }
+
+    a {
+      color: #cc66ff;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-shadow: 0 0 6px #bb33ff;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes glowIn {
+      from {
+        box-shadow: 0 0 0 transparent;
+      }
+      to {
+        box-shadow: 0 0 20px #6600cc;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>⚔️ Axe PvP Guide</h1>
+    <p>Master the art of combat in Minecraft using axes</p>
+  </header>
+
+  <div class="section">
+    <h2>📜 Introduction</h2>
+    <p>
+      Axe PvP is a high-skill PvP style mostly used in **1.9+ Minecraft** versions. Unlike sword PvP, it focuses on **precision, cooldowns, and armor durability**.
+    </p>
+  </div>
+
+  <div class="section">
+    <h2>💡 Basics of Axe Combat</h2>
+    <div class="tips">
+      <ul>
+        <li>Axes deal **more damage per hit** than swords.</li>
+        <li>They **disable shields** for 5 seconds if used properly.</li>
+        <li>Longer **cooldown** (1.1s), but harder hits.</li>
+        <li>Less combo-heavy, more **timing-based**.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🧠 Timing & Critical Hits</h2>
+    <p>
+      The key to dominating Axe PvP is **perfect hit timing**. Always wait for the axe cooldown bar to fill up (1.1 seconds). Jump hits (critical hits) deal **extra damage** — land while falling, not while jumping up.
+    </p>
+  </div>
+
+  <div class="section">
+    <h2>🛡️ Shield Breaking</h2>
+    <p>
+      Axes are ideal for disabling enemy shields. When the player is blocking, a well-timed axe hit will **break the shield block** for **5 seconds**, exposing them.
+    </p>
+  </div>
+
+  <div class="section">
+    <h2>🧪 Potions & Buffs</h2>
+    <div class="tips">
+      <ul>
+        <li><strong>Strength I</strong>: Massive bonus to axe damage</li>
+        <li><strong>Swiftness</strong>: Helps with mobility and repositioning</li>
+        <li><strong>Instant Health</strong>: Good for clutch fights</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>📈 Tips to Improve</h2>
+    <ul class="tips">
+      <li>Use **hit-and-back** tactics. Don’t spam.</li>
+      <li>Learn to **circle strafe** and stay unpredictable.</li>
+      <li>Practice shield baiting – fake hits to break blocks.</li>
+      <li>Always keep your **armor repaired** – axes shred durability fast.</li>
+    </ul>
+  </div>
+
+  <footer>
+    Made by <a href="https://github.com/Snipeify" target="_blank">Snipeify</a> | Minecraft PvP Guide © 2025
+  </footer>
+
+</body>
 </html>
