@@ -1,78 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Minecraft Axe PvP Guide</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Outfit:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>10v10 Manhunt History - Snipeify</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --main-bg: #0a0a0a;
-      --card-bg: rgba(40, 0, 60, 0.3);
+      --bg: #0b0011;
       --accent: #c77dff;
-      --glow: #ff00ff;
+      --accent-glow: #cc00ff;
       --text: #f0eaff;
+      --glass: rgba(60, 0, 100, 0.2);
     }
 
-    * {
+    body {
       margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html, body {
-      scroll-behavior: smooth;
-      background: var(--main-bg);
-      color: var(--text);
       font-family: 'Outfit', sans-serif;
+      background: radial-gradient(circle at top left, #140022, #0b0011);
+      color: var(--text);
     }
 
     header {
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(20px);
-      box-shadow: 0 0 20px var(--glow);
-      padding: 40px 20px;
+      background: linear-gradient(145deg, #32004d, #660080);
+      padding: 60px 20px 20px;
       text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 10;
+      box-shadow: 0 0 40px var(--accent-glow);
     }
 
     header h1 {
       font-family: 'Orbitron', sans-serif;
-      color: var(--accent);
       font-size: 3em;
-      text-shadow: 0 0 10px var(--accent);
+      color: var(--accent);
+      text-shadow: 0 0 15px var(--accent-glow);
+      margin-bottom: 10px;
     }
 
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 50px 20px;
+    header img {
+      width: 90px;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 0 12px var(--accent-glow);
     }
 
-    .card {
-      background: var(--card-bg);
-      border: 1px solid #5e007d;
-      border-radius: 20px;
-      box-shadow: 0 0 25px #8a00ff33;
-      padding: 30px;
-      margin: 30px 0;
-      backdrop-filter: blur(20px);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      animation: fadeInUp 0.9s ease both;
+    nav {
+      background: #15001f;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
-    .card:hover {
-      transform: scale(1.02);
-      box-shadow: 0 0 40px #cc00ff88;
+    nav button {
+      background: transparent;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: bold;
+    }
+
+    nav button:hover, nav button.active {
+      background: var(--accent);
+      color: #000;
+      text-shadow: 0 0 6px #000;
+    }
+
+    .section {
+      max-width: 1000px;
+      margin: auto;
+      padding: 40px 20px;
+      animation: fadeIn 1s ease both;
+      display: none;
+    }
+
+    .section.active {
+      display: block;
     }
 
     h2 {
-      font-size: 2em;
       color: var(--accent);
-      margin-bottom: 15px;
-      text-shadow: 0 0 10px var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
+      margin-bottom: 20px;
     }
 
     p, li {
@@ -81,124 +96,83 @@
     }
 
     ul {
+      margin-top: 10px;
       padding-left: 20px;
     }
 
     footer {
       text-align: center;
-      padding: 30px;
-      font-size: 0.9em;
+      padding: 20px;
+      background: #0a000f;
       color: #aaa;
-      background: #080008;
       border-top: 1px solid #330033;
-      margin-top: 60px;
     }
 
-    footer span {
-      display: block;
-      margin-top: 5px;
-      font-size: 0.85em;
-      color: #777;
-    }
-
-    @keyframes fadeInUp {
-      0% {
-        opacity: 0;
-        transform: translateY(40px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .author-tag {
-      font-size: 0.95em;
-      color: #999;
-      margin-top: 10px;
-      text-align: center;
-      font-style: italic;
-      text-shadow: 0 0 5px #9900ff;
-    }
-
-    .card ul li::before {
-      content: "🗡️ ";
-    }
-
-    @media screen and (max-width: 768px) {
-      header h1 {
-        font-size: 2em;
-      }
-      h2 {
-        font-size: 1.5em;
-      }
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
-
   <header>
-    <h1>⚔️ Minecraft Axe PvP Guide</h1>
-    <div class="author-tag">Written with 💜 by @Harmoney</div>
+    <img src="/mnt/data/c4f12e41-2e5c-418b-a437-36bd8c0de3cd.png" alt="Snipeify Skin">
+    <h1>📜 History of 10v10 Manhunt</h1>
+    <p>By: Farwelll — Nov 12, 2024</p>
   </header>
 
-  <div class="container">
-    <div class="card">
-      <h2>🔥 What is Axe PvP?</h2>
-      <p>Axe PvP is a competitive combat style in Minecraft Java Edition 1.9+ that focuses on timing and raw damage over spam clicking. It prioritizes precision, shield breaks, and burst damage using axes instead of swords.</p>
-    </div>
+  <nav>
+    <button class="active" onclick="showTab('intro')">Intro</button>
+    <button onclick="showTab('2020')">2020 - Dawn</button>
+    <button onclick="showTab('meta')">Meta Brothers</button>
+    <button onclick="showTab('2021')">2021 - Nova Era</button>
+    <button onclick="showTab('2022')">2022 - Conflict</button>
+    <button onclick="showTab('2023')">2023 - Blossom</button>
+  </nav>
 
-    <div class="card">
-      <h2>🪓 Advantages of Axes</h2>
-      <ul>
-        <li>Massive damage output — ideal for crit combos.</li>
-        <li>Instantly disables enemy shields for 5 seconds.</li>
-        <li>Breaks armor faster due to higher durability damage.</li>
-        <li>Pairs well with strength and critical hits.</li>
-      </ul>
-    </div>
+  <div id="intro" class="section active">
+    <h2>Introduction: What is Manhunt Kit?</h2>
+    <p>Manhunt Kit is a PvP Legacy custom kit inspired by Dream's Manhunt challenge. With items like pearls, cobwebs, knockback swords, and lava buckets, it simulates the chaotic, chase-based gameplay seen in Dream's videos. Over time, it evolved into its own meta and community inside the PvP Legacy server.</p>
+  </div>
 
-    <div class="card">
-      <h2>🎯 PvP Mechanics & Tips</h2>
-      <ul>
-        <li>⚡ Use cooldown timing — never spam swing.</li>
-        <li>🛡️ Time shield breaks to open enemy defense.</li>
-        <li>🌀 Strafe left-right to become harder to hit.</li>
-        <li>🔮 Jump + hit mid-air for crits (time it perfectly).</li>
-        <li>💨 Crouch before jump to reduce particle trails.</li>
-      </ul>
-    </div>
+  <div id="2020" class="section">
+    <h2>2020: Dawn of a New Era</h2>
+    <p>As Dream's fame grew, players like <strong>Bwilliance</strong> recreated the Manhunt concept in PvP Legacy. Using the Natural Forest map and customized kits, she developed what became the first Manhunt Kit in November 2020. This kit gained traction among players like Ronalmar, 1aye, and Dowqe, who modified it for use in Custom ?v? mode, leading to the first generation of elite manhunters.</p>
+  </div>
 
-    <div class="card">
-      <h2>🛠️ Gear Recommendations</h2>
-      <p>
-        <strong>Armor:</strong> Netherite/Diamond with Protection IV<br>
-        <strong>Axe:</strong> Netherite Axe, Sharpness V, Efficiency, Unbreaking<br>
-        <strong>Extras:</strong> Shield, Strength Potions, Golden Apples, Pearls
-      </p>
-    </div>
+  <div id="meta" class="section">
+    <h2>Ronalmar & 1aye: The Meta Brothers</h2>
+    <p>The two pioneers pushed meta innovation through TNT rods, skybases, and traps. Their influence led to techniques like piston cannons, spray tech, and game-breaking glitches. They laid the foundational meta that’s still relevant today.</p>
+  </div>
 
-    <div class="card">
-      <h2>⚙️ Combos & Openers</h2>
-      <p>
-        Start with a shield disable, then follow up with 2 timed crits. Use strafes to dodge hits and open up angles. If the enemy gaps, switch to pressuring with movement, then punish when they panic.
-      </p>
-    </div>
+  <div id="2021" class="section">
+    <h2>2021: The Nova Era</h2>
+    <p>The community exploded in size, and specializations emerged — PvP, TNT, Skybasing, Clutching, and Trapping. With dozens of players mastering multiple categories, the gameplay became richer and more competitive. Discord server '?v? Custom Hangout' launched, creating a social space for elite players like Nen8, wwomp, Zypol, and Dreammn to grow stronger together.</p>
+  </div>
 
-    <div class="card">
-      <h2>🏆 Best Practice Servers</h2>
-      <ul>
-        <li>🔗 PvP Legacy (Direct Axe Duels)</li>
-        <li>⚔️ Minemen Club (Low latency, competitive)</li>
-        <li>🎮 MCC Island (Mini-game combat training)</li>
-      </ul>
-    </div>
+  <div id="2022" class="section">
+    <h2>2022: Corruption and Conflict</h2>
+    <p>The rise of newgens brought unbalanced kits, overpowered items, and toxic behavior. Manhunt was no longer recognizable. Veteran players left. Meanwhile, players like <strong>SkyHasFallen_</strong> and his winstreak team exploited lower-skill lobbies to reach record top stats, causing community divide.</p>
+    <img src="/mnt/data/7e6635cd-bdfe-4553-8111-8f9e80ada740.png" style="width:100%;margin-top:20px;border-radius:12px;box-shadow:0 0 12px var(--accent-glow);">
+  </div>
+
+  <div id="2023" class="section">
+    <h2>2023: Blossoming and Withering</h2>
+    <p>Despite decline, players like <strong>Pobob</strong> and <strong>Farwelll</strong> revolutionized TNT gameplay. Pobob's slime cannons and Farwelll's Slam Rod revival marked a TNT golden age. But overuse led to spammy lobbies, pushing veterans further away.</p>
+    <img src="/mnt/data/23dd3c5b-2dbc-4bcc-8021-9cecf8947e67.png" style="width:100%;margin-top:20px;border-radius:12px;box-shadow:0 0 12px var(--accent-glow);">
   </div>
 
   <footer>
-    <p>© 2025 Snipeify's PvP Guide. All rights reserved.</p>
-    <span>Created with style by @Harmoney 💜</span>
+    <p>Crafted with 💜 by Snipeify | Last Updated 2025</p>
   </footer>
 
+  <script>
+    function showTab(id) {
+      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+      document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      event.target.classList.add('active');
+    }
+  </script>
 </body>
 </html>
