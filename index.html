@@ -397,67 +397,65 @@
   </script>
 
 
-<!-- Credits Tab HTML -->
-<section id="tab-credits" class="tab-content" role="tabpanel" aria-labelledby="tab-credits-btn" hidden>
-  <h2>Credits</h2>
-  <div style="display: flex; flex-direction: column; align-items: center; gap: 2rem;">
-    <div style="text-align: center;">
-      <img src="images/farwelll.png" alt="Farwelll" style="max-width: 220px; border-radius: 12px; box-shadow: 0 0 15px #7a4dc2aa;" />
-      <p style="margin-top: 0.6rem; color: #d1aaff; font-weight: 600;">Everything written by Farwelll</p>
-    </div>
-    <div style="text-align: center;">
-      <img src="images/harmoney.png" alt="Harmoney" style="max-width: 220px; border-radius: 12px; box-shadow: 0 0 15px #7a4dc2aa;" />
-      <p style="margin-top: 0.6rem; color: #d1aaff; font-weight: 600;">Website by Harmoney</p>
-    </div>
+<!-- Add this inside <body>, ideally near the bottom of the page -->
+<button id="credits-btn" style="
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: linear-gradient(135deg, #a04ddc, #5c23a6);
+  color: #fff;
+  padding: 0.75rem 1.2rem;
+  border: none;
+  border-radius: 40px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 0 0 10px #a04ddc88, 0 0 20px #5c23a6cc;
+  z-index: 999;
+">
+  Credits
+</button>
+
+<div id="credits-modal" style="
+  display: none;
+  position: fixed;
+  bottom: 4.5rem;
+  right: 1.5rem;
+  background: #1a132b;
+  border: 2px solid #9c4dcc;
+  border-radius: 16px;
+  padding: 1.5rem;
+  width: 320px;
+  color: #ddd;
+  box-shadow: 0 0 15px #a04ddc88;
+  z-index: 999;
+">
+  <div style="text-align: center;">
+    <img src="images/farwelll.png" alt="Farwelll" style="width: 100px; border-radius: 8px; box-shadow: 0 0 10px #8f5bcf;" />
+    <p style="margin-top: 0.5rem; color: #d1aaff;">Everything written by Farwelll</p>
   </div>
-</section>
+  <div style="text-align: center; margin-top: 1.5rem;">
+    <img src="images/harmoney.png" alt="Harmoney" style="width: 100px; border-radius: 8px; box-shadow: 0 0 10px #8f5bcf;" />
+    <p style="margin-top: 0.5rem; color: #d1aaff;">Website by Harmoney</p>
+  </div>
+</div>
 
-<!-- Add Credits tab to navigation -->
-<button class="tab-link" role="tab" aria-selected="false" aria-controls="tab-credits" id="tab-credits-btn" tabindex="-1">Credits</button>
-
-<!-- Modern Comment System (example, with localStorage as placeholder for database) -->
-<section id="comment-section" style="margin-top: 4rem;">
-  <h3 style="color: #b084f7; text-align: center; margin-bottom: 1rem;">Comments</h3>
-  <form id="comment-form" style="display: flex; flex-direction: column; gap: 0.75rem; max-width: 700px; margin: 0 auto;">
-    <input id="username" type="text" placeholder="Your name" required style="padding: 0.6rem; border-radius: 6px; border: none; background: #1c1530; color: #eee;" />
-    <textarea id="comment-text" rows="4" placeholder="Your comment" required style="padding: 0.6rem; border-radius: 6px; border: none; background: #1c1530; color: #eee;"></textarea>
-    <button type="submit" style="background: linear-gradient(135deg, #a04ddc, #5c23a6); color: #fff; border: none; border-radius: 8px; padding: 0.7rem; font-weight: 600; cursor: pointer;">Post Comment</button>
-  </form>
-
-  <ul id="comment-list" style="list-style: none; padding: 0; margin-top: 2rem; max-width: 700px; margin: 2rem auto 0;"></ul>
-</section>
-
-<!-- Add to script for handling comments (temporary localStorage example) -->
 <script>
-  const form = document.getElementById('comment-form');
-  const list = document.getElementById('comment-list');
-  const storageKey = 'mh_comments';
+  const creditsBtn = document.getElementById("credits-btn");
+  const creditsModal = document.getElementById("credits-modal");
 
-  function loadComments() {
-    list.innerHTML = '';
-    const comments = JSON.parse(localStorage.getItem(storageKey) || '[]');
-    comments.forEach(c => {
-      const li = document.createElement('li');
-      li.style.marginBottom = '1rem';
-      li.innerHTML = `<strong style="color: #c292fc;">${c.user}</strong><p style="margin: 0.3rem 0;">${c.text}</p>`;
-      list.appendChild(li);
-    });
-  }
-
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    const user = document.getElementById('username').value.trim();
-    const text = document.getElementById('comment-text').value.trim();
-    if (!user || !text) return;
-    const comments = JSON.parse(localStorage.getItem(storageKey) || '[]');
-    comments.push({ user, text });
-    localStorage.setItem(storageKey, JSON.stringify(comments));
-    form.reset();
-    loadComments();
+  creditsBtn.addEventListener("click", () => {
+    creditsModal.style.display = creditsModal.style.display === "none" ? "block" : "none";
   });
 
-  loadComments();
+  // Optional: Close credits modal on outside click
+  window.addEventListener("click", e => {
+    if (!creditsModal.contains(e.target) && e.target !== creditsBtn) {
+      creditsModal.style.display = "none";
+    }
+  });
 </script>
+
 
 </body>
 </html>
