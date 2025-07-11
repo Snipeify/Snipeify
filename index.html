@@ -188,69 +188,40 @@
     }
     section.tab-content h2 {
       font-size: 1.5rem;
-.comment-box {
+
+nav.sub-tabs {
   margin-top: 2rem;
-  background: #1a132b;
-  padding: 1rem 1.2rem;
-  border-radius: 12px;
-  box-shadow: 0 0 10px #6f3abbaa;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
-.comment-box h3 {
-  margin-bottom: 1rem;
-  color: #b084f7;
-}
-.comment-box input[type="text"] {
-  width: 60%;
-  padding: 0.5rem;
-  border-radius: 8px;
-  border: none;
-  background: #120b1f;
-  color: #fff;
-  margin-right: 0.5rem;
-  font-size: 1rem;
-}
-.comment-box textarea {
-  width: 100%;
-  height: 90px;
-  resize: none;
-  border-radius: 8px;
-  padding: 0.75rem;
-  border: none;
-  background: #120b1f;
-  color: #fff;
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-}
-.comment-box button {
-  background: linear-gradient(135deg, #a04ddc, #5c23a6);
-  color: white;
-  border: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 40px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s ease;
-}
-.comment-box button:hover {
-  background: linear-gradient(135deg, #b56df0, #6b2ba8);
-}
-#comments-container {
-  margin-top: 1rem;
-}
-.comment {
-  background: #0f0818;
-  padding: 0.75rem;
-  margin-bottom: 0.75rem;
-  border-radius: 8px;
-  color: #ccc;
+nav.sub-tabs .tab-link {
+  margin: 0.3rem;
   font-size: 0.95rem;
-  box-shadow: 0 0 6px #00000033;
+  padding: 0.5rem 1.1rem;
+  border-radius: 30px;
+  background: #1b122b;
+  color: #caa7f7;
+  border: 1px solid #512a88;
+  transition: all 0.2s ease;
 }
-.comment strong {
-  color: #d1aaff;
-  display: block;
-  margin-bottom: 0.3rem;
+nav.sub-tabs .tab-link.active {
+  background: linear-gradient(135deg, #9a4ddc, #4f1b8e);
+  color: #fff;
+  box-shadow: 0 0 10px #a95ced88;
 }
+
+.guide-content {
+  margin-top: 2rem;
+  padding: 1rem 1.2rem;
+  background: #1a1325;
+  border-radius: 10px;
+  box-shadow: 0 0 15px #8141c099;
+  color: #d8c3f4;
+  min-height: 150px;
+}
+
+
     }
   }
 </style>
@@ -261,6 +232,8 @@
   </header>
 
   <nav class="tabs" role="tablist" aria-label="Manhunt Story Tabs">
+<button class="tab-link" id="guide-btn" role="tab" aria-selected="false" tabindex="-1">Guide</button>
+<button class="tab-link" id="back-btn" style="display:none;" role="tab" aria-selected="false" tabindex="-1">Back</button>
     <button class="tab-link active" role="tab" aria-selected="true" aria-controls="tab-intro" id="tab-intro-btn" tabindex="0">Introduction</button>
     <button class="tab-link" role="tab" aria-selected="false" aria-controls="tab-2020" id="tab-2020-btn" tabindex="-1">2020: Dawn of a New</button>
     <button class="tab-link" role="tab" aria-selected="false" aria-controls="tab-2021" id="tab-2021-btn" tabindex="-1">2021: The Nova Era</button>
@@ -428,25 +401,30 @@
 <section id="tab-2025" class="tab-content" role="tabpanel" aria-labelledby="tab-2025-btn" hidden>
   <h2>2025: Past, Present, & Future</h2>
 
-<div class="comment-box">
-  <h3 class="highlight">Discussion</h3>
-
-  <div id="login-form" style="margin-bottom: 1rem;">
-    <input type="text" id="username-input" placeholder="Choose a username..." maxlength="20" />
-    <button id="login-btn">Login</button>
-  </div>
-
-  <div id="logged-in-as" style="margin-bottom: 1rem; display: none;">
-    Logged in as: <span id="current-username" style="color:#d3b7f7; font-weight: 600;"></span>
-  </div>
-
-  <textarea id="comment-text" placeholder="Write a comment..." maxlength="300"></textarea>
-  <button id="submit-comment">Post Comment</button>
-
-  <div id="comments-container"></div>
-</div>
-
 </section>
+
+<section id="guide" class="tab-content" role="tabpanel" hidden>
+  <h2 class="highlight">Manhunt Kit: Guide Hub</h2>
+
+  <nav class="tabs sub-tabs" role="tablist" aria-label="Guide Subtabs">
+    <button class="tab-link active" data-subtab="tips">Tips</button>
+    <button class="tab-link" data-subtab="strategies">Strategies</button>
+    <button class="tab-link" data-subtab="1v15">1v15's</button>
+    <button class="tab-link" data-subtab="clutching">Clutching</button>
+    <button class="tab-link" data-subtab="tnt">TNT</button>
+    <button class="tab-link" data-subtab="traps">Traps</button>
+    <button class="tab-link" data-subtab="comingsoon">Coming Soon</button>
+  </nav>
+
+  <div class="guide-content" id="tips">Put Tips content here.</div>
+  <div class="guide-content" id="strategies" hidden>Put Strategies content here.</div>
+  <div class="guide-content" id="1v15" hidden>Put 1v15 content here.</div>
+  <div class="guide-content" id="clutching" hidden>Put Clutching content here.</div>
+  <div class="guide-content" id="tnt" hidden>Put TNT content here.</div>
+  <div class="guide-content" id="traps" hidden>Put Traps content here.</div>
+  <div class="guide-content" id="comingsoon" hidden>Coming soon...</div>
+</section>
+
 
 
   <script>
@@ -539,68 +517,52 @@
 </script>
 
 <script>
-  const loginInput = document.getElementById("username-input");
-  const loginBtn = document.getElementById("login-btn");
-  const loggedInAs = document.getElementById("logged-in-as");
-  const currentUserSpan = document.getElementById("current-username");
+  const guideBtn = document.getElementById('guide-btn');
+  const backBtn = document.getElementById('back-btn');
+  const mainTabs = document.querySelectorAll('section.tab-content');
+  const subTabBtns = document.querySelectorAll('nav.sub-tabs .tab-link');
+  const guideSections = document.querySelectorAll('.guide-content');
 
-  const commentBox = document.getElementById("comment-text");
-  const postBtn = document.getElementById("submit-comment");
-  const commentsDiv = document.getElementById("comments-container");
+  guideBtn.addEventListener('click', () => {
+    // Hide all tabs
+    mainTabs.forEach(s => s.hidden = true);
+    // Show guide tab
+    document.getElementById('guide').hidden = false;
+    // Toggle buttons
+    guideBtn.style.display = 'none';
+    backBtn.style.display = 'inline-block';
+  });
 
-  let currentUser = localStorage.getItem("mhk_user") || null;
-
-  const pageKey = window.location.pathname + "-" + document.currentScript.closest("section").id;
-
-  function showLogin() {
-    if (currentUser) {
-      loginInput.style.display = "none";
-      loginBtn.style.display = "none";
-      loggedInAs.style.display = "block";
-      currentUserSpan.textContent = currentUser;
-    }
-  }
-
-  function loadComments() {
-    const comments = JSON.parse(localStorage.getItem("mhk_comments_" + pageKey) || "[]");
-    commentsDiv.innerHTML = "";
-    comments.forEach(comment => {
-      const div = document.createElement("div");
-      div.className = "comment";
-      div.innerHTML = `<strong>${comment.user}</strong>${comment.text}`;
-      commentsDiv.appendChild(div);
+  backBtn.addEventListener('click', () => {
+    // Hide guide
+    document.getElementById('guide').hidden = true;
+    // Show default tab (Intro)
+    const intro = document.getElementById('tab-intro');
+    intro.hidden = false;
+    // Mark Intro as active
+    document.querySelectorAll('nav.tabs > .tab-link').forEach(btn => {
+      btn.classList.remove('active');
+      btn.setAttribute('aria-selected', 'false');
     });
-  }
-
-  loginBtn.addEventListener("click", () => {
-    const name = loginInput.value.trim().replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    if (name.length >= 3 && name.length <= 20) {
-      currentUser = name;
-      localStorage.setItem("mhk_user", name);
-      showLogin();
-    } else {
-      alert("Username must be between 3–20 characters.");
-    }
+    document.getElementById('tab-intro-btn').classList.add('active');
+    document.getElementById('tab-intro-btn').setAttribute('aria-selected', 'true');
+    // Toggle buttons
+    guideBtn.style.display = 'inline-block';
+    backBtn.style.display = 'none';
   });
 
-  postBtn.addEventListener("click", () => {
-    const text = commentBox.value.trim().replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    if (!currentUser) return alert("Login first to comment.");
-    if (!text) return;
-
-    const newComment = { user: currentUser, text };
-    const existing = JSON.parse(localStorage.getItem("mhk_comments_" + pageKey) || "[]");
-    existing.push(newComment);
-    localStorage.setItem("mhk_comments_" + pageKey, JSON.stringify(existing));
-
-    commentBox.value = "";
-    loadComments();
+  // Handle sub-tabs
+  subTabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.subtab;
+      guideSections.forEach(sec => sec.hidden = true);
+      subTabBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(target).hidden = false;
+    });
   });
-
-  // Initialize
-  showLogin();
-  loadComments();
 </script>
+
 
 
 
