@@ -1,178 +1,643 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>10v10 Manhunt History - Snipeify</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>10v10 Manhunt History - Modern Edition</title>
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Outfit:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+
   <style>
+    /* Root colors */
     :root {
-      --bg: #0b0011;
+      --bg: #0a001a;
+      --bg-dark: #05000d;
       --accent: #c77dff;
       --accent-glow: #cc00ff;
-      --text: #f0eaff;
-      --glass: rgba(60, 0, 100, 0.2);
+      --text: #e9e1ff;
+      --glass: rgba(60, 0, 100, 0.25);
+      --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      --shadow-glow: 0 0 12px var(--accent-glow);
     }
 
-    body {
+    /* Reset & base */
+    * {
+      box-sizing: border-box;
+    }
+
+    body, html {
       margin: 0;
+      height: 100%;
       font-family: 'Outfit', sans-serif;
-      background: radial-gradient(circle at top left, #140022, #0b0011);
+      background: var(--bg);
       color: var(--text);
+      overflow-x: hidden;
+      position: relative;
     }
 
+    /* Background particle canvas */
+    #particle-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      background: radial-gradient(circle at center, #1a0040, #0a001a);
+    }
+
+    /* Container */
+    .container {
+      position: relative;
+      z-index: 10;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+
+    /* Header */
     header {
-      background: linear-gradient(145deg, #32004d, #660080);
-      padding: 60px 20px 20px;
       text-align: center;
-      box-shadow: 0 0 40px var(--accent-glow);
+      margin-bottom: 40px;
+      user-select: none;
+      filter: drop-shadow(var(--shadow-glow));
+    }
+
+    header img {
+      width: 100px;
+      border-radius: 14px;
+      box-shadow: var(--shadow-glow);
+      margin-bottom: 12px;
+      transition: transform var(--transition);
+      cursor: default;
+    }
+
+    header img:hover {
+      transform: scale(1.1) rotate(5deg);
     }
 
     header h1 {
       font-family: 'Orbitron', sans-serif;
-      font-size: 3em;
+      font-weight: 600;
+      font-size: 3rem;
       color: var(--accent);
-      text-shadow: 0 0 15px var(--accent-glow);
-      margin-bottom: 10px;
+      text-shadow: 0 0 20px var(--accent-glow);
+      margin: 0 0 8px;
     }
 
-    header img {
-      width: 90px;
-      height: auto;
-      border-radius: 12px;
-      box-shadow: 0 0 12px var(--accent-glow);
+    header p {
+      font-size: 1.1rem;
+      opacity: 0.75;
+      letter-spacing: 0.05em;
     }
 
+    /* Nav bar */
     nav {
-      background: #15001f;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 10px;
-      padding: 10px;
+      gap: 14px;
+      background: var(--bg-dark);
+      padding: 12px 20px;
+      border-radius: 14px;
+      box-shadow: 0 0 20px var(--accent-glow);
+      user-select: none;
+      margin-bottom: 40px;
       position: sticky;
-      top: 0;
-      z-index: 100;
+      top: 10px;
+      z-index: 15;
     }
 
     nav button {
       background: transparent;
-      border: 1px solid var(--accent);
+      border: 2px solid var(--accent);
       color: var(--accent);
-      padding: 10px 16px;
-      border-radius: 8px;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 1rem;
       cursor: pointer;
       transition: all 0.3s ease;
-      font-weight: bold;
+      box-shadow: 0 0 6px transparent;
+      filter: drop-shadow(0 0 0 transparent);
     }
 
-    nav button:hover, nav button.active {
+    nav button:hover {
       background: var(--accent);
-      color: #000;
-      text-shadow: 0 0 6px #000;
+      color: var(--bg-dark);
+      box-shadow: var(--shadow-glow);
+      filter: drop-shadow(var(--shadow-glow));
     }
 
+    nav button.active {
+      background: var(--accent);
+      color: var(--bg-dark);
+      box-shadow: var(--shadow-glow);
+      filter: drop-shadow(var(--shadow-glow));
+      cursor: default;
+    }
+
+    /* Section container */
     .section {
-      max-width: 1000px;
-      margin: auto;
-      padding: 40px 20px;
-      animation: fadeIn 1s ease both;
       display: none;
+      animation: fadeSlideIn 0.6s ease forwards;
     }
 
     .section.active {
       display: block;
     }
 
+    /* Section headings */
     h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 600;
+      font-size: 2.4rem;
       color: var(--accent);
-      text-shadow: 0 0 10px var(--accent-glow);
-      margin-bottom: 20px;
+      text-shadow: 0 0 12px var(--accent-glow);
+      margin-bottom: 24px;
+      user-select: text;
     }
 
+    /* Paragraph & lists */
     p, li {
-      font-size: 1.1em;
-      line-height: 1.7em;
+      font-size: 1.15rem;
+      line-height: 1.7;
+      color: var(--text);
+      user-select: text;
     }
 
     ul {
-      margin-top: 10px;
-      padding-left: 20px;
+      padding-left: 24px;
+      margin-top: 12px;
+      margin-bottom: 24px;
     }
 
+    /* Images in content */
+    .section img.content-image {
+      width: 100%;
+      max-height: 320px;
+      object-fit: cover;
+      border-radius: 16px;
+      margin-top: 24px;
+      box-shadow: var(--shadow-glow);
+      user-select: none;
+      transition: transform 0.4s ease;
+      cursor: default;
+    }
+
+    .section img.content-image:hover {
+      transform: scale(1.02);
+    }
+
+    /* Footer */
     footer {
       text-align: center;
-      padding: 20px;
-      background: #0a000f;
-      color: #aaa;
-      border-top: 1px solid #330033;
+      padding: 24px 12px;
+      font-size: 0.9rem;
+      color: #b3a0ffaa;
+      border-top: 1px solid #33006644;
+      user-select: none;
     }
 
-    @keyframes fadeIn {
-      0% { opacity: 0; transform: translateY(40px); }
-      100% { opacity: 1; transform: translateY(0); }
+    /* Fade and slide in animation */
+    @keyframes fadeSlideIn {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Comment system styles */
+    .comment-container {
+      margin-top: 10px;
+    }
+
+    .comment-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 480px;
+    }
+
+    .comment-form input,
+    .comment-form textarea {
+      background: var(--bg-dark);
+      border: 1.8px solid var(--accent);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 1rem;
+      color: var(--text);
+      resize: vertical;
+      transition: border-color 0.3s ease;
+    }
+
+    .comment-form input:focus,
+    .comment-form textarea:focus {
+      outline: none;
+      border-color: var(--accent-glow);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    .comment-form button {
+      align-self: flex-start;
+      background: var(--accent);
+      color: var(--bg-dark);
+      border: none;
+      padding: 12px 24px;
+      font-weight: 700;
+      font-size: 1rem;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: var(--shadow-glow);
+      transition: background-color 0.3s ease;
+    }
+
+    .comment-form button:hover {
+      background: #9e4fff;
+      box-shadow: 0 0 15px #a639ff;
+    }
+
+    .comments-list {
+      margin-top: 20px;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      user-select: text;
+    }
+
+    .comment {
+      background: var(--glass);
+      padding: 14px 20px;
+      border-radius: 12px;
+      box-shadow: inset 0 0 6px #330066aa;
+      border: 1px solid #44008888;
+      word-wrap: break-word;
+    }
+
+    .comment .author {
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 6px;
+      user-select: text;
+    }
+
+    /* Audio controls style */
+    audio {
+      position: fixed;
+      bottom: 15px;
+      right: 20px;
+      border-radius: 16px;
+      box-shadow: var(--shadow-glow);
+      outline: none;
+      background: var(--bg-dark);
+      filter: drop-shadow(var(--shadow-glow));
+      z-index: 50;
+    }
+
+    /* Scrollbar for comments and content */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-dark);
+      border-radius: 12px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 12px;
+      box-shadow: inset 0 0 3px #440088aa;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      nav button {
+        padding: 8px 14px;
+        font-size: 0.9rem;
+      }
+      header h1 {
+        font-size: 2.2rem;
+      }
     }
   </style>
 </head>
+
 <body>
-  <header>
-    <img src="/mnt/data/c4f12e41-2e5c-418b-a437-36bd8c0de3cd.png" alt="Snipeify Skin">
-    <h1>📜 History of 10v10 Manhunt</h1>
-    <p>By: Farwelll — Nov 12, 2024</p>
-  </header>
+  <!-- Particle Background Canvas -->
+  <canvas id="particle-canvas"></canvas>
 
-  <nav>
-    <button class="active" onclick="showTab('intro')">Intro</button>
-    <button onclick="showTab('2020')">2020 - Dawn</button>
-    <button onclick="showTab('meta')">Meta Brothers</button>
-    <button onclick="showTab('2021')">2021 - Nova Era</button>
-    <button onclick="showTab('2022')">2022 - Conflict</button>
-    <button onclick="showTab('2023')">2023 - Blossom</button>
-  </nav>
+  <div class="container">
+    <header>
+      <!-- Put your main header image here -->
+      <img src="images/header-logo.png" alt="Snipeify Skin" />
+      <h1>📜 History of 10v10 Manhunt</h1>
+      <p>By: Farwelll — Nov 12, 2024</p>
+    </header>
 
-  <div id="intro" class="section active">
-    <h2>Introduction: What is Manhunt Kit?</h2>
-    <p>Manhunt Kit is a PvP Legacy custom kit inspired by Dream's Manhunt challenge. With items like pearls, cobwebs, knockback swords, and lava buckets, it simulates the chaotic, chase-based gameplay seen in Dream's videos. Over time, it evolved into its own meta and community inside the PvP Legacy server.</p>
+    <nav aria-label="Primary Navigation">
+      <button class="active" data-tab="intro">Introduction to the Manhunt Kit</button>
+      <button data-tab="2020">2020: Dawn of a New</button>
+      <button data-tab="2021">2021: The Nova Era</button>
+      <button data-tab="2022">2022: Corruption and Conflict</button>
+      <button data-tab="2023">2023: Blossoming and Withering</button>
+      <button data-tab="2024">2024: The Renaissance</button>
+      <button data-tab="comments">Comments</button>
+    </nav>
+
+    <section id="intro" class="section active" role="tabpanel" tabindex="0" aria-labelledby="tab-intro">
+      <h2>Introduction to the Manhunt Kit</h2>
+      <p>
+        The Manhunt Kit is a PvP Legacy custom kit inspired by Dream's Manhunt challenge. It features a variety of items like pearls,
+        cobwebs, knockback swords, and lava buckets to simulate the intense chase and combat style popularized by Dream’s videos.
+      </p>
+      <p>
+        Over the years, this kit has evolved into a unique meta within the PvP Legacy community, fostering new strategies and gameplay styles.
+      </p>
+      <!-- Image placeholder: put your intro tab image here -->
+      <img
+        src="images/intro-image.png"
+        alt="Introduction to Manhunt Kit"
+        class="content-image"
+        loading="lazy"
+      />
+    </section>
+
+    <section id="2020" class="section" role="tabpanel" tabindex="0" aria-labelledby="tab-2020">
+      <h2>2020: Dawn of a New</h2>
+      <p>
+        As Dream’s fame skyrocketed, players like <strong>Bwilliance</strong> recreated the Manhunt concept within PvP Legacy.
+        Utilizing the Natural Forest map and custom kits, she developed the first official Manhunt Kit in November 2020.
+      </p>
+      <p>
+        This kit became popular among players like Ronalmar, 1aye, and Dowqe, who adapted it further for Custom ?v? modes,
+        spawning the first generation of elite manhunters.
+      </p>
+      <!-- Image placeholder: put your 2020 tab image here -->
+      <img src="images/2020-dawn.png" alt="2020 Dawn of a New Era" class="content-image" loading="lazy" />
+    </section>
+
+    <section id="2021" class="section" role="tabpanel" tabindex="0" aria-labelledby="tab-2021">
+      <h2>2021: The Nova Era</h2>
+      <p>
+        The community expanded rapidly with specializations emerging across PvP, TNT, skybasing, clutching, and trapping.
+        Players mastered multiple categories, enriching gameplay complexity.
+      </p>
+      <p>
+        The '?v? Custom Hangout' Discord launched, creating a social hub for elite players like Nen8, wwomp, Zypol, and Dreammn.
+      </p>
+      <!-- Image placeholder: put your 2021 tab image here -->
+      <img src="images/2021-nova.png" alt="2021 Nova Era" class="content-image" loading="lazy" />
+    </section>
+
+    <section id="2022" class="section" role="tabpanel" tabindex="0" aria-labelledby="tab-2022">
+      <h2>2022: Corruption and Conflict</h2>
+      <p>
+        The rise of new generations brought unbalanced kits, overpowered items, and toxicity, causing many veterans to leave.
+        Players like <strong>SkyHasFallen_</strong> exploited lower-skill lobbies, pushing community divisions.
+      </p>
+      <!-- Image placeholder: put your 2022 tab image here -->
+      <img src="images/2022-corruption.png" alt="2022 Corruption and Conflict" class="content-image" loading="lazy" />
+    </section>
+
+    <section id="2023" class="section" role="tabpanel" tabindex="0" aria-labelledby="tab-2023">
+      <h2>2023: Blossoming and Withering</h2>
+      <p>
+        Despite decline, innovators like <strong>Pobob</strong> and <strong>Farwelll</strong> revolutionized TNT gameplay.
+        Pobob's slime cannons and Farwelll's Slam Rod revival sparked a TNT golden age, though spam pushed veterans away.
+      </p>
+      <!-- Image placeholder: put your 2023 tab image here -->
+      <img src="images/2023-blossom.png" alt="2023 Blossoming and Withering" class="content-image" loading="lazy" />
+    </section>
+
+    <section id="2024" class="section" role="tabpanel" tabindex="0" aria-labelledby="tab-2024">
+      <h2>2024: The Renaissance</h2>
+      <p>
+        The community sees a renaissance, combining old-school strategies with fresh innovation.
+        Players balance meta gameplay with creative freedom, shaping a new era for 10v10 Manhunt.
+      </p>
+      <!-- Image placeholder: put your 2024 tab image here -->
+      <img src="images/2024-renaissance.png" alt="2024 Renaissance" class="content-image" loading="lazy" />
+    </section>
+
+    <section id="comments" class="section" role="tabpanel" tabindex="0" aria-labelledby="tab-comments">
+      <h2>Comments</h2>
+      <p>Share your thoughts on the history and evolution of 10v10 Manhunt!</p>
+
+      <div class="comment-container">
+        <form id="comment-form" class="comment-form" aria-label="Add a comment">
+          <input
+            type="text"
+            id="author"
+            name="author"
+            placeholder="Your Name"
+            aria-required="true"
+            required
+            autocomplete="off"
+          />
+          <textarea
+            id="comment-text"
+            name="comment-text"
+            rows="4"
+            placeholder="Your Comment"
+            aria-required="true"
+            required
+            autocomplete="off"
+          ></textarea>
+          <button type="submit">Post Comment</button>
+        </form>
+
+        <div id="comments-list" class="comments-list" aria-live="polite" aria-relevant="additions"></div>
+      </div>
+    </section>
   </div>
 
-  <div id="2020" class="section">
-    <h2>2020: Dawn of a New Era</h2>
-    <p>As Dream's fame grew, players like <strong>Bwilliance</strong> recreated the Manhunt concept in PvP Legacy. Using the Natural Forest map and customized kits, she developed what became the first Manhunt Kit in November 2020. This kit gained traction among players like Ronalmar, 1aye, and Dowqe, who modified it for use in Custom ?v? mode, leading to the first generation of elite manhunters.</p>
-  </div>
-
-  <div id="meta" class="section">
-    <h2>Ronalmar & 1aye: The Meta Brothers</h2>
-    <p>The two pioneers pushed meta innovation through TNT rods, skybases, and traps. Their influence led to techniques like piston cannons, spray tech, and game-breaking glitches. They laid the foundational meta that’s still relevant today.</p>
-  </div>
-
-  <div id="2021" class="section">
-    <h2>2021: The Nova Era</h2>
-    <p>The community exploded in size, and specializations emerged — PvP, TNT, Skybasing, Clutching, and Trapping. With dozens of players mastering multiple categories, the gameplay became richer and more competitive. Discord server '?v? Custom Hangout' launched, creating a social space for elite players like Nen8, wwomp, Zypol, and Dreammn to grow stronger together.</p>
-  </div>
-
-  <div id="2022" class="section">
-    <h2>2022: Corruption and Conflict</h2>
-    <p>The rise of newgens brought unbalanced kits, overpowered items, and toxic behavior. Manhunt was no longer recognizable. Veteran players left. Meanwhile, players like <strong>SkyHasFallen_</strong> and his winstreak team exploited lower-skill lobbies to reach record top stats, causing community divide.</p>
-    <img src="/mnt/data/7e6635cd-bdfe-4553-8111-8f9e80ada740.png" style="width:100%;margin-top:20px;border-radius:12px;box-shadow:0 0 12px var(--accent-glow);">
-  </div>
-
-  <div id="2023" class="section">
-    <h2>2023: Blossoming and Withering</h2>
-    <p>Despite decline, players like <strong>Pobob</strong> and <strong>Farwelll</strong> revolutionized TNT gameplay. Pobob's slime cannons and Farwelll's Slam Rod revival marked a TNT golden age. But overuse led to spammy lobbies, pushing veterans further away.</p>
-    <img src="/mnt/data/23dd3c5b-2dbc-4bcc-8021-9cecf8947e67.png" style="width:100%;margin-top:20px;border-radius:12px;box-shadow:0 0 12px var(--accent-glow);">
-  </div>
-
-  <footer>
-    <p>Crafted with 💜 by Snipeify | Last Updated 2025</p>
-  </footer>
+  <!-- Custom Lobby Music -->
+  <audio
+    id="lobby-music"
+    src="audio/lobby-music.mp3"
+    autoplay
+    loop
+    muted
+    controls
+    aria-label="Lobby background music controls"
+  >
+    Your browser does not support the audio element.
+  </audio>
 
   <script>
-    function showTab(id) {
-      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-      document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      event.target.classList.add('active');
+    (() => {
+      // Tab navigation
+      const buttons = document.querySelectorAll('nav button');
+      const sections = document.querySelectorAll('.section');
+
+      function showTab(id, button) {
+        sections.forEach((sec) => {
+          if (sec.id === id) {
+            sec.classList.add('active');
+            sec.setAttribute('tabindex', '0');
+          } else {
+            sec.classList.remove('active');
+            sec.setAttribute('tabindex', '-1');
+          }
+        });
+        buttons.forEach((btn) => btn.classList.remove('active'));
+        if (button) button.classList.add('active');
+      }
+
+      buttons.forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          const tabId = btn.getAttribute('data-tab');
+          showTab(tabId, btn);
+        });
+      });
+
+      // Show first tab by default
+      showTab('intro', document.querySelector('nav button[data-tab="intro"]'));
+
+      // Comment system logic (simple client-side)
+      const commentForm = document.getElementById('comment-form');
+      const commentsList = document.getElementById('comments-list');
+
+      commentForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const author = commentForm.author.value.trim();
+        const commentText = commentForm['comment-text'].value
+  // Tab navigation
+  const buttons = document.querySelectorAll('nav button');
+  const sections = document.querySelectorAll('.section');
+
+  function showTab(id, button) {
+    sections.forEach((sec) => {
+      if (sec.id === id) {
+        sec.classList.add('active');
+        sec.setAttribute('tabindex', '0');
+      } else {
+        sec.classList.remove('active');
+        sec.setAttribute('tabindex', '-1');
+      }
+    });
+    buttons.forEach((btn) => btn.classList.remove('active'));
+    if (button) button.classList.add('active');
+  }
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      const tabId = btn.getAttribute('data-tab');
+      showTab(tabId, btn);
+    });
+  });
+
+  // Show first tab by default
+  showTab('intro', document.querySelector('nav button[data-tab="intro"]'));
+
+  // Comment system logic (client-side only)
+  const commentForm = document.getElementById('comment-form');
+  const commentsList = document.getElementById('comments-list');
+
+  commentForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const author = commentForm.author.value.trim();
+    const commentText = commentForm['comment-text'].value.trim();
+
+    if (author === '' || commentText === '') {
+      alert('Please fill out both your name and comment.');
+      return;
     }
-  </script>
-</body>
-</html>
+
+    // Create comment element
+    const commentEl = document.createElement('div');
+    commentEl.classList.add('comment');
+
+    const authorEl = document.createElement('div');
+    authorEl.classList.add('author');
+    authorEl.textContent = author;
+
+    const textEl = document.createElement('div');
+    textEl.classList.add('text');
+    textEl.textContent = commentText;
+
+    commentEl.appendChild(authorEl);
+    commentEl.appendChild(textEl);
+
+    // Add comment at the top
+    commentsList.prepend(commentEl);
+
+    // Clear form
+    commentForm.reset();
+  });
+
+  // Simple Particle Background
+  const canvas = document.getElementById('particle-canvas');
+  const ctx = canvas.getContext('2d');
+  let particlesArray = [];
+  let width, height;
+
+  function initCanvas() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+  }
+
+  window.addEventListener('resize', () => {
+    initCanvas();
+  });
+
+  class Particle {
+    constructor() {
+      this.x = Math.random() * width;
+      this.y = Math.random() * height;
+      this.size = Math.random() * 2 + 1;
+      this.speedX = (Math.random() - 0.5) * 0.3;
+      this.speedY = (Math.random() - 0.5) * 0.3;
+      this.alpha = Math.random() * 0.6 + 0.4;
+    }
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+
+      if (this.x > width) this.x = 0;
+      else if (this.x < 0) this.x = width;
+
+      if (this.y > height) this.y = 0;
+      else if (this.y < 0) this.y = height;
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.fillStyle = `rgba(199,125,255,${this.alpha})`;
+      ctx.shadowColor = 'rgba(204,0,255,0.7)';
+      ctx.shadowBlur = 10;
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  function createParticles(num = 120) {
+    particlesArray = [];
+    for (let i = 0; i < num; i++) {
+      particlesArray.push(new Particle());
+    }
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
+    particlesArray.forEach((p) => {
+      p.update();
+      p.draw();
+    });
+    requestAnimationFrame(animate);
+  }
+
+  // Init everything
+  initCanvas();
+  createParticles();
+  animate();
+})();
