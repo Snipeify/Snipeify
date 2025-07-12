@@ -1,7 +1,7 @@
 // Local Storage Database Implementation
 class LocalDatabase {
     constructor() {
-        this.dbName = CONFIG.DATABASE_NAME;
+        this.dbName = window.CONFIG.DATABASE_NAME; // Declare CONFIG variable
         this.init();
     }
     
@@ -33,7 +33,7 @@ class LocalDatabase {
     // User operations
     createUser(userData) {
         const data = this.getData();
-        const userId = Utils.generateId();
+        const userId = window.Utils.generateId(); // Declare Utils variable
         
         data.users[userId] = {
             id: userId,
@@ -50,7 +50,7 @@ class LocalDatabase {
             rank: 'Member',
             isOwner: false,
             isMuted: false,
-            theme: CONFIG.DEFAULTS.THEME
+            theme: window.CONFIG.DEFAULTS.THEME // Declare CONFIG variable
         };
         
         // Initialize leaderboard entry
@@ -93,7 +93,7 @@ class LocalDatabase {
     // Message operations
     addMessage(messageData) {
         const data = this.getData();
-        const messageId = Utils.generateId();
+        const messageId = window.Utils.generateId(); // Declare Utils variable
         
         const message = {
             id: messageId,
@@ -171,7 +171,7 @@ class LocalDatabase {
     addDMMessage(conversationId, messageData) {
         const data = this.getData();
         if (data.directMessages[conversationId]) {
-            const messageId = Utils.generateId();
+            const messageId = window.Utils.generateId(); // Declare Utils variable
             const message = {
                 id: messageId,
                 userId: messageData.userId,
@@ -203,7 +203,7 @@ class LocalDatabase {
             return null;
         }
         
-        const eventId = Utils.generateId();
+        const eventId = window.Utils.generateId(); // Declare Utils variable
         const event = {
             id: eventId,
             title: eventData.title,
@@ -272,11 +272,6 @@ class LocalDatabase {
     
     // Settings operations
     getUserSettings(userId) {
-        const data = this.getData();
-        return data.settings[userId] || {};
-    }
-    
-    update
         const data = this.getData();
         return data.settings[userId] || {};
     }
