@@ -3,73 +3,89 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>About Me Chat</title>
-
-  <!-- Firebase Compat SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-
-  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
+  <title>PinkChat - Private Group Chat</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-
-  <script defer src="script.js"></script>
 </head>
 <body>
+  <div id="particles-bg"></div>
 
-  <!-- LOGIN PAGE -->
-  <div id="authPage" class="centered">
-    <div class="auth-box">
-      <h2>Login or Register</h2>
-      <input id="email" type="email" placeholder="Email" autocomplete="username" />
-      <input id="password" type="password" placeholder="Password" autocomplete="current-password" />
-      <div class="btn-row">
-        <button id="loginBtn" class="btn pink">Login</button>
-        <button id="registerBtn" class="btn white">Register</button>
+  <main id="app">
+    <!-- Login Screen -->
+    <section id="login-screen" class="screen active">
+      <div class="login-box">
+        <h1>Welcome to PinkChat</h1>
+        <p class="subtitle">What's your name?</p>
+        <input type="text" id="input-username" placeholder="Enter your display name" maxlength="20" autofocus />
+        <button id="btn-login">Enter</button>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <!-- APP PAGE -->
-  <div id="app" class="hidden">
-    <aside id="sidebar">
-      <div class="profile">
-        <img id="userAvatar" src="images/Me.png" alt="Avatar" />
-        <div id="userName">User</div>
-      </div>
-      <nav id="chatTabs" class="tabs"></nav>
-      <div class="online-users-container">
-        <h3>Online Users</h3>
-        <div id="onlineUsers" class="online-users"></div>
-      </div>
-      <button id="settingsTabBtn" class="btn white">Settings</button>
-      <button id="logoutBtn" class="btn pink">Logout</button>
-    </aside>
-
-    <main id="mainContent">
+    <!-- Main Chat App -->
+    <section id="chat-screen" class="screen">
       <header>
-        <h2 id="chatTitle">Group Chat</h2>
+        <h2>PinkChat</h2>
+        <div class="user-profile" id="user-profile-btn" tabindex="0" aria-label="User settings">
+          <img id="user-avatar" src="" alt="User Avatar" />
+          <span id="user-displayname"></span>
+        </div>
       </header>
 
-      <section id="chatArea">
-        <div id="messages" class="messages"></div>
-        <div class="chat-input-row">
-          <input id="chatInput" type="text" placeholder="Type a message..." autocomplete="off" />
-          <button id="sendBtn" class="btn pink">Send</button>
+      <aside id="sidebar">
+        <nav>
+          <ul>
+            <li class="active" data-tab="chat">💬 Chat</li>
+            <li data-tab="forums">📜 Forums</li>
+            <li data-tab="settings">⚙️ Settings</li>
+          </ul>
+        </nav>
+      </aside>
+
+      <section id="content">
+        <!-- Chat Tab -->
+        <div class="tab-content active" id="tab-chat">
+          <div id="chat-messages" aria-live="polite" aria-relevant="additions"></div>
+          <form id="chat-form" autocomplete="off" aria-label="Send message form">
+            <input type="text" id="chat-input" placeholder="Type your message..." maxlength="500" autocomplete="off" />
+            <button type="submit" aria-label="Send message">Send</button>
+          </form>
+        </div>
+
+        <!-- Forums Tab -->
+        <div class="tab-content" id="tab-forums">
+          <div id="forums-list"></div>
+          <form id="new-forum-form">
+            <input type="text" id="forum-title" placeholder="New forum topic title" maxlength="100" required />
+            <textarea id="forum-content" placeholder="Write your first post here..." rows="4" maxlength="1000" required></textarea>
+            <button type="submit">Create Forum</button>
+          </form>
+        </div>
+
+        <!-- Settings Tab -->
+        <div class="tab-content" id="tab-settings">
+          <h3>Your Profile</h3>
+          <form id="settings-form">
+            <label>
+              Display Name
+              <input type="text" id="settings-displayname" maxlength="20" required />
+            </label>
+            <label>
+              Profile Picture URL
+              <input type="url" id="settings-avatarurl" placeholder="https://example.com/avatar.jpg" />
+            </label>
+            <button type="submit">Save Settings</button>
+          </form>
+          <button id="btn-logout" class="logout-btn">Log Out</button>
         </div>
       </section>
+    </section>
+  </main>
 
-      <section id="settingsArea" class="hidden">
-        <h2>Settings</h2>
-        <label>Change Username</label>
-        <input id="newUsername" type="text" />
-        <label>Change Profile Picture URL</label>
-        <input id="newAvatar" type="text" />
-        <button id="updateProfileBtn" class="btn pink">Update Profile</button>
-        <div id="updateStatus"></div>
-      </section>
-    </main>
-  </div>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 
+  <!-- Main JS -->
+  <script src="app.js"></script>
 </body>
 </html>
