@@ -3,32 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PinkChat - Discord for Friends</title>
+    <title>PinkCord - Chat with Friends</title>
     <style>
+        :root {
+            --primary-pink: #ff69b4;
+            --light-pink: #ffb6c1;
+            --dark-pink: #c1477c;
+            --white: #ffffff;
+            --light-gray: #f8f9fa;
+            --gray: #6c757d;
+            --dark-gray: #343a40;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+        }
+
+        [data-theme="dark"] {
+            --white: #2c2f33;
+            --light-gray: #36393f;
+            --gray: #dcddde;
+            --dark-gray: #ffffff;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        :root {
-            --pink-primary: #ff69b4;
-            --pink-secondary: #ffb6c1;
-            --pink-light: #ffc0cb;
-            --pink-dark: #c71585;
-            --white: #ffffff;
-            --gray-light: #f8f9fa;
-            --gray-medium: #e9ecef;
-            --gray-dark: #6c757d;
-            --text-dark: #2d3748;
-            --success: #28a745;
-            --warning: #ffc107;
-            --danger: #dc3545;
-        }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--pink-light) 0%, var(--white) 100%);
+            background: linear-gradient(135deg, var(--primary-pink) 0%, var(--light-pink) 100%);
+            color: var(--dark-gray);
             height: 100vh;
             overflow: hidden;
         }
@@ -36,330 +44,261 @@
         .app-container {
             display: flex;
             height: 100vh;
+            background: var(--white);
+            margin: 10px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
         }
 
         /* Sidebar */
         .sidebar {
             width: 280px;
-            background: var(--white);
-            border-right: 2px solid var(--pink-secondary);
+            background: var(--light-gray);
+            border-right: 2px solid var(--light-pink);
             display: flex;
             flex-direction: column;
-            box-shadow: 2px 0 10px rgba(255, 105, 180, 0.1);
         }
 
         .sidebar-header {
             padding: 20px;
-            background: linear-gradient(135deg, var(--pink-primary), var(--pink-dark));
-            color: white;
+            background: var(--primary-pink);
+            color: var(--white);
             text-align: center;
+            font-weight: bold;
+            font-size: 1.2em;
         }
 
-        .sidebar-header h1 {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
-        }
-
-        .user-info {
-            background: rgba(255, 255, 255, 0.1);
+        .user-profile {
             padding: 15px;
-            border-radius: 10px;
-            margin-top: 10px;
+            border-bottom: 1px solid var(--light-pink);
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .user-avatar {
+        .avatar {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            border: 2px solid white;
+            background: var(--primary-pink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: bold;
         }
 
-        .user-details h3 {
-            font-size: 0.9rem;
+        .user-info h4 {
+            color: var(--dark-gray);
             margin-bottom: 2px;
         }
 
-        .user-rank {
-            font-size: 0.7rem;
-            opacity: 0.8;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 2px 6px;
+        .user-info .rank {
+            font-size: 0.8em;
+            color: var(--gray);
+            padding: 2px 8px;
+            background: var(--light-pink);
             border-radius: 10px;
-        }
-
-        .sidebar-nav {
-            padding: 20px;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 15px;
-            margin: 5px 0;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: var(--text-dark);
-        }
-
-        .nav-item:hover, .nav-item.active {
-            background: var(--pink-light);
-            color: var(--pink-dark);
-        }
-
-        .nav-icon {
-            width: 20px;
-            height: 20px;
-            background: var(--pink-primary);
-            border-radius: 3px;
         }
 
         .online-users {
             flex: 1;
-            padding: 0 20px;
+            padding: 15px;
             overflow-y: auto;
         }
 
         .online-users h3 {
-            color: var(--pink-dark);
-            margin-bottom: 15px;
-            font-size: 0.9rem;
+            color: var(--primary-pink);
+            margin-bottom: 10px;
+            font-size: 0.9em;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         .user-item {
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 8px 10px;
-            margin: 3px 0;
+            padding: 8px;
             border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: background 0.2s;
         }
 
         .user-item:hover {
-            background: var(--gray-light);
+            background: var(--white);
         }
 
-        .user-item.online::before {
-            content: '';
-            width: 8px;
-            height: 8px;
-            background: var(--success);
-            border-radius: 50%;
-            position: absolute;
-            margin-left: 25px;
-            margin-top: -15px;
-            border: 2px solid white;
-        }
-
-        .user-item img {
+        .user-item .avatar {
             width: 30px;
             height: 30px;
+            font-size: 0.8em;
+        }
+
+        .status-indicator {
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
+            background: var(--success);
+            position: relative;
+            top: -5px;
+            left: -5px;
         }
 
-        .user-item span {
-            font-size: 0.85rem;
-            color: var(--text-dark);
-        }
-
-        /* Main Content */
+        /* Main Chat Area */
         .main-content {
             flex: 1;
             display: flex;
             flex-direction: column;
-            background: var(--white);
         }
 
         .chat-header {
-            padding: 15px 25px;
+            padding: 15px 20px;
             background: var(--white);
-            border-bottom: 2px solid var(--pink-secondary);
+            border-bottom: 2px solid var(--light-pink);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .chat-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--primary-pink);
         }
 
-        .chat-title h2 {
-            color: var(--pink-dark);
-            font-size: 1.3rem;
-        }
-
-        .chat-actions {
+        .header-buttons {
             display: flex;
             gap: 10px;
         }
 
-        .action-btn {
+        .btn {
             padding: 8px 15px;
-            background: var(--pink-primary);
-            color: white;
             border: none;
             border-radius: 20px;
             cursor: pointer;
-            font-size: 0.8rem;
-            transition: all 0.3s ease;
+            font-weight: 500;
+            transition: all 0.2s;
         }
 
-        .action-btn:hover {
-            background: var(--pink-dark);
+        .btn-primary {
+            background: var(--primary-pink);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--dark-pink);
             transform: translateY(-1px);
         }
 
+        .btn-secondary {
+            background: var(--light-gray);
+            color: var(--gray);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray);
+            color: var(--white);
+        }
+
+        /* Chat Messages */
         .chat-messages {
             flex: 1;
             padding: 20px;
             overflow-y: auto;
-            background: linear-gradient(to bottom, var(--white), var(--gray-light));
+            background: var(--light-gray);
         }
 
         .message {
+            margin-bottom: 15px;
             display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: var(--white);
-            border-radius: 15px;
-            box-shadow: 0 2px 10px rgba(255, 105, 180, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .message:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 20px rgba(255, 105, 180, 0.15);
-        }
-
-        .message-avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            border: 2px solid var(--pink-secondary);
+            gap: 10px;
         }
 
         .message-content {
-            flex: 1;
+            background: var(--white);
+            padding: 12px 15px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            max-width: 70%;
         }
 
         .message-header {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             margin-bottom: 5px;
         }
 
-        .message-author {
+        .username {
             font-weight: bold;
-            color: var(--pink-dark);
+            color: var(--primary-pink);
         }
 
-        .message-rank {
-            background: var(--pink-secondary);
-            color: var(--pink-dark);
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 0.7rem;
+        .timestamp {
+            font-size: 0.8em;
+            color: var(--gray);
         }
 
-        .message-time {
-            color: var(--gray-dark);
-            font-size: 0.75rem;
+        .system-message {
+            text-align: center;
+            color: var(--gray);
+            font-style: italic;
+            margin: 10px 0;
         }
 
-        .message-text {
-            color: var(--text-dark);
-            line-height: 1.4;
+        .event-message {
+            background: linear-gradient(135deg, var(--warning), #ffd700);
+            color: var(--dark-gray);
+            text-align: center;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin: 15px 0;
+            font-weight: bold;
         }
 
-        .message-actions {
-            display: flex;
-            gap: 5px;
-            margin-top: 8px;
-        }
-
-        .msg-action {
-            background: none;
-            border: none;
-            color: var(--gray-dark);
-            cursor: pointer;
-            padding: 5px;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .msg-action:hover {
-            background: var(--pink-light);
-            color: var(--pink-dark);
-        }
-
-        .chat-input-container {
+        /* Chat Input */
+        .chat-input {
             padding: 20px;
             background: var(--white);
-            border-top: 2px solid var(--pink-secondary);
+            border-top: 2px solid var(--light-pink);
         }
 
-        .chat-input-wrapper {
+        .input-container {
             display: flex;
             gap: 10px;
             align-items: center;
-            background: var(--gray-light);
-            padding: 15px;
-            border-radius: 25px;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
         }
 
-        .chat-input-wrapper:focus-within {
-            border-color: var(--pink-primary);
-            background: var(--white);
-        }
-
-        .chat-input {
+        .message-input {
             flex: 1;
-            border: none;
-            background: none;
+            padding: 12px 15px;
+            border: 2px solid var(--light-pink);
+            border-radius: 25px;
             outline: none;
-            font-size: 1rem;
-            color: var(--text-dark);
+            font-size: 1em;
         }
 
-        .chat-input::placeholder {
-            color: var(--gray-dark);
+        .message-input:focus {
+            border-color: var(--primary-pink);
         }
 
-        .input-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .input-btn {
-            width: 35px;
-            height: 35px;
-            border: none;
-            background: var(--pink-primary);
-            color: white;
+        .send-btn {
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
+            background: var(--primary-pink);
+            color: var(--white);
+            border: none;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
+            transition: all 0.2s;
         }
 
-        .input-btn:hover {
-            background: var(--pink-dark);
+        .send-btn:hover {
+            background: var(--dark-pink);
             transform: scale(1.1);
         }
 
@@ -373,23 +312,19 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
             z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal.active {
-            display: flex;
         }
 
         .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             background: var(--white);
             padding: 30px;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 500px;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.3);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            min-width: 400px;
+            max-width: 90vw;
         }
 
         .modal-header {
@@ -397,265 +332,151 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--pink-secondary);
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-pink);
         }
 
-        .modal-header h2 {
-            color: var(--pink-dark);
+        .modal-title {
+            color: var(--primary-pink);
+            font-size: 1.3em;
+            font-weight: bold;
         }
 
         .close-btn {
             background: none;
             border: none;
-            font-size: 1.5rem;
-            color: var(--gray-dark);
+            font-size: 1.5em;
             cursor: pointer;
-            padding: 5px;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-
-        .close-btn:hover {
-            background: var(--pink-light);
-            color: var(--pink-dark);
+            color: var(--gray);
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 8px;
-            color: var(--pink-dark);
-            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--dark-gray);
+            font-weight: 500;
         }
 
-        .form-group input, .form-group select, .form-group textarea {
+        .form-group input, .form-group select {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid var(--pink-secondary);
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            padding: 10px;
+            border: 2px solid var(--light-pink);
+            border-radius: 8px;
             outline: none;
-            border-color: var(--pink-primary);
-            box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.1);
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--pink-primary), var(--pink-dark));
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            width: 100%;
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--primary-pink);
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
-        }
-
-        .rank-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: bold;
-        }
-
-        .rank-newbie { background: var(--gray-medium); color: var(--gray-dark); }
-        .rank-member { background: var(--pink-light); color: var(--pink-dark); }
-        .rank-vip { background: var(--warning); color: white; }
-        .rank-admin { background: var(--pink-primary); color: white; }
-        .rank-owner { background: var(--pink-dark); color: white; }
-
-        .notification {
+        /* Theme Toggle */
+        .theme-toggle {
             position: fixed;
             top: 20px;
             right: 20px;
-            padding: 15px 20px;
-            background: var(--success);
-            color: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            transform: translateX(400px);
-            transition: all 0.3s ease;
-            z-index: 1001;
+            z-index: 999;
         }
 
-        .notification.show {
-            transform: translateX(0);
-        }
+        /* Rank Styles */
+        .rank-owner { background: linear-gradient(45deg, #ffd700, #ffed4e); color: #000; }
+        .rank-admin { background: linear-gradient(45deg, #ff6b6b, #ee5a52); color: #fff; }
+        .rank-mod { background: linear-gradient(45deg, #4ecdc4, #44a08d); color: #fff; }
+        .rank-vip { background: linear-gradient(45deg, #a8e6cf, #7fcdcd); color: #000; }
+        .rank-member { background: var(--light-pink); color: var(--dark-gray); }
+        .rank-loser { background: linear-gradient(45deg, #666, #333); color: #fff; }
 
-        .dm-list {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .dm-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-bottom: 5px;
-        }
-
-        .dm-item:hover {
-            background: var(--pink-light);
-        }
-
-        .dm-item img {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-        }
-
-        .typing-indicator {
-            display: none;
-            padding: 10px 20px;
-            color: var(--gray-dark);
-            font-style: italic;
-            font-size: 0.9rem;
-        }
-
-        .typing-indicator.show {
-            display: block;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .typing-dots {
-            animation: pulse 1.5s infinite;
-        }
-
-        /* Responsive Design */
+        /* Responsive */
         @media (max-width: 768px) {
             .sidebar {
-                width: 100%;
-                position: fixed;
-                left: -100%;
-                z-index: 999;
-                transition: left 0.3s ease;
+                width: 250px;
             }
+            
+            .modal-content {
+                min-width: 300px;
+                margin: 20px;
+            }
+        }
 
-            .sidebar.mobile-open {
-                left: 0;
-            }
+        /* Animations */
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
 
-            .main-content {
-                width: 100%;
-            }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
 
-            .chat-header {
-                padding: 10px 15px;
-            }
+        .message {
+            animation: fadeIn 0.3s ease-in;
+        }
 
-            .message {
-                padding: 10px;
-            }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--light-gray);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-pink);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--dark-pink);
         }
     </style>
 </head>
 <body>
+    <div class="theme-toggle">
+        <button class="btn btn-secondary" onclick="toggleTheme()">🌙</button>
+    </div>
+
     <div class="app-container">
         <!-- Sidebar -->
-        <div class="sidebar" id="sidebar">
+        <div class="sidebar">
             <div class="sidebar-header">
-                <h1>💖 PinkChat</h1>
-                <div class="user-info">
-                    <img src="/placeholder.svg?height=40&width=40" alt="Your Avatar" class="user-avatar" id="currentUserAvatar">
-                    <div class="user-details">
-                        <h3 id="currentUserName">Guest User</h3>
-                        <div class="user-rank rank-newbie" id="currentUserRank">Newbie</div>
-                    </div>
-                </div>
+                🌸 PinkCord
             </div>
-
-            <div class="sidebar-nav">
-                <div class="nav-item active" data-view="chat">
-                    <div class="nav-icon">💬</div>
-                    <span>General Chat</span>
-                </div>
-                <div class="nav-item" data-view="dms">
-                    <div class="nav-icon">📩</div>
-                    <span>Direct Messages</span>
-                </div>
-                <div class="nav-item" data-view="settings">
-                    <div class="nav-icon">⚙️</div>
-                    <span>Settings</span>
-                </div>
-                <div class="nav-item" data-view="profile">
-                    <div class="nav-icon">👤</div>
-                    <span>Profile</span>
-                </div>
-                <div class="nav-item" data-view="games">
-                    <div class="nav-icon">🎮</div>
-                    <span>Mini Games</span>
-                </div>
-                <div class="nav-item" data-view="music">
-                    <div class="nav-icon">🎵</div>
-                    <span>Music Player</span>
+            
+            <div class="user-profile">
+                <div class="avatar" id="userAvatar">U</div>
+                <div class="user-info">
+                    <h4 id="userDisplayName">Guest</h4>
+                    <span class="rank" id="userRank">Member</span>
                 </div>
             </div>
 
             <div class="online-users">
-                <h3>Online Friends</h3>
-                <div id="onlineUsersList">
-                    <!-- Online users will be populated here -->
-                </div>
+                <h3>Online Users</h3>
+                <div id="onlineUsersList"></div>
             </div>
         </div>
 
         <!-- Main Content -->
         <div class="main-content">
             <div class="chat-header">
-                <div class="chat-title">
-                    <button class="action-btn" id="mobileMenuBtn" style="display: none;">☰</button>
-                    <h2 id="chatTitle">💖 General Chat</h2>
-                </div>
-                <div class="chat-actions">
-                    <button class="action-btn" id="voiceCallBtn">🎤 Voice</button>
-                    <button class="action-btn" id="videoCallBtn">📹 Video</button>
-                    <button class="action-btn" id="screenShareBtn">🖥️ Share</button>
-                    <button class="action-btn" id="emojiBtn">😊</button>
+                <div class="chat-title"># General Chat</div>
+                <div class="header-buttons">
+                    <button class="btn btn-secondary" onclick="openSettings()">⚙️ Settings</button>
+                    <button class="btn btn-primary" onclick="openEventModal()" id="eventBtn" style="display: none;">🎉 Events</button>
                 </div>
             </div>
 
-            <div class="chat-messages" id="chatMessages">
-                <!-- Messages will be populated here -->
-            </div>
+            <div class="chat-messages" id="chatMessages"></div>
 
-            <div class="typing-indicator" id="typingIndicator">
-                <span class="typing-dots">Someone is typing...</span>
-            </div>
-
-            <div class="chat-input-container">
-                <div class="chat-input-wrapper">
-                    <input type="text" class="chat-input" id="messageInput" placeholder="Type your message here... 💖">
-                    <div class="input-actions">
-                        <button class="input-btn" id="attachBtn" title="Attach File">📎</button>
-                        <button class="input-btn" id="gifBtn" title="GIF">🎭</button>
-                        <button class="input-btn" id="stickerBtn" title="Stickers">🌟</button>
-                        <button class="input-btn" id="sendBtn" title="Send Message">➤</button>
-                    </div>
+            <div class="chat-input">
+                <div class="input-container">
+                    <input type="text" class="message-input" id="messageInput" placeholder="Type a message..." maxlength="500">
+                    <button class="send-btn" onclick="sendMessage()">➤</button>
                 </div>
             </div>
         </div>
@@ -665,656 +486,516 @@
     <div class="modal" id="settingsModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>⚙️ Settings</h2>
+                <h2 class="modal-title">Settings</h2>
                 <button class="close-btn" onclick="closeModal('settingsModal')">&times;</button>
             </div>
             <div class="form-group">
-                <label for="usernameInput">Username</label>
-                <input type="text" id="usernameInput" placeholder="Enter your username">
+                <label>Username:</label>
+                <input type="text" id="usernameInput" maxlength="20">
             </div>
             <div class="form-group">
-                <label for="displayNameInput">Display Name</label>
-                <input type="text" id="displayNameInput" placeholder="Enter your display name">
+                <label>Display Name:</label>
+                <input type="text" id="displayNameInput" maxlength="30">
             </div>
             <div class="form-group">
-                <label for="avatarInput">Avatar URL</label>
-                <input type="url" id="avatarInput" placeholder="Enter avatar image URL">
-            </div>
-            <div class="form-group">
-                <label for="statusInput">Status</label>
-                <select id="statusInput">
-                    <option value="online">🟢 Online</option>
-                    <option value="away">🟡 Away</option>
-                    <option value="busy">🔴 Busy</option>
-                    <option value="invisible">⚫ Invisible</option>
+                <label>Avatar Color:</label>
+                <select id="avatarColorSelect">
+                    <option value="#ff69b4">Pink</option>
+                    <option value="#ff6b6b">Red</option>
+                    <option value="#4ecdc4">Teal</option>
+                    <option value="#45b7d1">Blue</option>
+                    <option value="#96ceb4">Green</option>
+                    <option value="#feca57">Yellow</option>
+                    <option value="#a55eea">Purple</option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="bioInput">Bio</label>
-                <textarea id="bioInput" rows="3" placeholder="Tell us about yourself..."></textarea>
+                <label>Status Message:</label>
+                <input type="text" id="statusInput" maxlength="50" placeholder="What's on your mind?">
             </div>
-            <button class="btn-primary" onclick="saveSettings()">💾 Save Settings</button>
+            <button class="btn btn-primary" onclick="saveSettings()">Save Changes</button>
         </div>
     </div>
 
-    <!-- Profile Modal -->
-    <div class="modal" id="profileModal">
+    <!-- Event Modal -->
+    <div class="modal" id="eventModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>👤 Your Profile</h2>
-                <button class="close-btn" onclick="closeModal('profileModal')">&times;</button>
-            </div>
-            <div style="text-align: center; margin-bottom: 20px;">
-                <img src="/placeholder.svg?height=100&width=100" alt="Profile Avatar" id="profileAvatar" style="width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--pink-primary);">
-                <h3 id="profileName" style="margin: 10px 0; color: var(--pink-dark);">Guest User</h3>
-                <div class="rank-badge rank-newbie" id="profileRank">Newbie</div>
+                <h2 class="modal-title">Create Event</h2>
+                <button class="close-btn" onclick="closeModal('eventModal')">&times;</button>
             </div>
             <div class="form-group">
-                <label>Messages Sent</label>
-                <div style="font-size: 1.2rem; font-weight: bold; color: var(--pink-dark);" id="messageCount">0</div>
+                <label>Event Title:</label>
+                <input type="text" id="eventTitleInput" maxlength="50">
             </div>
             <div class="form-group">
-                <label>Time Online</label>
-                <div style="font-size: 1.2rem; font-weight: bold; color: var(--pink-dark);" id="timeOnline">0 minutes</div>
+                <label>Event Description:</label>
+                <input type="text" id="eventDescInput" maxlength="200">
             </div>
             <div class="form-group">
-                <label>Rank Progress</label>
-                <div style="background: var(--gray-light); height: 20px; border-radius: 10px; overflow: hidden;">
-                    <div id="rankProgress" style="background: linear-gradient(90deg, var(--pink-primary), var(--pink-dark)); height: 100%; width: 25%; transition: width 0.3s ease;"></div>
-                </div>
-                <small style="color: var(--gray-dark);">Send more messages to rank up!</small>
-            </div>
-        </div>
-    </div>
-
-    <!-- DM Modal -->
-    <div class="modal" id="dmModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>📩 Direct Messages</h2>
-                <button class="close-btn" onclick="closeModal('dmModal')">&times;</button>
-            </div>
-            <div class="dm-list" id="dmList">
-                <!-- DM conversations will be listed here -->
-            </div>
-            <div class="form-group">
-                <label for="dmUserSelect">Start New DM</label>
-                <select id="dmUserSelect">
-                    <option value="">Select a user...</option>
+                <label>Event Type:</label>
+                <select id="eventTypeSelect">
+                    <option value="announcement">📢 Announcement</option>
+                    <option value="game">🎮 Game Night</option>
+                    <option value="movie">🎬 Movie Night</option>
+                    <option value="contest">🏆 Contest</option>
+                    <option value="celebration">🎉 Celebration</option>
                 </select>
             </div>
-            <button class="btn-primary" onclick="startDM()">💌 Start Conversation</button>
+            <button class="btn btn-primary" onclick="createEvent()">Create Event</button>
         </div>
     </div>
 
-    <!-- Games Modal -->
-    <div class="modal" id="gamesModal">
+    <!-- Owner Commands Modal -->
+    <div class="modal" id="ownerModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>🎮 Mini Games</h2>
-                <button class="close-btn" onclick="closeModal('gamesModal')">&times;</button>
+                <h2 class="modal-title">👑 Owner Commands</h2>
+                <button class="close-btn" onclick="closeModal('ownerModal')">&times;</button>
             </div>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
-                <div class="game-card" onclick="playGame('trivia')" style="padding: 20px; background: var(--pink-light); border-radius: 10px; text-align: center; cursor: pointer;">
-                    <h3>🧠 Trivia Quiz</h3>
-                    <p>Test your knowledge!</p>
-                </div>
-                <div class="game-card" onclick="playGame('memory')" style="padding: 20px; background: var(--pink-light); border-radius: 10px; text-align: center; cursor: pointer;">
-                    <h3>🃏 Memory Game</h3>
-                    <p>Match the cards!</p>
-                </div>
-                <div class="game-card" onclick="playGame('word')" style="padding: 20px; background: var(--pink-light); border-radius: 10px; text-align: center; cursor: pointer;">
-                    <h3>📝 Word Game</h3>
-                    <p>Find the words!</p>
-                </div>
+            <div class="form-group">
+                <label>Select User:</label>
+                <select id="targetUserSelect"></select>
             </div>
-        </div>
-    </div>
-
-    <!-- Music Player Modal -->
-    <div class="modal" id="musicModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>🎵 Music Player</h2>
-                <button class="close-btn" onclick="closeModal('musicModal')">&times;</button>
+            <div class="form-group">
+                <label>Action:</label>
+                <select id="ownerActionSelect">
+                    <option value="rank">Change Rank</option>
+                    <option value="loser">Make Loser of the Week</option>
+                    <option value="kick">Kick User</option>
+                    <option value="mute">Mute User</option>
+                </select>
             </div>
-            <div style="text-align: center;">
-                <div style="width: 200px; height: 200px; background: linear-gradient(135deg, var(--pink-primary), var(--pink-dark)); border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 4rem;">🎵</div>
-                <h3 id="currentSong">No song playing</h3>
-                <div style="margin: 20px 0;">
-                    <button class="action-btn" onclick="previousSong()">⏮️</button>
-                    <button class="action-btn" id="playPauseBtn" onclick="togglePlay()">▶️</button>
-                    <button class="action-btn" onclick="nextSong()">⏭️</button>
-                </div>
-                <div style="background: var(--gray-light); height: 10px; border-radius: 5px; margin: 20px 0;">
-                    <div id="musicProgress" style="background: var(--pink-primary); height: 100%; width: 0%; border-radius: 5px; transition: width 0.3s ease;"></div>
-                </div>
-                <div class="form-group">
-                    <label>Volume</label>
-                    <input type="range" id="volumeSlider" min="0" max="100" value="50" style="width: 100%;">
-                </div>
+            <div class="form-group" id="rankSelectGroup">
+                <label>New Rank:</label>
+                <select id="newRankSelect">
+                    <option value="member">Member</option>
+                    <option value="vip">VIP</option>
+                    <option value="mod">Moderator</option>
+                    <option value="admin">Admin</option>
+                </select>
             </div>
+            <button class="btn btn-primary" onclick="executeOwnerCommand()">Execute</button>
         </div>
     </div>
 
     <script>
-        // Application State
-        let currentUser = {
-            id: 'user_' + Date.now(),
-            username: 'Guest' + Math.floor(Math.random() * 1000),
-            displayName: 'Guest User',
-            avatar: '/placeholder.svg?height=40&width=40',
-            rank: 'newbie',
-            status: 'online',
-            bio: 'New to PinkChat!',
-            messageCount: 0,
-            timeOnline: 0,
-            joinDate: new Date()
-        };
+        // Global variables
+        let currentUser = null;
+        let users = JSON.parse(localStorage.getItem('pinkcord_users') || '{}');
+        let messages = JSON.parse(localStorage.getItem('pinkcord_messages') || '[]');
+        let events = JSON.parse(localStorage.getItem('pinkcord_events') || '[]');
+        let isOwner = false;
+        let currentTheme = localStorage.getItem('pinkcord_theme') || 'light';
 
-        let messages = [];
-        let onlineUsers = [];
-        let currentView = 'chat';
-        let dmConversations = {};
-        let isTyping = false;
-        let typingTimeout;
-
-        // Music Player State
-        let musicPlaying = false;
-        let currentSongIndex = 0;
-        let musicProgress = 0;
-        const playlist = [
-            'Pink Dreams 💖',
-            'Friendship Forever 👯‍♀️',
-            'Chat Vibes 🎵',
-            'Digital Love 💕',
-            'Pixel Paradise 🌸'
-        ];
-
-        // Initialize App
+        // Initialize app
         document.addEventListener('DOMContentLoaded', function() {
-            initializeApp();
-            loadUserData();
-            generateSampleUsers();
-            generateSampleMessages();
-            setupEventListeners();
-            startOnlineTimer();
-        });
-
-        function initializeApp() {
-            updateUserDisplay();
+            initializeUser();
+            loadTheme();
+            loadMessages();
             updateOnlineUsers();
-            displayMessages();
-        }
-
-        function loadUserData() {
-            const savedUser = localStorage.getItem('pinkChatUser');
-            if (savedUser) {
-                currentUser = { ...currentUser, ...JSON.parse(savedUser) };
-                updateUserDisplay();
-            }
-        }
-
-        function saveUserData() {
-            localStorage.setItem('pinkChatUser', JSON.stringify(currentUser));
-        }
-
-        function generateSampleUsers() {
-            const sampleUsers = [
-                { id: 'user1', username: 'PinkPrincess', displayName: 'Pink Princess 👑', avatar: '/placeholder.svg?height=30&width=30', rank: 'vip', status: 'online' },
-                { id: 'user2', username: 'ChatMaster', displayName: 'Chat Master 🎯', avatar: '/placeholder.svg?height=30&width=30', rank: 'admin', status: 'online' },
-                { id: 'user3', username: 'FriendlyBot', displayName: 'Friendly Bot 🤖', avatar: '/placeholder.svg?height=30&width=30', rank: 'member', status: 'away' },
-                { id: 'user4', username: 'MusicLover', displayName: 'Music Lover 🎵', avatar: '/placeholder.svg?height=30&width=30', rank: 'member', status: 'online' },
-                { id: 'user5', username: 'GameGuru', displayName: 'Game Guru 🎮', avatar: '/placeholder.svg?height=30&width=30', rank: 'vip', status: 'busy' }
-            ];
             
-            onlineUsers = sampleUsers.filter(user => user.status === 'online');
-            updateOnlineUsers();
-        }
-
-        function generateSampleMessages() {
-            const sampleMessages = [
-                { id: 1, author: 'PinkPrincess', authorRank: 'vip', avatar: '/placeholder.svg?height=45&width=45', text: 'Welcome to PinkChat everyone! 💖', timestamp: new Date(Date.now() - 300000) },
-                { id: 2, author: 'ChatMaster', authorRank: 'admin', avatar: '/placeholder.svg?height=45&width=45', text: 'Hope you all enjoy the new features! Let me know if you need any help 😊', timestamp: new Date(Date.now() - 240000) },
-                { id: 3, author: 'MusicLover', authorRank: 'member', avatar: '/placeholder.svg?height=45&width=45', text: 'The music player is amazing! 🎵 Thanks for adding it!', timestamp: new Date(Date.now() - 180000) },
-                { id: 4, author: 'GameGuru', authorRank: 'vip', avatar: '/placeholder.svg?height=45&width=45', text: 'Who wants to play some mini games? 🎮', timestamp: new Date(Date.now() - 120000) }
-            ];
+            // Check if owner
+            checkOwnerStatus();
             
-            messages = sampleMessages;
-            displayMessages();
-        }
-
-        function setupEventListeners() {
-            // Navigation
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    const view = this.dataset.view;
-                    switchView(view);
-                });
-            });
-
-            // Message input
-            const messageInput = document.getElementById('messageInput');
-            messageInput.addEventListener('keypress', function(e) {
+            // Set up message input
+            document.getElementById('messageInput').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     sendMessage();
                 }
-                handleTyping();
             });
 
-            // Send button
-            document.getElementById('sendBtn').addEventListener('click', sendMessage);
+            // Auto-refresh every 2 seconds
+            setInterval(() => {
+                loadMessages();
+                updateOnlineUsers();
+            }, 2000);
+        });
 
-            // Mobile menu
-            document.getElementById('mobileMenuBtn').addEventListener('click', toggleMobileMenu);
+        // User initialization
+        function initializeUser() {
+            let userId = localStorage.getItem('pinkcord_userId');
+            if (!userId) {
+                userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                localStorage.setItem('pinkcord_userId', userId);
+            }
 
-            // Action buttons
-            document.getElementById('voiceCallBtn').addEventListener('click', () => showNotification('Voice call feature coming soon! 🎤'));
-            document.getElementById('videoCallBtn').addEventListener('click', () => showNotification('Video call feature coming soon! 📹'));
-            document.getElementById('screenShareBtn').addEventListener('click', () => showNotification('Screen share feature coming soon! 🖥️'));
-            document.getElementById('emojiBtn').addEventListener('click', () => showNotification('Emoji picker coming soon! 😊'));
+            if (!users[userId]) {
+                users[userId] = {
+                    id: userId,
+                    username: 'User' + Math.floor(Math.random() * 1000),
+                    displayName: 'New User',
+                    rank: 'member',
+                    avatarColor: '#ff69b4',
+                    status: 'Hello everyone!',
+                    lastSeen: Date.now(),
+                    joinDate: Date.now()
+                };
+                saveUsers();
+            }
 
-            // Input action buttons
-            document.getElementById('attachBtn').addEventListener('click', () => showNotification('File attachment coming soon! 📎'));
-            document.getElementById('gifBtn').addEventListener('click', () => showNotification('GIF picker coming soon! 🎭'));
-            document.getElementById('stickerBtn').addEventListener('click', () => showNotification('Sticker pack coming soon! 🌟'));
-
-            // Responsive design
-            window.addEventListener('resize', handleResize);
-            handleResize();
+            currentUser = users[userId];
+            currentUser.lastSeen = Date.now();
+            saveUsers();
+            updateUserProfile();
         }
 
-        function switchView(view) {
-            currentView = view;
-            
-            // Update navigation
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
-            });
-            document.querySelector(`[data-view="${view}"]`).classList.add('active');
-
-            // Handle view switching
-            switch(view) {
-                case 'chat':
-                    document.getElementById('chatTitle').textContent = '💖 General Chat';
-                    break;
-                case 'dms':
-                    openModal('dmModal');
-                    updateDMList();
-                    break;
-                case 'settings':
-                    openModal('settingsModal');
-                    loadSettingsForm();
-                    break;
-                case 'profile':
-                    openModal('profileModal');
-                    updateProfileModal();
-                    break;
-                case 'games':
-                    openModal('gamesModal');
-                    break;
-                case 'music':
-                    openModal('musicModal');
-                    updateMusicPlayer();
-                    break;
+        // Check owner status
+        async function checkOwnerStatus() {
+            try {
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                const userIP = data.ip;
+                
+                // Replace with your actual IP address
+                const ownerIPs = ['YOUR_IP_HERE', '127.0.0.1', 'localhost'];
+                
+                if (ownerIPs.includes(userIP)) {
+                    isOwner = true;
+                    currentUser.rank = 'owner';
+                    document.getElementById('eventBtn').style.display = 'block';
+                    
+                    // Add owner commands button
+                    const headerButtons = document.querySelector('.header-buttons');
+                    const ownerBtn = document.createElement('button');
+                    ownerBtn.className = 'btn btn-primary';
+                    ownerBtn.innerHTML = '👑 Owner';
+                    ownerBtn.onclick = () => openOwnerModal();
+                    headerButtons.appendChild(ownerBtn);
+                    
+                    saveUsers();
+                    updateUserProfile();
+                }
+            } catch (error) {
+                console.log('Could not detect IP for owner verification');
             }
         }
 
+        // Theme functions
+        function toggleTheme() {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            loadTheme();
+            localStorage.setItem('pinkcord_theme', currentTheme);
+        }
+
+        function loadTheme() {
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            const themeBtn = document.querySelector('.theme-toggle button');
+            themeBtn.innerHTML = currentTheme === 'light' ? '🌙' : '☀️';
+        }
+
+        // User profile functions
+        function updateUserProfile() {
+            document.getElementById('userAvatar').textContent = currentUser.username.charAt(0).toUpperCase();
+            document.getElementById('userAvatar').style.backgroundColor = currentUser.avatarColor;
+            document.getElementById('userDisplayName').textContent = currentUser.displayName;
+            document.getElementById('userRank').textContent = currentUser.rank.charAt(0).toUpperCase() + currentUser.rank.slice(1);
+            document.getElementById('userRank').className = `rank rank-${currentUser.rank}`;
+        }
+
+        // Settings functions
+        function openSettings() {
+            document.getElementById('usernameInput').value = currentUser.username;
+            document.getElementById('displayNameInput').value = currentUser.displayName;
+            document.getElementById('avatarColorSelect').value = currentUser.avatarColor;
+            document.getElementById('statusInput').value = currentUser.status;
+            document.getElementById('settingsModal').style.display = 'block';
+        }
+
+        function saveSettings() {
+            const username = document.getElementById('usernameInput').value.trim();
+            const displayName = document.getElementById('displayNameInput').value.trim();
+            const avatarColor = document.getElementById('avatarColorSelect').value;
+            const status = document.getElementById('statusInput').value.trim();
+
+            if (username && displayName) {
+                currentUser.username = username;
+                currentUser.displayName = displayName;
+                currentUser.avatarColor = avatarColor;
+                currentUser.status = status;
+                
+                saveUsers();
+                updateUserProfile();
+                closeModal('settingsModal');
+                
+                addSystemMessage(`${displayName} updated their profile`);
+            }
+        }
+
+        // Chat functions
         function sendMessage() {
             const input = document.getElementById('messageInput');
-            const text = input.value.trim();
+            const message = input.value.trim();
             
-            if (text) {
-                const message = {
-                    id: Date.now(),
-                    author: currentUser.displayName,
-                    authorRank: currentUser.rank,
-                    avatar: currentUser.avatar,
-                    text: text,
-                    timestamp: new Date()
-                };
+            if (message) {
+                // Check for commands
+                if (message.startsWith('/') && isOwner) {
+                    handleOwnerCommand(message);
+                } else {
+                    const newMessage = {
+                        id: Date.now(),
+                        userId: currentUser.id,
+                        username: currentUser.username,
+                        displayName: currentUser.displayName,
+                        message: message,
+                        timestamp: Date.now(),
+                        avatarColor: currentUser.avatarColor,
+                        rank: currentUser.rank
+                    };
+                    
+                    messages.push(newMessage);
+                    saveMessages();
+                    loadMessages();
+                }
                 
-                messages.push(message);
-                displayMessages();
                 input.value = '';
-                
-                // Update user stats
-                currentUser.messageCount++;
-                updateRank();
-                saveUserData();
-                
-                // Simulate other users responding
-                setTimeout(() => {
-                    simulateResponse();
-                }, Math.random() * 3000 + 1000);
             }
         }
 
-        function simulateResponse() {
-            const responses = [
-                'That\'s awesome! 😊',
-                'I totally agree! 💖',
-                'Interesting point! 🤔',
-                'Thanks for sharing! 🙏',
-                'Love this community! 💕',
-                'Great message! ⭐',
-                'So true! 👍',
-                'Amazing! 🌟'
-            ];
+        function handleOwnerCommand(command) {
+            const parts = command.split(' ');
+            const cmd = parts[0].toLowerCase();
             
-            const randomUser = onlineUsers[Math.floor(Math.random() * onlineUsers.length)];
-            const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-            
-            if (randomUser) {
-                const message = {
-                    id: Date.now(),
-                    author: randomUser.displayName,
-                    authorRank: randomUser.rank,
-                    avatar: randomUser.avatar,
-                    text: randomResponse,
-                    timestamp: new Date()
-                };
-                
-                messages.push(message);
-                displayMessages();
+            switch(cmd) {
+                case '/announce':
+                    const announcement = parts.slice(1).join(' ');
+                    addEventMessage('📢 ANNOUNCEMENT', announcement);
+                    break;
+                case '/clear':
+                    messages = [];
+                    saveMessages();
+                    loadMessages();
+                    addSystemMessage('Chat cleared by owner');
+                    break;
+                default:
+                    addSystemMessage('Unknown command. Available: /announce, /clear');
             }
         }
 
-        function displayMessages() {
+        function loadMessages() {
             const container = document.getElementById('chatMessages');
             container.innerHTML = '';
             
-            messages.forEach(message => {
-                const messageEl = document.createElement('div');
-                messageEl.className = 'message';
-                messageEl.innerHTML = `
-                    <img src="${message.avatar}" alt="${message.author}" class="message-avatar">
-                    <div class="message-content">
-                        <div class="message-header">
-                            <span class="message-author">${message.author}</span>
-                            <span class="message-rank rank-${message.authorRank}">${message.authorRank}</span>
-                            <span class="message-time">${formatTime(message.timestamp)}</span>
-                        </div>
-                        <div class="message-text">${message.text}</div>
-                        <div class="message-actions">
-                            <button class="msg-action" onclick="likeMessage(${message.id})" title="Like">👍</button>
-                            <button class="msg-action" onclick="replyToMessage(${message.id})" title="Reply">💬</button>
-                            <button class="msg-action" onclick="shareMessage(${message.id})" title="Share">📤</button>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(messageEl);
+            messages.slice(-50).forEach(msg => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message';
+                
+                const avatar = document.createElement('div');
+                avatar.className = 'avatar';
+                avatar.textContent = msg.username.charAt(0).toUpperCase();
+                avatar.style.backgroundColor = msg.avatarColor;
+                
+                const content = document.createElement('div');
+                content.className = 'message-content';
+                
+                const header = document.createElement('div');
+                header.className = 'message-header';
+                
+                const username = document.createElement('span');
+                username.className = 'username';
+                username.textContent = msg.displayName;
+                
+                const rank = document.createElement('span');
+                rank.className = `rank rank-${msg.rank}`;
+                rank.textContent = msg.rank.charAt(0).toUpperCase() + msg.rank.slice(1);
+                
+                const timestamp = document.createElement('span');
+                timestamp.className = 'timestamp';
+                timestamp.textContent = new Date(msg.timestamp).toLocaleTimeString();
+                
+                const messageText = document.createElement('div');
+                messageText.textContent = msg.message;
+                
+                header.appendChild(username);
+                header.appendChild(rank);
+                header.appendChild(timestamp);
+                content.appendChild(header);
+                content.appendChild(messageText);
+                messageDiv.appendChild(avatar);
+                messageDiv.appendChild(content);
+                
+                container.appendChild(messageDiv);
             });
             
             container.scrollTop = container.scrollHeight;
         }
 
-        function updateUserDisplay() {
-            document.getElementById('currentUserName').textContent = currentUser.displayName;
-            document.getElementById('currentUserRank').textContent = currentUser.rank;
-            document.getElementById('currentUserRank').className = `user-rank rank-${currentUser.rank}`;
-            document.getElementById('currentUserAvatar').src = currentUser.avatar;
+        function addSystemMessage(text) {
+            const systemMsg = document.createElement('div');
+            systemMsg.className = 'system-message';
+            systemMsg.textContent = text;
+            document.getElementById('chatMessages').appendChild(systemMsg);
         }
 
+        function addEventMessage(title, description) {
+            const eventMsg = document.createElement('div');
+            eventMsg.className = 'event-message';
+            eventMsg.innerHTML = `<strong>${title}</strong><br>${description}`;
+            document.getElementById('chatMessages').appendChild(eventMsg);
+        }
+
+        // Online users
         function updateOnlineUsers() {
             const container = document.getElementById('onlineUsersList');
             container.innerHTML = '';
             
-            onlineUsers.forEach(user => {
-                const userEl = document.createElement('div');
-                userEl.className = 'user-item online';
-                userEl.innerHTML = `
-                    <img src="${user.avatar}" alt="${user.username}">
-                    <span>${user.displayName}</span>
-                `;
-                userEl.addEventListener('click', () => startDMWithUser(user));
-                container.appendChild(userEl);
+            const now = Date.now();
+            const onlineThreshold = 5 * 60 * 1000; // 5 minutes
+            
+            Object.values(users).forEach(user => {
+                if (now - user.lastSeen < onlineThreshold) {
+                    const userDiv = document.createElement('div');
+                    userDiv.className = 'user-item';
+                    userDiv.onclick = () => startDM(user);
+                    
+                    const avatar = document.createElement('div');
+                    avatar.className = 'avatar';
+                    avatar.textContent = user.username.charAt(0).toUpperCase();
+                    avatar.style.backgroundColor = user.avatarColor;
+                    
+                    const status = document.createElement('div');
+                    status.className = 'status-indicator';
+                    
+                    const info = document.createElement('div');
+                    info.innerHTML = `<strong>${user.displayName}</strong><br><small class="rank rank-${user.rank}">${user.rank}</small>`;
+                    
+                    avatar.appendChild(status);
+                    userDiv.appendChild(avatar);
+                    userDiv.appendChild(info);
+                    container.appendChild(userDiv);
+                }
             });
         }
 
-        function updateRank() {
-            const messageCount = currentUser.messageCount;
-            let newRank = 'newbie';
-            
-            if (messageCount >= 100) newRank = 'owner';
-            else if (messageCount >= 50) newRank = 'admin';
-            else if (messageCount >= 25) newRank = 'vip';
-            else if (messageCount >= 10) newRank = 'member';
-            
-            if (newRank !== currentUser.rank) {
-                currentUser.rank = newRank;
-                showNotification(`Congratulations! You've been promoted to ${newRank}! 🎉`);
-                updateUserDisplay();
+        // Event functions
+        function openEventModal() {
+            if (isOwner) {
+                document.getElementById('eventModal').style.display = 'block';
             }
         }
 
-        function handleTyping() {
-            if (!isTyping) {
-                isTyping = true;
-                document.getElementById('typingIndicator').classList.add('show');
-            }
+        function createEvent() {
+            const title = document.getElementById('eventTitleInput').value.trim();
+            const description = document.getElementById('eventDescInput').value.trim();
+            const type = document.getElementById('eventTypeSelect').value;
             
-            clearTimeout(typingTimeout);
-            typingTimeout = setTimeout(() => {
-                isTyping = false;
-                document.getElementById('typingIndicator').classList.remove('show');
-            }, 2000);
-        }
-
-        function formatTime(date) {
-            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        }
-
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.add('active');
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
-        }
-
-        function loadSettingsForm() {
-            document.getElementById('usernameInput').value = currentUser.username;
-            document.getElementById('displayNameInput').value = currentUser.displayName;
-            document.getElementById('avatarInput').value = currentUser.avatar;
-            document.getElementById('statusInput').value = currentUser.status;
-            document.getElementById('bioInput').value = currentUser.bio;
-        }
-
-        function saveSettings() {
-            currentUser.username = document.getElementById('usernameInput').value || currentUser.username;
-            currentUser.displayName = document.getElementById('displayNameInput').value || currentUser.displayName;
-            currentUser.avatar = document.getElementById('avatarInput').value || currentUser.avatar;
-            currentUser.status = document.getElementById('statusInput').value;
-            currentUser.bio = document.getElementById('bioInput').value || currentUser.bio;
-            
-            updateUserDisplay();
-            saveUserData();
-            closeModal('settingsModal');
-            showNotification('Settings saved successfully! 💾');
-        }
-
-        function updateProfileModal() {
-            document.getElementById('profileAvatar').src = currentUser.avatar;
-            document.getElementById('profileName').textContent = currentUser.displayName;
-            document.getElementById('profileRank').textContent = currentUser.rank;
-            document.getElementById('profileRank').className = `rank-badge rank-${currentUser.rank}`;
-            document.getElementById('messageCount').textContent = currentUser.messageCount;
-            document.getElementById('timeOnline').textContent = Math.floor(currentUser.timeOnline / 60) + ' minutes';
-            
-            // Update rank progress
-            const progress = Math.min((currentUser.messageCount % 25) / 25 * 100, 100);
-            document.getElementById('rankProgress').style.width = progress + '%';
-        }
-
-        function updateDMList() {
-            const container = document.getElementById('dmList');
-            const select = document.getElementById('dmUserSelect');
-            
-            container.innerHTML = '';
-            select.innerHTML = '<option value="">Select a user...</option>';
-            
-            onlineUsers.forEach(user => {
-                // Add to select dropdown
-                const option = document.createElement('option');
-                option.value = user.id;
-                option.textContent = user.displayName;
-                select.appendChild(option);
+            if (title && description) {
+                const event = {
+                    id: Date.now(),
+                    title,
+                    description,
+                    type,
+                    creator: currentUser.displayName,
+                    timestamp: Date.now()
+                };
                 
-                // Add to DM list if conversation exists
-                if (dmConversations[user.id]) {
-                    const dmEl = document.createElement('div');
-                    dmEl.className = 'dm-item';
-                    dmEl.innerHTML = `
-                        <img src="${user.avatar}" alt="${user.username}">
-                        <div>
-                            <div style="font-weight: bold;">${user.displayName}</div>
-                            <div style="font-size: 0.8rem; color: var(--gray-dark);">Click to open chat</div>
-                        </div>
-                    `;
-                    dmEl.addEventListener('click', () => openDMChat(user));
-                    container.appendChild(dmEl);
+                events.push(event);
+                localStorage.setItem('pinkcord_events', JSON.stringify(events));
+                
+                const typeEmojis = {
+                    announcement: '📢',
+                    game: '🎮',
+                    movie: '🎬',
+                    contest: '🏆',
+                    celebration: '🎉'
+                };
+                
+                addEventMessage(`${typeEmojis[type]} ${title}`, description);
+                closeModal('eventModal');
+                
+                // Clear form
+                document.getElementById('eventTitleInput').value = '';
+                document.getElementById('eventDescInput').value = '';
+            }
+        }
+
+        // Owner commands
+        function openOwnerModal() {
+            if (isOwner) {
+                updateTargetUserSelect();
+                document.getElementById('ownerModal').style.display = 'block';
+            }
+        }
+
+        function updateTargetUserSelect() {
+            const select = document.getElementById('targetUserSelect');
+            select.innerHTML = '';
+            
+            Object.values(users).forEach(user => {
+                if (user.id !== currentUser.id) {
+                    const option = document.createElement('option');
+                    option.value = user.id;
+                    option.textContent = user.displayName;
+                    select.appendChild(option);
                 }
             });
         }
 
-        function startDM() {
-            const select = document.getElementById('dmUserSelect');
-            const userId = select.value;
+        function executeOwnerCommand() {
+            const targetUserId = document.getElementById('targetUserSelect').value;
+            const action = document.getElementById('ownerActionSelect').value;
+            const targetUser = users[targetUserId];
             
-            if (userId) {
-                const user = onlineUsers.find(u => u.id === userId);
-                if (user) {
-                    startDMWithUser(user);
-                }
-            }
-        }
-
-        function startDMWithUser(user) {
-            if (!dmConversations[user.id]) {
-                dmConversations[user.id] = [];
-            }
-            showNotification(`Started DM with ${user.displayName}! 💌`);
-            closeModal('dmModal');
-        }
-
-        function playGame(gameType) {
-            let message = '';
-            switch(gameType) {
-                case 'trivia':
-                    message = 'Trivia Quiz starting soon! 🧠';
+            if (!targetUser) return;
+            
+            switch(action) {
+                case 'rank':
+                    const newRank = document.getElementById('newRankSelect').value;
+                    targetUser.rank = newRank;
+                    addSystemMessage(`${targetUser.displayName} has been promoted to ${newRank}`);
                     break;
-                case 'memory':
-                    message = 'Memory Game loading... 🃏';
+                case 'loser':
+                    targetUser.rank = 'loser';
+                    addEventMessage('🏆 LOSER OF THE WEEK', `${targetUser.displayName} has been crowned the Loser of the Week! 😅`);
                     break;
-                case 'word':
-                    message = 'Word Game ready to play! 📝';
+                case 'kick':
+                    addSystemMessage(`${targetUser.displayName} has been kicked from the server`);
+                    break;
+                case 'mute':
+                    addSystemMessage(`${targetUser.displayName} has been muted`);
                     break;
             }
-            showNotification(message);
-            closeModal('gamesModal');
-        }
-
-        function updateMusicPlayer() {
-            document.getElementById('currentSong').textContent = playlist[currentSongIndex];
-        }
-
-        function togglePlay() {
-            musicPlaying = !musicPlaying;
-            const btn = document.getElementById('playPauseBtn');
-            btn.textContent = musicPlaying ? '⏸️' : '▶️';
             
-            if (musicPlaying) {
-                startMusicProgress();
-                showNotification(`Now playing: ${playlist[currentSongIndex]} 🎵`);
-            }
+            saveUsers();
+            closeModal('ownerModal');
         }
 
-        function previousSong() {
-            currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
-            updateMusicPlayer();
-            if (musicPlaying) {
-                showNotification(`Now playing: ${playlist[currentSongIndex]} 🎵`);
-            }
+        // DM functions
+        function startDM(user) {
+            alert(`DM feature with ${user.displayName} - Coming soon!`);
         }
 
-        function nextSong() {
-            currentSongIndex = (currentSongIndex + 1) % playlist.length;
-            updateMusicPlayer();
-            if (musicPlaying) {
-                showNotification(`Now playing: ${playlist[currentSongIndex]} 🎵`);
-            }
+        // Modal functions
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
         }
 
-        function startMusicProgress() {
-            if (musicPlaying) {
-                musicProgress += 2;
-                if (musicProgress >= 100) {
-                    musicProgress = 0;
-                    nextSong();
-                }
-                document.getElementById('musicProgress').style.width = musicProgress + '%';
-                setTimeout(startMusicProgress, 1000);
-            }
+        // Storage functions
+        function saveUsers() {
+            localStorage.setItem('pinkcord_users', JSON.stringify(users));
         }
 
-        function likeMessage(messageId) {
-            showNotification('Message liked! 👍');
-        }
-
-        function replyToMessage(messageId) {
-            const input = document.getElementById('messageInput');
-            input.focus();
-            showNotification('Reply mode activated! 💬');
-        }
-
-        function shareMessage(messageId) {
-            showNotification('Message shared! 📤');
-        }
-
-        function showNotification(message) {
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.textContent = message;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => notification.classList.add('show'), 100);
-            setTimeout(() => {
-                notification.classList.remove('show');
-                setTimeout(() => document.body.removeChild(notification), 300);
-            }, 3000);
-        }
-
-        function startOnlineTimer() {
-            setInterval(() => {
-                currentUser.timeOnline++;
-                saveUserData();
-            }, 60000); // Update every minute
-        }
-
-        function toggleMobileMenu() {
-            document.getElementById('sidebar').classList.toggle('mobile-open');
-        }
-
-        function handleResize() {
-            const mobileBtn = document.getElementById('mobileMenuBtn');
-            if (window.innerWidth <= 768) {
-                mobileBtn.style.display = 'block';
-            } else {
-                mobileBtn.style.display = 'none';
-                document.getElementById('sidebar').classList.remove('mobile-open');
-            }
+        function saveMessages() {
+            localStorage.setItem('pinkcord_messages', JSON.stringify(messages));
         }
 
         // Close modals when clicking outside
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('modal')) {
-                e.target.classList.remove('active');
-            }
-        });
+        window.onclick = function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
 
-        // Auto-save user data periodically
-        setInterval(saveUserData, 30000); // Save every 30 seconds
+        // Update user activity
+        setInterval(() => {
+            if (currentUser) {
+                currentUser.lastSeen = Date.now();
+                saveUsers();
+            }
+        }, 30000); // Update every 30 seconds
     </script>
 </body>
 </html>
