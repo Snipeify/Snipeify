@@ -1,145 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>About Me</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html, body {
-      height: 100%;
-      font-family: 'Poppins', sans-serif;
-      background: #1a1a1a;
-      color: white;
-      overflow: hidden;
-    }
-
-    body::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(145deg, #ff69b4, #ffb6c1);
-      opacity: 0.15;
-      z-index: 0;
-    }
-
-    #tsparticles {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-    }
-
-    .container {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: 100vh;
-      padding: 4rem;
-    }
-
-    .content {
-      max-width: 600px;
-    }
-
-    .content h1 {
-      font-size: 3rem;
-      color: #fff;
-      text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4;
-      margin-bottom: 1rem;
-    }
-
-    .content p {
-      font-size: 1.2rem;
-      line-height: 1.7;
-      color: #eaeaea;
-      background: rgba(255, 255, 255, 0.05);
-      padding: 1rem;
-      border-radius: 10px;
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.1);
-      box-shadow: 0 0 20px rgba(255,105,180, 0.2);
-    }
-
-    .avatar {
-      width: 300px;
-      height: 300px;
-      border-radius: 50%;
-      object-fit: cover;
-      box-shadow: 0 0 30px #ff69b4;
-      border: 4px solid white;
-    }
-
-    @media (max-width: 900px) {
-      .container {
-        flex-direction: column;
-        padding: 2rem;
-        text-align: center;
-      }
-
-      .avatar {
-        margin-top: 2rem;
-      }
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Me - Pink Glow</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
 </head>
 <body>
-  <div id="tsparticles"></div>
+  <div id="particles-js"></div>
   <div class="container">
-    <div class="content">
-      <h1>About Me</h1>
-      <p>
-        Hey! I'm a passionate developer who loves working on cool tech projects — especially involving Roblox scripting, mods, executors, and more. <br><br>
-        I enjoy creating powerful, visually-stylish tools with a focus on both design and functionality. Whether it's LuaU, C#, or a new challenge — I go all in.
-      </p>
+    <div class="left">
+      <h1>Hello, I'm <span class="glow">You</span></h1>
+      <p>Welcome to my personal space. This website includes forums, live chat, and more.</p>
+      <button onclick="toggleLogin()">Login / Register</button>
     </div>
-    <img src="images/Me.png" alt="Me" class="avatar">
+    <div class="right">
+      <img src="images/Me.png" alt="Me">
+    </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/tsparticles@3/tsparticles.bundle.min.js"></script>
-  <script>
-    tsParticles.load("tsparticles", {
-      fullScreen: { enable: false },
-      background: { color: "#1a1a1a" },
-      particles: {
-        number: { value: 50 },
-        color: { value: "#ff69b4" },
-        shape: { type: "circle" },
-        opacity: { value: 0.5 },
-        size: { value: 3 },
-        move: {
-          enable: true,
-          speed: 1,
-          direction: "none",
-          outModes: { default: "out" }
-        },
-        links: {
-          enable: true,
-          color: "#ff69b4",
-          distance: 100,
-          opacity: 0.3
-        }
-      },
-      interactivity: {
-        events: {
-          onHover: { enable: true, mode: "repulse" }
-        },
-        modes: {
-          repulse: { distance: 100 }
-        }
-      }
-    });
-  </script>
+  <div class="login-modal" id="loginModal">
+    <div class="login-box">
+      <h2>Login / Register</h2>
+      <input type="email" id="email" placeholder="Email" />
+      <input type="password" id="password" placeholder="Password" />
+      <button onclick="login()">Login</button>
+      <button onclick="register()">Register</button>
+      <button onclick="toggleLogin()">Close</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
