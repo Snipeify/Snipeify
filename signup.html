@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Black Opal Chat</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/themes.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="theme-black-opal">
+    <div class="auth-page">
+        <div class="auth-container">
+            <div class="auth-header">
+                <img src="assets/logo.png" alt="Black Opal Chat" class="auth-logo">
+                <h1>Join Black Opal Chat</h1>
+                <p>Create your account and connect with friends</p>
+            </div>
+            
+            <form id="signupForm" class="auth-form">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" required minlength="3" maxlength="20">
+                    <small>3-20 characters, letters and numbers only</small>
+                </div>
+                
+                <div class="input-group">
+                    <label for="displayName">Display Name</label>
+                    <input type="text" id="displayName" required maxlength="32">
+                    <small>This is how others will see you</small>
+                </div>
+                
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                    <small>We'll never share your email</small>
+                </div>
+                
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required minlength="6">
+                    <small>At least 6 characters</small>
+                </div>
+                
+                <div class="input-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+                
+                <button type="submit" class="btn-primary">Create Account</button>
+            </form>
+            
+            <p class="auth-switch">Already have an account? <a href="index.html">Login here</a></p>
+        </div>
+    </div>
+    
+    <script src="js/config.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/signup.js"></script>
+</body>
+</html>
