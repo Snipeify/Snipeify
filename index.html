@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PinkChat - Discord for Friends</title>
+    <title>PinkCord - Chat with Friends</title>
     <style>
         * {
             margin: 0;
@@ -22,10 +22,7 @@
             display: flex;
             height: 100vh;
             background: white;
-            border-radius: 12px;
-            margin: 10px;
-            box-shadow: 0 20px 40px rgba(236, 72, 153, 0.3);
-            overflow: hidden;
+            box-shadow: 0 0 50px rgba(236, 72, 153, 0.3);
         }
 
         /* Sidebar */
@@ -44,110 +41,119 @@
             text-align: center;
         }
 
-        .sidebar-header h1 {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
         .user-info {
             background: rgba(255, 255, 255, 0.1);
             padding: 15px;
-            border-radius: 8px;
+            border-radius: 10px;
             margin: 10px 0;
         }
 
         .user-avatar {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
             background: linear-gradient(45deg, #fbbf24, #f59e0b);
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 20px;
             font-weight: bold;
-            margin-bottom: 8px;
+            color: white;
+            margin: 0 auto 10px;
+            border: 3px solid white;
         }
 
-        .user-details h3 {
-            font-size: 0.9rem;
-            margin-bottom: 2px;
+        .user-details {
+            text-align: center;
+        }
+
+        .username {
+            font-weight: bold;
+            margin-bottom: 5px;
         }
 
         .user-rank {
-            font-size: 0.7rem;
-            opacity: 0.8;
+            font-size: 12px;
             background: rgba(255, 255, 255, 0.2);
-            padding: 2px 6px;
-            border-radius: 10px;
+            padding: 2px 8px;
+            border-radius: 12px;
             display: inline-block;
-        }
-
-        .nav-section {
-            padding: 0 20px;
-            margin: 20px 0;
-        }
-
-        .nav-section h4 {
-            font-size: 0.8rem;
-            opacity: 0.7;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .nav-item {
-            padding: 10px 15px;
-            margin: 5px 0;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .nav-item:hover, .nav-item.active {
-            background: rgba(255, 255, 255, 0.2);
         }
 
         .online-users {
             flex: 1;
+            padding: 20px;
             overflow-y: auto;
-            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .user-item {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 8px 10px;
-            border-radius: 6px;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 5px;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin: 3px 0;
         }
 
         .user-item:hover {
             background: rgba(255, 255, 255, 0.1);
         }
 
-        .user-item .avatar {
-            width: 30px;
-            height: 30px;
+        .user-item.active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .user-item-avatar {
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
-            background: linear-gradient(45deg, #fbbf24, #f59e0b);
+            background: linear-gradient(45deg, #8b5cf6, #a855f7);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.8rem;
+            font-size: 14px;
             font-weight: bold;
+            margin-right: 12px;
+            border: 2px solid white;
         }
 
-        .user-item .status {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
+        .user-item-info {
+            flex: 1;
+        }
+
+        .user-item-name {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .user-item-status {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .online-indicator {
+            width: 10px;
+            height: 10px;
             background: #10b981;
+            border-radius: 50%;
+            border: 2px solid white;
             margin-left: auto;
         }
 
@@ -164,19 +170,14 @@
             padding: 20px;
             border-bottom: 2px solid #fce7f3;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
         }
 
         .chat-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .chat-title h2 {
+            font-size: 20px;
+            font-weight: bold;
             color: #be185d;
-            font-size: 1.3rem;
         }
 
         .chat-actions {
@@ -184,52 +185,36 @@
             gap: 10px;
         }
 
-        .btn {
-            padding: 8px 16px;
+        .action-btn {
+            background: linear-gradient(135deg, #ec4899, #be185d);
+            color: white;
             border: none;
-            border-radius: 20px;
+            padding: 10px 15px;
+            border-radius: 8px;
             cursor: pointer;
+            font-size: 14px;
             font-weight: 500;
             transition: all 0.3s ease;
         }
 
-        .btn-primary {
-            background: linear-gradient(45deg, #ec4899, #be185d);
-            color: white;
-        }
-
-        .btn-primary:hover {
+        .action-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(236, 72, 153, 0.4);
         }
 
-        .btn-secondary {
-            background: #fce7f3;
-            color: #be185d;
-            border: 1px solid #f9a8d4;
-        }
-
-        .btn-secondary:hover {
-            background: #fbcfe8;
-        }
-
-        /* Chat Messages */
         .chat-messages {
             flex: 1;
-            overflow-y: auto;
             padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+            overflow-y: auto;
+            background: linear-gradient(180deg, #fdf2f8 0%, #fce7f3 100%);
         }
 
         .message {
-            display: flex;
-            gap: 12px;
-            padding: 10px;
-            border-radius: 12px;
             background: white;
-            box-shadow: 0 2px 8px rgba(236, 72, 153, 0.1);
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(236, 72, 153, 0.1);
             animation: slideIn 0.3s ease;
         }
 
@@ -244,108 +229,87 @@
             }
         }
 
-        .message.own {
-            background: linear-gradient(45deg, #ec4899, #be185d);
-            color: white;
-            margin-left: 50px;
-        }
-
-        .message-avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #fbbf24, #f59e0b);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 0.8rem;
-            flex-shrink: 0;
-        }
-
-        .message-content {
-            flex: 1;
-        }
-
         .message-header {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 4px;
+            margin-bottom: 8px;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ec4899, #be185d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            margin-right: 12px;
+        }
+
+        .message-info {
+            flex: 1;
         }
 
         .message-author {
-            font-weight: 600;
-            font-size: 0.9rem;
+            font-weight: bold;
+            color: #be185d;
+            margin-right: 10px;
         }
 
         .message-time {
-            font-size: 0.7rem;
-            opacity: 0.6;
+            font-size: 12px;
+            color: #9ca3af;
         }
 
-        .message-rank {
-            font-size: 0.6rem;
-            background: rgba(236, 72, 153, 0.2);
-            color: #be185d;
-            padding: 2px 6px;
-            border-radius: 8px;
+        .message-content {
+            color: #374151;
+            line-height: 1.5;
         }
 
-        .message.own .message-rank {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-        }
-
-        .message-text {
-            font-size: 0.9rem;
-            line-height: 1.4;
-        }
-
-        /* Chat Input */
-        .chat-input {
+        .chat-input-container {
             background: white;
             padding: 20px;
             border-top: 2px solid #fce7f3;
         }
 
-        .input-container {
+        .chat-input-wrapper {
             display: flex;
             gap: 10px;
             align-items: center;
         }
 
-        .message-input {
+        .chat-input {
             flex: 1;
-            padding: 12px 16px;
+            padding: 15px;
             border: 2px solid #fce7f3;
             border-radius: 25px;
+            font-size: 16px;
             outline: none;
-            font-size: 0.9rem;
             transition: all 0.3s ease;
         }
 
-        .message-input:focus {
+        .chat-input:focus {
             border-color: #ec4899;
             box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
         }
 
         .send-btn {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #ec4899, #be185d);
-            border: none;
+            background: linear-gradient(135deg, #ec4899, #be185d);
             color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 50%;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-size: 16px;
             transition: all 0.3s ease;
         }
 
         .send-btn:hover {
             transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(236, 72, 153, 0.4);
         }
 
         /* Modal Styles */
@@ -358,28 +322,29 @@
             height: 100%;
             background: rgba(0, 0, 0, 0.5);
             z-index: 1000;
-            align-items: center;
-            justify-content: center;
+            animation: fadeIn 0.3s ease;
         }
 
-        .modal.show {
-            display: flex;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .modal-content {
             background: white;
-            padding: 30px;
-            border-radius: 15px;
             width: 90%;
             max-width: 500px;
+            margin: 50px auto;
+            border-radius: 20px;
+            padding: 30px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            animation: modalSlide 0.3s ease;
+            animation: slideUp 0.3s ease;
         }
 
-        @keyframes modalSlide {
+        @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(-50px);
+                transform: translateY(50px);
             }
             to {
                 opacity: 1;
@@ -396,716 +361,830 @@
             border-bottom: 2px solid #fce7f3;
         }
 
-        .modal-header h3 {
+        .modal-title {
+            font-size: 24px;
+            font-weight: bold;
             color: #be185d;
-            font-size: 1.3rem;
         }
 
         .close-btn {
             background: none;
             border: none;
-            font-size: 1.5rem;
+            font-size: 24px;
             cursor: pointer;
-            color: #be185d;
-            padding: 5px;
-            border-radius: 50%;
-            transition: all 0.3s ease;
+            color: #9ca3af;
+            transition: color 0.3s ease;
         }
 
         .close-btn:hover {
-            background: #fce7f3;
+            color: #be185d;
         }
 
         .form-group {
             margin-bottom: 20px;
         }
 
-        .form-group label {
+        .form-label {
             display: block;
             margin-bottom: 8px;
-            color: #be185d;
             font-weight: 500;
+            color: #374151;
         }
 
-        .form-group input, .form-group select {
+        .form-input {
             width: 100%;
             padding: 12px;
             border: 2px solid #fce7f3;
-            border-radius: 8px;
+            border-radius: 10px;
+            font-size: 16px;
             outline: none;
-            font-size: 0.9rem;
             transition: all 0.3s ease;
         }
 
-        .form-group input:focus, .form-group select:focus {
+        .form-input:focus {
             border-color: #ec4899;
             box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
         }
 
-        /* DM Styles */
-        .dm-container {
-            display: none;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        .dm-container.show {
-            display: flex;
-        }
-
-        .dm-header {
+        .form-select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #fce7f3;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
             background: white;
-            padding: 20px;
-            border-bottom: 2px solid #fce7f3;
-            display: flex;
-            align-items: center;
-            gap: 15px;
+            cursor: pointer;
         }
 
-        .dm-avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #fbbf24, #f59e0b);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
-        .back-btn {
-            background: #fce7f3;
+        .btn-primary {
+            background: linear-gradient(135deg, #ec4899, #be185d);
+            color: white;
             border: none;
-            padding: 8px 12px;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(236, 72, 153, 0.4);
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
+            z-index: 1001;
+            animation: slideInRight 0.3s ease;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .emoji-picker {
+            position: absolute;
+            bottom: 70px;
+            right: 20px;
+            background: white;
+            border: 2px solid #fce7f3;
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 100;
+        }
+
+        .emoji-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 5px;
+        }
+
+        .emoji-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            padding: 8px;
             border-radius: 8px;
             cursor: pointer;
-            color: #be185d;
-            font-weight: 500;
+            transition: background 0.3s ease;
         }
 
-        .back-btn:hover {
-            background: #fbcfe8;
+        .emoji-btn:hover {
+            background: #fce7f3;
         }
 
-        /* Responsive */
+        .typing-indicator {
+            padding: 10px 20px;
+            font-style: italic;
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+        .typing-dots {
+            display: inline-block;
+            animation: typing 1.5s infinite;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% { opacity: 0; }
+            30% { opacity: 1; }
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
             .sidebar {
-                width: 250px;
+                width: 100%;
+                position: absolute;
+                left: -100%;
+                transition: left 0.3s ease;
+                z-index: 999;
             }
-            
-            .app-container {
-                margin: 5px;
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+                background: linear-gradient(135deg, #ec4899, #be185d);
+                color: white;
+                border: none;
+                padding: 10px;
+                border-radius: 8px;
+                cursor: pointer;
+                font-size: 16px;
             }
         }
 
-        /* Login Styles */
-        .login-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background: linear-gradient(135deg, #fce7f3 0%, #f3e8ff 100%);
+        .mobile-menu-btn {
+            display: none;
         }
 
-        .login-box {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(236, 72, 153, 0.3);
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
+        /* Status indicators */
+        .status-online { background: #10b981; }
+        .status-away { background: #f59e0b; }
+        .status-busy { background: #ef4444; }
+        .status-offline { background: #6b7280; }
+
+        /* Rank colors */
+        .rank-admin { background: linear-gradient(45deg, #ef4444, #dc2626); }
+        .rank-moderator { background: linear-gradient(45deg, #8b5cf6, #7c3aed); }
+        .rank-vip { background: linear-gradient(45deg, #f59e0b, #d97706); }
+        .rank-member { background: linear-gradient(45deg, #10b981, #059669); }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
 
-        .login-box h1 {
-            color: #be185d;
-            margin-bottom: 30px;
-            font-size: 2rem;
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 10px;
         }
 
-        .welcome-text {
-            color: #6b7280;
-            margin-bottom: 30px;
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #ec4899, #be185d);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #be185d, #9d174d);
         }
     </style>
 </head>
 <body>
-    <!-- Login Screen -->
-    <div id="loginScreen" class="login-container">
-        <div class="login-box">
-            <h1>🌸 PinkChat</h1>
-            <p class="welcome-text">Welcome to the cutest chat app for friends!</p>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="username">Choose a Username</label>
-                    <input type="text" id="username" required minlength="3" maxlength="20">
-                </div>
-                <div class="form-group">
-                    <label for="displayName">Display Name</label>
-                    <input type="text" id="displayName" required minlength="3" maxlength="30">
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px;">
-                    Join PinkChat 💕
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Main App -->
-    <div id="mainApp" class="app-container" style="display: none;">
+    <div class="app-container">
         <!-- Sidebar -->
-        <div class="sidebar">
+        <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <h1>🌸 PinkChat</h1>
+                <div class="logo">💖 PinkCord</div>
                 <div class="user-info">
-                    <div class="user-avatar" id="currentUserAvatar"></div>
+                    <div class="user-avatar" id="currentUserAvatar">U</div>
                     <div class="user-details">
-                        <h3 id="currentUserDisplay"></h3>
-                        <span class="user-rank" id="currentUserRank">Newbie</span>
+                        <div class="username" id="currentUsername">Guest</div>
+                        <div class="user-rank" id="currentUserRank">Member</div>
                     </div>
                 </div>
             </div>
 
-            <div class="nav-section">
-                <h4>Channels</h4>
-                <div class="nav-item active" id="generalChat">
-                    <span>💬</span> General Chat
+            <div class="online-users">
+                <div class="section-title">Online Friends</div>
+                <div id="onlineUsersList">
+                    <!-- Online users will be populated here -->
                 </div>
-            </div>
-
-            <div class="nav-section">
-                <h4>Settings</h4>
-                <div class="nav-item" id="settingsBtn">
-                    <span>⚙️</span> Settings
-                </div>
-                <div class="nav-item" id="logoutBtn">
-                    <span>🚪</span> Logout
-                </div>
-            </div>
-
-            <div class="nav-section">
-                <h4>Online Friends (<span id="onlineCount">0</span>)</h4>
-                <div class="online-users" id="onlineUsers"></div>
             </div>
         </div>
 
         <!-- Main Content -->
         <div class="main-content">
-            <!-- General Chat -->
-            <div id="generalChatContainer">
-                <div class="chat-header">
-                    <div class="chat-title">
-                        <h2>💬 General Chat</h2>
-                        <span style="color: #6b7280; font-size: 0.9rem;">Chat with all your friends!</span>
-                    </div>
-                    <div class="chat-actions">
-                        <button class="btn btn-secondary" id="clearChatBtn">Clear Chat</button>
-                    </div>
+            <div class="chat-header">
+                <div>
+                    <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+                    <span class="chat-title" id="chatTitle">💬 General Chat</span>
                 </div>
-
-                <div class="chat-messages" id="chatMessages"></div>
-
-                <div class="chat-input">
-                    <div class="input-container">
-                        <input type="text" class="message-input" id="messageInput" placeholder="Type your message... 💕" maxlength="500">
-                        <button class="send-btn" id="sendBtn">
-                            <span>➤</span>
-                        </button>
-                    </div>
+                <div class="chat-actions">
+                    <button class="action-btn" onclick="openSettings()">⚙️ Settings</button>
+                    <button class="action-btn" onclick="openUserProfile()">👤 Profile</button>
+                    <button class="action-btn" onclick="toggleEmojiPicker()">😊</button>
                 </div>
             </div>
 
-            <!-- DM Container -->
-            <div id="dmContainer" class="dm-container">
-                <div class="dm-header">
-                    <button class="back-btn" id="backToChatBtn">← Back</button>
-                    <div class="dm-avatar" id="dmUserAvatar"></div>
-                    <div>
-                        <h3 id="dmUserName"></h3>
-                        <span style="color: #6b7280; font-size: 0.8rem;">Direct Message</span>
-                    </div>
+            <div class="chat-messages" id="chatMessages">
+                <!-- Messages will be populated here -->
+            </div>
+
+            <div class="typing-indicator" id="typingIndicator" style="display: none;">
+                <span id="typingUser">Someone</span> is typing<span class="typing-dots">...</span>
+            </div>
+
+            <div class="chat-input-container">
+                <div class="chat-input-wrapper">
+                    <input type="text" class="chat-input" id="messageInput" placeholder="Type your message..." maxlength="500">
+                    <button class="send-btn" onclick="sendMessage()">➤</button>
                 </div>
+            </div>
 
-                <div class="chat-messages" id="dmMessages"></div>
-
-                <div class="chat-input">
-                    <div class="input-container">
-                        <input type="text" class="message-input" id="dmInput" placeholder="Send a private message... 💕" maxlength="500">
-                        <button class="send-btn" id="sendDmBtn">
-                            <span>➤</span>
-                        </button>
-                    </div>
+            <!-- Emoji Picker -->
+            <div class="emoji-picker" id="emojiPicker">
+                <div class="emoji-grid" id="emojiGrid">
+                    <!-- Emojis will be populated here -->
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Settings Modal -->
-    <div id="settingsModal" class="modal">
+    <div class="modal" id="settingsModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>⚙️ Settings</h3>
-                <button class="close-btn" id="closeSettingsBtn">&times;</button>
+                <h2 class="modal-title">⚙️ Settings</h2>
+                <button class="close-btn" onclick="closeModal('settingsModal')">&times;</button>
             </div>
-            <form id="settingsForm">
+            <form onsubmit="saveSettings(event)">
                 <div class="form-group">
-                    <label for="newUsername">Username</label>
-                    <input type="text" id="newUsername" minlength="3" maxlength="20">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-input" id="settingsUsername" maxlength="20" required>
                 </div>
                 <div class="form-group">
-                    <label for="newDisplayName">Display Name</label>
-                    <input type="text" id="newDisplayName" minlength="3" maxlength="30">
+                    <label class="form-label">Display Name</label>
+                    <input type="text" class="form-input" id="settingsDisplayName" maxlength="30">
                 </div>
                 <div class="form-group">
-                    <label for="userStatus">Status</label>
-                    <select id="userStatus">
+                    <label class="form-label">Status</label>
+                    <select class="form-select" id="settingsStatus">
                         <option value="online">🟢 Online</option>
                         <option value="away">🟡 Away</option>
                         <option value="busy">🔴 Busy</option>
+                        <option value="offline">⚫ Offline</option>
                     </select>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">
-                    Save Changes
-                </button>
+                <div class="form-group">
+                    <label class="form-label">Theme Color</label>
+                    <select class="form-select" id="settingsTheme">
+                        <option value="pink">💖 Pink (Default)</option>
+                        <option value="purple">💜 Purple</option>
+                        <option value="blue">💙 Blue</option>
+                        <option value="green">💚 Green</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary">Save Settings</button>
             </form>
         </div>
     </div>
 
+    <!-- Profile Modal -->
+    <div class="modal" id="profileModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">👤 User Profile</h2>
+                <button class="close-btn" onclick="closeModal('profileModal')">&times;</button>
+            </div>
+            <div id="profileContent">
+                <!-- Profile content will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- DM Modal -->
+    <div class="modal" id="dmModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="dmTitle">💬 Direct Message</h2>
+                <button class="close-btn" onclick="closeModal('dmModal')">&times;</button>
+            </div>
+            <div class="chat-messages" id="dmMessages" style="height: 300px; margin-bottom: 20px;">
+                <!-- DM messages will be populated here -->
+            </div>
+            <div class="chat-input-wrapper">
+                <input type="text" class="chat-input" id="dmInput" placeholder="Type your direct message...">
+                <button class="send-btn" onclick="sendDM()">➤</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Database simulation using localStorage
-        class PinkChatDB {
-            constructor() {
-                this.users = JSON.parse(localStorage.getItem('pinkChat_users') || '{}');
-                this.messages = JSON.parse(localStorage.getItem('pinkChat_messages') || '[]');
-                this.dms = JSON.parse(localStorage.getItem('pinkChat_dms') || '{}');
-                this.currentUser = JSON.parse(localStorage.getItem('pinkChat_currentUser') || 'null');
-            }
+        // Global variables
+        let currentUser = {
+            id: generateUserId(),
+            username: 'Guest',
+            displayName: 'Guest User',
+            status: 'online',
+            rank: 'member',
+            joinDate: new Date().toISOString(),
+            avatar: 'U'
+        };
 
-            saveUsers() {
-                localStorage.setItem('pinkChat_users', JSON.stringify(this.users));
-            }
-
-            saveMessages() {
-                localStorage.setItem('pinkChat_messages', JSON.stringify(this.messages));
-            }
-
-            saveDMs() {
-                localStorage.setItem('pinkChat_dms', JSON.stringify(this.dms));
-            }
-
-            saveCurrentUser() {
-                localStorage.setItem('pinkChat_currentUser', JSON.stringify(this.currentUser));
-            }
-
-            addUser(username, displayName) {
-                const userId = Date.now().toString();
-                const user = {
-                    id: userId,
-                    username: username.toLowerCase(),
-                    displayName,
-                    rank: 'Newbie',
-                    xp: 0,
-                    status: 'online',
-                    joinDate: new Date().toISOString(),
-                    lastSeen: new Date().toISOString()
-                };
-                this.users[userId] = user;
-                this.saveUsers();
-                return user;
-            }
-
-            updateUser(userId, updates) {
-                if (this.users[userId]) {
-                    Object.assign(this.users[userId], updates);
-                    this.saveUsers();
-                    return this.users[userId];
-                }
-                return null;
-            }
-
-            addMessage(userId, content, type = 'general') {
-                const message = {
-                    id: Date.now().toString(),
-                    userId,
-                    content,
-                    timestamp: new Date().toISOString(),
-                    type
-                };
-                this.messages.push(message);
-                this.saveMessages();
-                
-                // Add XP for messaging
-                if (this.users[userId]) {
-                    this.users[userId].xp += 1;
-                    this.updateRank(userId);
-                    this.saveUsers();
-                }
-                
-                return message;
-            }
-
-            addDM(fromUserId, toUserId, content) {
-                const dmKey = [fromUserId, toUserId].sort().join('_');
-                if (!this.dms[dmKey]) {
-                    this.dms[dmKey] = [];
-                }
-                
-                const dm = {
-                    id: Date.now().toString(),
-                    fromUserId,
-                    toUserId,
-                    content,
-                    timestamp: new Date().toISOString()
-                };
-                
-                this.dms[dmKey].push(dm);
-                this.saveDMs();
-                return dm;
-            }
-
-            getDMs(userId1, userId2) {
-                const dmKey = [userId1, userId2].sort().join('_');
-                return this.dms[dmKey] || [];
-            }
-
-            updateRank(userId) {
-                const user = this.users[userId];
-                if (!user) return;
-
-                const xp = user.xp;
-                let newRank = 'Newbie';
-                
-                if (xp >= 100) newRank = 'Chat Master';
-                else if (xp >= 50) newRank = 'Regular';
-                else if (xp >= 20) newRank = 'Active';
-                else if (xp >= 10) newRank = 'Member';
-
-                user.rank = newRank;
-            }
-
-            getOnlineUsers() {
-                return Object.values(this.users).filter(user => 
-                    user.status === 'online' && user.id !== this.currentUser?.id
-                );
-            }
-        }
-
-        // Initialize database
-        const db = new PinkChatDB();
+        let messages = [];
+        let onlineUsers = [];
+        let dmConversations = {};
         let currentDMUser = null;
-
-        // DOM Elements
-        const loginScreen = document.getElementById('loginScreen');
-        const mainApp = document.getElementById('mainApp');
-        const loginForm = document.getElementById('loginForm');
-        const settingsModal = document.getElementById('settingsModal');
-        const chatMessages = document.getElementById('chatMessages');
-        const messageInput = document.getElementById('messageInput');
-        const sendBtn = document.getElementById('sendBtn');
-        const onlineUsers = document.getElementById('onlineUsers');
-        const onlineCount = document.getElementById('onlineCount');
-
-        // Utility Functions
-        function getInitials(name) {
-            return name.split(' ').map(word => word[0]).join('').toUpperCase().slice(0, 2);
-        }
-
-        function formatTime(timestamp) {
-            return new Date(timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        }
-
-        function generateRandomUsers() {
-            const sampleUsers = [
-                { username: 'sparkle_queen', displayName: 'Sparkle Queen ✨' },
-                { username: 'pink_unicorn', displayName: 'Pink Unicorn 🦄' },
-                { username: 'flower_power', displayName: 'Flower Power 🌸' },
-                { username: 'rainbow_dash', displayName: 'Rainbow Dash 🌈' },
-                { username: 'sweet_dreams', displayName: 'Sweet Dreams 💭' }
-            ];
-
-            sampleUsers.forEach(user => {
-                if (!Object.values(db.users).find(u => u.username === user.username)) {
-                    db.addUser(user.username, user.displayName);
-                }
-            });
-        }
+        let typingTimeout = null;
+        let isTyping = false;
 
         // Initialize app
-        function initApp() {
-            if (db.currentUser) {
-                showMainApp();
-            } else {
-                showLoginScreen();
-            }
-        }
-
-        function showLoginScreen() {
-            loginScreen.style.display = 'flex';
-            mainApp.style.display = 'none';
-        }
-
-        function showMainApp() {
-            loginScreen.style.display = 'none';
-            mainApp.style.display = 'flex';
-            updateUserInfo();
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+            initializeEmojis();
             loadMessages();
-            updateOnlineUsers();
-            generateRandomUsers();
-        }
-
-        // Login handling
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const username = document.getElementById('username').value.trim();
-            const displayName = document.getElementById('displayName').value.trim();
+            loadOnlineUsers();
+            updateUI();
+            startHeartbeat();
             
-            if (username && displayName) {
-                // Check if username exists
-                const existingUser = Object.values(db.users).find(u => u.username === username.toLowerCase());
-                if (existingUser) {
-                    alert('Username already taken! Please choose another one.');
-                    return;
+            // Add event listeners
+            document.getElementById('messageInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
                 }
-                
-                const user = db.addUser(username, displayName);
-                db.currentUser = user;
-                db.saveCurrentUser();
-                showMainApp();
+                handleTyping();
+            });
+
+            document.getElementById('dmInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendDM();
+                }
+            });
+
+            // Load welcome message
+            if (messages.length === 0) {
+                addSystemMessage('Welcome to PinkCord! 💖 Start chatting with your friends!');
             }
         });
 
-        // Update user info display
-        function updateUserInfo() {
-            if (db.currentUser) {
-                document.getElementById('currentUserAvatar').textContent = getInitials(db.currentUser.displayName);
-                document.getElementById('currentUserDisplay').textContent = db.currentUser.displayName;
-                document.getElementById('currentUserRank').textContent = db.currentUser.rank;
+        // Utility functions
+        function generateUserId() {
+            return 'user_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        function generateAvatar(username) {
+            return username.charAt(0).toUpperCase();
+        }
+
+        function formatTime(date) {
+            return new Date(date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        }
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // User management
+        function loadUserData() {
+            const savedUser = localStorage.getItem('pinkcord_user');
+            if (savedUser) {
+                currentUser = { ...currentUser, ...JSON.parse(savedUser) };
+            }
+            updateCurrentUserDisplay();
+        }
+
+        function saveUserData() {
+            localStorage.setItem('pinkcord_user', JSON.stringify(currentUser));
+        }
+
+        function updateCurrentUserDisplay() {
+            document.getElementById('currentUsername').textContent = currentUser.displayName || currentUser.username;
+            document.getElementById('currentUserAvatar').textContent = generateAvatar(currentUser.username);
+            document.getElementById('currentUserRank').textContent = currentUser.rank.charAt(0).toUpperCase() + currentUser.rank.slice(1);
+            
+            // Update rank styling
+            const avatar = document.getElementById('currentUserAvatar');
+            avatar.className = `user-avatar rank-${currentUser.rank}`;
+        }
+
+        // Online users management
+        function loadOnlineUsers() {
+            const saved = localStorage.getItem('pinkcord_online_users');
+            if (saved) {
+                onlineUsers = JSON.parse(saved);
+            }
+            
+            // Add current user if not already in list
+            const existingUser = onlineUsers.find(u => u.id === currentUser.id);
+            if (!existingUser) {
+                onlineUsers.push({
+                    ...currentUser,
+                    lastSeen: new Date().toISOString()
+                });
+            } else {
+                // Update existing user
+                Object.assign(existingUser, currentUser);
+                existingUser.lastSeen = new Date().toISOString();
+            }
+            
+            saveOnlineUsers();
+            updateOnlineUsersList();
+        }
+
+        function saveOnlineUsers() {
+            localStorage.setItem('pinkcord_online_users', JSON.stringify(onlineUsers));
+        }
+
+        function updateOnlineUsersList() {
+            const container = document.getElementById('onlineUsersList');
+            container.innerHTML = '';
+            
+            onlineUsers.forEach(user => {
+                if (user.id === currentUser.id) return; // Don't show current user
+                
+                const userElement = document.createElement('div');
+                userElement.className = 'user-item';
+                userElement.onclick = () => openDM(user);
+                
+                userElement.innerHTML = `
+                    <div class="user-item-avatar rank-${user.rank}">${generateAvatar(user.username)}</div>
+                    <div class="user-item-info">
+                        <div class="user-item-name">${user.displayName || user.username}</div>
+                        <div class="user-item-status">${user.status}</div>
+                    </div>
+                    <div class="online-indicator status-${user.status}"></div>
+                `;
+                
+                container.appendChild(userElement);
+            });
+        }
+
+        // Message management
+        function loadMessages() {
+            const saved = localStorage.getItem('pinkcord_messages');
+            if (saved) {
+                messages = JSON.parse(saved);
+                displayMessages();
             }
         }
 
-        // Message handling
-        function addMessageToChat(message, isOwn = false) {
-            const user = db.users[message.userId];
-            if (!user) return;
-
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${isOwn ? 'own' : ''}`;
-            
-            messageDiv.innerHTML = `
-                <div class="message-avatar">${getInitials(user.displayName)}</div>
-                <div class="message-content">
-                    <div class="message-header">
-                        <span class="message-author">${user.displayName}</span>
-                        <span class="message-time">${formatTime(message.timestamp)}</span>
-                        <span class="message-rank">${user.rank}</span>
-                    </div>
-                    <div class="message-text">${message.content}</div>
-                </div>
-            `;
-            
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        function loadMessages() {
-            chatMessages.innerHTML = '';
-            db.messages.forEach(message => {
-                const isOwn = message.userId === db.currentUser.id;
-                addMessageToChat(message, isOwn);
-            });
+        function saveMessages() {
+            localStorage.setItem('pinkcord_messages', JSON.stringify(messages));
         }
 
         function sendMessage() {
-            const content = messageInput.value.trim();
-            if (content && db.currentUser) {
-                const message = db.addMessage(db.currentUser.id, content);
-                addMessageToChat(message, true);
-                messageInput.value = '';
-                updateUserInfo(); // Update rank display
-            }
+            const input = document.getElementById('messageInput');
+            const content = input.value.trim();
+            
+            if (!content) return;
+            
+            const message = {
+                id: Date.now(),
+                author: currentUser.username,
+                displayName: currentUser.displayName || currentUser.username,
+                content: content,
+                timestamp: new Date().toISOString(),
+                avatar: generateAvatar(currentUser.username),
+                rank: currentUser.rank
+            };
+            
+            messages.push(message);
+            saveMessages();
+            displayMessages();
+            input.value = '';
+            
+            // Stop typing indicator
+            clearTimeout(typingTimeout);
+            isTyping = false;
+            updateTypingIndicator();
+            
+            showNotification('Message sent! 💖');
         }
 
-        // Event listeners for messaging
-        sendBtn.addEventListener('click', sendMessage);
-        messageInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
-
-        // Update online users
-        function updateOnlineUsers() {
-            const onlineUsersList = db.getOnlineUsers();
-            onlineUsers.innerHTML = '';
-            onlineCount.textContent = onlineUsersList.length;
+        function addSystemMessage(content) {
+            const message = {
+                id: Date.now(),
+                author: 'System',
+                displayName: 'PinkCord Bot',
+                content: content,
+                timestamp: new Date().toISOString(),
+                avatar: '🤖',
+                rank: 'admin',
+                isSystem: true
+            };
             
-            onlineUsersList.forEach(user => {
-                const userDiv = document.createElement('div');
-                userDiv.className = 'user-item';
-                userDiv.innerHTML = `
-                    <div class="avatar">${getInitials(user.displayName)}</div>
-                    <div>
-                        <div style="font-size: 0.8rem; font-weight: 500;">${user.displayName}</div>
-                        <div style="font-size: 0.7rem; opacity: 0.7;">${user.rank}</div>
+            messages.push(message);
+            saveMessages();
+            displayMessages();
+        }
+
+        function displayMessages() {
+            const container = document.getElementById('chatMessages');
+            container.innerHTML = '';
+            
+            messages.slice(-50).forEach(message => { // Show last 50 messages
+                const messageElement = document.createElement('div');
+                messageElement.className = 'message';
+                
+                messageElement.innerHTML = `
+                    <div class="message-header">
+                        <div class="message-avatar rank-${message.rank}">${message.avatar}</div>
+                        <div class="message-info">
+                            <span class="message-author">${message.displayName}</span>
+                            <span class="message-time">${formatTime(message.timestamp)}</span>
+                        </div>
                     </div>
-                    <div class="status"></div>
+                    <div class="message-content">${escapeHtml(message.content)}</div>
                 `;
                 
-                userDiv.addEventListener('click', () => openDM(user));
-                onlineUsers.appendChild(userDiv);
+                container.appendChild(messageElement);
             });
+            
+            container.scrollTop = container.scrollHeight;
         }
 
-        // DM functionality
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Typing indicator
+        function handleTyping() {
+            if (!isTyping) {
+                isTyping = true;
+                updateTypingIndicator();
+            }
+            
+            clearTimeout(typingTimeout);
+            typingTimeout = setTimeout(() => {
+                isTyping = false;
+                updateTypingIndicator();
+            }, 2000);
+        }
+
+        function updateTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            if (isTyping) {
+                document.getElementById('typingUser').textContent = currentUser.displayName || currentUser.username;
+                indicator.style.display = 'block';
+            } else {
+                indicator.style.display = 'none';
+            }
+        }
+
+        // Direct Messages
         function openDM(user) {
             currentDMUser = user;
-            document.getElementById('generalChatContainer').style.display = 'none';
-            document.getElementById('dmContainer').classList.add('show');
-            
-            document.getElementById('dmUserAvatar').textContent = getInitials(user.displayName);
-            document.getElementById('dmUserName').textContent = user.displayName;
-            
-            loadDMMessages();
+            document.getElementById('dmTitle').textContent = `💬 ${user.displayName || user.username}`;
+            loadDMMessages(user.id);
+            document.getElementById('dmModal').style.display = 'block';
         }
 
-        function loadDMMessages() {
-            if (!currentDMUser || !db.currentUser) return;
+        function loadDMMessages(userId) {
+            const conversationKey = [currentUser.id, userId].sort().join('_');
+            const saved = localStorage.getItem(`pinkcord_dm_${conversationKey}`);
+            const conversation = saved ? JSON.parse(saved) : [];
             
-            const dmMessages = document.getElementById('dmMessages');
-            dmMessages.innerHTML = '';
+            const container = document.getElementById('dmMessages');
+            container.innerHTML = '';
             
-            const dms = db.getDMs(db.currentUser.id, currentDMUser.id);
-            dms.forEach(dm => {
-                const isOwn = dm.fromUserId === db.currentUser.id;
-                const user = isOwn ? db.currentUser : currentDMUser;
+            conversation.forEach(message => {
+                const messageElement = document.createElement('div');
+                messageElement.className = 'message';
                 
-                const messageDiv = document.createElement('div');
-                messageDiv.className = `message ${isOwn ? 'own' : ''}`;
-                
-                messageDiv.innerHTML = `
-                    <div class="message-avatar">${getInitials(user.displayName)}</div>
-                    <div class="message-content">
-                        <div class="message-header">
-                            <span class="message-author">${user.displayName}</span>
-                            <span class="message-time">${formatTime(dm.timestamp)}</span>
-                            <span class="message-rank">${user.rank}</span>
+                messageElement.innerHTML = `
+                    <div class="message-header">
+                        <div class="message-avatar rank-${message.rank}">${message.avatar}</div>
+                        <div class="message-info">
+                            <span class="message-author">${message.displayName}</span>
+                            <span class="message-time">${formatTime(message.timestamp)}</span>
                         </div>
-                        <div class="message-text">${dm.content}</div>
                     </div>
+                    <div class="message-content">${escapeHtml(message.content)}</div>
                 `;
                 
-                dmMessages.appendChild(messageDiv);
+                container.appendChild(messageElement);
             });
             
-            dmMessages.scrollTop = dmMessages.scrollHeight;
+            container.scrollTop = container.scrollHeight;
         }
 
         function sendDM() {
-            const dmInput = document.getElementById('dmInput');
-            const content = dmInput.value.trim();
+            const input = document.getElementById('dmInput');
+            const content = input.value.trim();
             
-            if (content && currentDMUser && db.currentUser) {
-                db.addDM(db.currentUser.id, currentDMUser.id, content);
-                loadDMMessages();
-                dmInput.value = '';
-            }
-        }
-
-        // DM event listeners
-        document.getElementById('sendDmBtn').addEventListener('click', sendDM);
-        document.getElementById('dmInput').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendDM();
-            }
-        });
-
-        document.getElementById('backToChatBtn').addEventListener('click', () => {
-            document.getElementById('dmContainer').classList.remove('show');
-            document.getElementById('generalChatContainer').style.display = 'flex';
-            currentDMUser = null;
-        });
-
-        // Settings functionality
-        document.getElementById('settingsBtn').addEventListener('click', () => {
-            settingsModal.classList.add('show');
-            if (db.currentUser) {
-                document.getElementById('newUsername').value = db.currentUser.username;
-                document.getElementById('newDisplayName').value = db.currentUser.displayName;
-                document.getElementById('userStatus').value = db.currentUser.status;
-            }
-        });
-
-        document.getElementById('closeSettingsBtn').addEventListener('click', () => {
-            settingsModal.classList.remove('show');
-        });
-
-        document.getElementById('settingsForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            if (!db.currentUser) return;
+            if (!content || !currentDMUser) return;
             
-            const newUsername = document.getElementById('newUsername').value.trim();
-            const newDisplayName = document.getElementById('newDisplayName').value.trim();
-            const newStatus = document.getElementById('userStatus').value;
-            
-            // Check if new username is taken
-            if (newUsername !== db.currentUser.username) {
-                const existingUser = Object.values(db.users).find(u => 
-                    u.username === newUsername.toLowerCase() && u.id !== db.currentUser.id
-                );
-                if (existingUser) {
-                    alert('Username already taken!');
-                    return;
-                }
-            }
-            
-            const updates = {
-                username: newUsername.toLowerCase(),
-                displayName: newDisplayName,
-                status: newStatus
+            const message = {
+                id: Date.now(),
+                author: currentUser.username,
+                displayName: currentUser.displayName || currentUser.username,
+                content: content,
+                timestamp: new Date().toISOString(),
+                avatar: generateAvatar(currentUser.username),
+                rank: currentUser.rank,
+                senderId: currentUser.id
             };
             
-            db.updateUser(db.currentUser.id, updates);
-            db.currentUser = db.users[db.currentUser.id];
-            db.saveCurrentUser();
+            const conversationKey = [currentUser.id, currentDMUser.id].sort().join('_');
+            const saved = localStorage.getItem(`pinkcord_dm_${conversationKey}`);
+            const conversation = saved ? JSON.parse(saved) : [];
             
-            updateUserInfo();
-            updateOnlineUsers();
-            settingsModal.classList.remove('show');
+            conversation.push(message);
+            localStorage.setItem(`pinkcord_dm_${conversationKey}`, JSON.stringify(conversation));
             
-            alert('Settings updated successfully! 💕');
-        });
+            loadDMMessages(currentDMUser.id);
+            input.value = '';
+            
+            showNotification(`DM sent to ${currentDMUser.displayName || currentDMUser.username}! 💌`);
+        }
 
-        // Other functionality
-        document.getElementById('clearChatBtn').addEventListener('click', () => {
-            if (confirm('Are you sure you want to clear all messages?')) {
-                db.messages = [];
-                db.saveMessages();
-                loadMessages();
+        // Settings
+        function openSettings() {
+            document.getElementById('settingsUsername').value = currentUser.username;
+            document.getElementById('settingsDisplayName').value = currentUser.displayName || '';
+            document.getElementById('settingsStatus').value = currentUser.status;
+            document.getElementById('settingsModal').style.display = 'block';
+        }
+
+        function saveSettings(event) {
+            event.preventDefault();
+            
+            const newUsername = document.getElementById('settingsUsername').value.trim();
+            const newDisplayName = document.getElementById('settingsDisplayName').value.trim();
+            const newStatus = document.getElementById('settingsStatus').value;
+            
+            if (!newUsername) {
+                alert('Username is required!');
+                return;
             }
-        });
+            
+            currentUser.username = newUsername;
+            currentUser.displayName = newDisplayName;
+            currentUser.status = newStatus;
+            currentUser.avatar = generateAvatar(newUsername);
+            
+            saveUserData();
+            updateCurrentUserDisplay();
+            loadOnlineUsers(); // Update in online users list
+            
+            closeModal('settingsModal');
+            showNotification('Settings saved! ✨');
+            
+            addSystemMessage(`${currentUser.displayName || currentUser.username} updated their profile!`);
+        }
 
-        document.getElementById('logoutBtn').addEventListener('click', () => {
-            if (confirm('Are you sure you want to logout?')) {
-                db.currentUser = null;
-                db.saveCurrentUser();
-                showLoginScreen();
+        // Profile
+        function openUserProfile() {
+            const profileContent = document.getElementById('profileContent');
+            profileContent.innerHTML = `
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <div class="user-avatar rank-${currentUser.rank}" style="width: 80px; height: 80px; font-size: 32px; margin: 0 auto 15px;">${generateAvatar(currentUser.username)}</div>
+                    <h3>${currentUser.displayName || currentUser.username}</h3>
+                    <p style="color: #9ca3af;">@${currentUser.username}</p>
+                </div>
+                <div class="form-group">
+                    <strong>Rank:</strong> ${currentUser.rank.charAt(0).toUpperCase() + currentUser.rank.slice(1)}
+                </div>
+                <div class="form-group">
+                    <strong>Status:</strong> ${currentUser.status.charAt(0).toUpperCase() + currentUser.status.slice(1)}
+                </div>
+                <div class="form-group">
+                    <strong>Joined:</strong> ${new Date(currentUser.joinDate).toLocaleDateString()}
+                </div>
+                <div class="form-group">
+                    <strong>Messages Sent:</strong> ${messages.filter(m => m.author === currentUser.username).length}
+                </div>
+            `;
+            document.getElementById('profileModal').style.display = 'block';
+        }
+
+        // Emoji picker
+        function initializeEmojis() {
+            const emojis = ['😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇', '🙂', '🙃', '😉', '😌', '😍', '🥰', '😘', '😗', '😙', '😚', '😋', '😛', '😝', '😜', '🤪', '🤨', '🧐', '🤓', '😎', '🤩', '🥳', '😏', '😒', '😞', '😔', '😟', '😕', '🙁', '☹️', '😣', '😖', '😫', '😩', '🥺', '😢', '😭', '😤', '😠', '😡', '🤬', '🤯', '😳', '🥵', '🥶', '😱', '😨', '😰', '😥', '😓', '🤗', '🤔', '🤭', '🤫', '🤥', '😶', '😐', '😑', '😬', '🙄', '😯', '😦', '😧', '😮', '😲', '🥱', '😴', '🤤', '😪', '😵', '🤐', '🥴', '🤢', '🤮', '🤧', '😷', '🤒', '🤕', '🤑', '🤠', '😈', '👿', '👹', '👺', '🤡', '💩', '👻', '💀', '☠️', '👽', '👾', '🤖', '🎃', '😺', '😸', '😹', '😻', '😼', '😽', '🙀', '😿', '😾'];
+            
+            const grid = document.getElementById('emojiGrid');
+            emojis.forEach(emoji => {
+                const button = document.createElement('button');
+                button.className = 'emoji-btn';
+                button.textContent = emoji;
+                button.onclick = () => insertEmoji(emoji);
+                grid.appendChild(button);
+            });
+        }
+
+        function toggleEmojiPicker() {
+            const picker = document.getElementById('emojiPicker');
+            picker.style.display = picker.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function insertEmoji(emoji) {
+            const input = document.getElementById('messageInput');
+            input.value += emoji;
+            input.focus();
+            document.getElementById('emojiPicker').style.display = 'none';
+        }
+
+        // Modal management
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Mobile menu
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        // Heartbeat to keep user active
+        function startHeartbeat() {
+            setInterval(() => {
+                const userIndex = onlineUsers.findIndex(u => u.id === currentUser.id);
+                if (userIndex !== -1) {
+                    onlineUsers[userIndex].lastSeen = new Date().toISOString();
+                    saveOnlineUsers();
+                }
+            }, 30000); // Update every 30 seconds
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            const emojiPicker = document.getElementById('emojiPicker');
+            if (!event.target.closest('.emoji-picker') && !event.target.closest('.action-btn')) {
+                emojiPicker.style.display = 'none';
             }
-        });
+        };
 
-        // Close modal when clicking outside
-        settingsModal.addEventListener('click', (e) => {
-            if (e.target === settingsModal) {
-                settingsModal.classList.remove('show');
-            }
-        });
+        // Add some demo users for testing
+        function addDemoUsers() {
+            const demoUsers = [
+                { id: 'demo1', username: 'alice', displayName: 'Alice Wonder', status: 'online', rank: 'moderator' },
+                { id: 'demo2', username: 'bob', displayName: 'Bob Builder', status: 'away', rank: 'vip' },
+                { id: 'demo3', username: 'charlie', displayName: 'Charlie Brown', status: 'busy', rank: 'member' }
+            ];
+            
+            demoUsers.forEach(user => {
+                if (!onlineUsers.find(u => u.id === user.id)) {
+                    onlineUsers.push({
+                        ...user,
+                        joinDate: new Date().toISOString(),
+                        lastSeen: new Date().toISOString(),
+                        avatar: generateAvatar(user.username)
+                    });
+                }
+            });
+            
+            saveOnlineUsers();
+            updateOnlineUsersList();
+        }
 
-        // Initialize the app
-        initApp();
+        // Initialize demo users after a short delay
+        setTimeout(addDemoUsers, 1000);
 
-        // Simulate some activity
-        setInterval(() => {
-            updateOnlineUsers();
-        }, 30000); // Update every 30 seconds
+        // Update UI periodically
+        setInterval(updateUI, 5000);
+
+        function updateUI() {
+            updateOnlineUsersList();
+            displayMessages();
+        }
     </script>
 </body>
 </html>
