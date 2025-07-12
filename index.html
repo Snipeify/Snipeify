@@ -1,96 +1,75 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pinkcord - Discord-style Chat</title>
+  <title>About Me Chat</title>
+
+  <!-- Firebase Compat SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
-  <!-- Emoji Picker CDN -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.2/dist/emoji-button.min.css" />
-  <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@4.6.2/dist/emoji-button.min.js"></script>
+
+  <script defer src="script.js"></script>
 </head>
 <body>
+
   <!-- LOGIN PAGE -->
-  <div id="authPage" class="centered-screen">
-    <div class="login-box">
-      <h2>Login to Pinkcord</h2>
-      <input type="email" id="email" placeholder="Email" autocomplete="username" />
-      <input type="password" id="password" placeholder="Password" autocomplete="current-password" />
-      <button id="loginBtn">Login</button>
-      <button id="registerBtn">Register</button>
+  <div id="authPage" class="centered">
+    <div class="auth-box">
+      <h2>Login or Register</h2>
+      <input id="email" type="email" placeholder="Email" autocomplete="username" />
+      <input id="password" type="password" placeholder="Password" autocomplete="current-password" />
+      <div class="btn-row">
+        <button id="loginBtn" class="btn pink">Login</button>
+        <button id="registerBtn" class="btn white">Register</button>
+      </div>
     </div>
   </div>
 
-  <!-- MAIN APP -->
-  <div id="app" style="display:none;">
-    <div class="sidebar">
-      <h1>💖 Pinkcord</h1>
-
-      <div class="sidebar-section">
-        <h3>Chats</h3>
-        <div id="chatTabs" class="chat-tabs"></div>
-        <button class="new-chat-btn" id="newDMBtn">+ New DM</button>
+  <!-- APP PAGE -->
+  <div id="app" class="hidden">
+    <aside id="sidebar">
+      <div class="profile">
+        <img id="userAvatar" src="images/Me.png" alt="Avatar" />
+        <div id="userName">User</div>
       </div>
-
-      <div class="sidebar-section">
+      <nav id="chatTabs" class="tabs"></nav>
+      <div class="online-users-container">
         <h3>Online Users</h3>
         <div id="onlineUsers" class="online-users"></div>
       </div>
+      <button id="settingsTabBtn" class="btn white">Settings</button>
+      <button id="logoutBtn" class="btn pink">Logout</button>
+    </aside>
 
-      <div class="sidebar-section">
-        <h3>Settings</h3>
-        <div class="tab" id="settingsTabBtn">⚙️ Settings</div>
-        <div class="tab logout-btn" id="logoutBtn">🚪 Logout</div>
-      </div>
-    </div>
+    <main id="mainContent">
+      <header>
+        <h2 id="chatTitle">Group Chat</h2>
+      </header>
 
-    <div class="main">
-      <div class="header">
-        <div id="chatTitle">Group Chat</div>
-        <div class="user-info">
-          <img id="userAvatar" src="" alt="pfp" />
-          <span id="userName">User</span>
+      <section id="chatArea">
+        <div id="messages" class="messages"></div>
+        <div class="chat-input-row">
+          <input id="chatInput" type="text" placeholder="Type a message..." autocomplete="off" />
+          <button id="sendBtn" class="btn pink">Send</button>
         </div>
-      </div>
+      </section>
 
-      <!-- CHAT AREA -->
-      <div id="chatArea" class="content">
-        <div id="messages" class="chat-box"></div>
-        <div class="typing-indicator" id="typingIndicator" style="display:none;">Someone is typing...</div>
-        <div class="chat-input">
-          <button id="emojiBtn" title="Insert emoji">😊</button>
-          <input type="text" id="chatInput" placeholder="Type your message..." autocomplete="off" />
-          <button id="sendBtn">Send</button>
-        </div>
-      </div>
-
-      <!-- SETTINGS AREA -->
-      <div id="settingsArea" class="content" style="display:none; flex-direction: column;">
-        <h2>Profile Settings</h2>
+      <section id="settingsArea" class="hidden">
+        <h2>Settings</h2>
         <label>Change Username</label>
-        <input type="text" id="newUsername" placeholder="New Username" />
+        <input id="newUsername" type="text" />
         <label>Change Profile Picture URL</label>
-        <input type="text" id="newAvatar" placeholder="Image URL" />
-        <button id="updateProfileBtn">Update Profile</button>
-        <div id="updateStatus" style="margin-top:10px; color:#ff69b4;"></div>
-      </div>
-
-      <!-- NEW DM MODAL -->
-      <div id="newDMModal" class="modal" style="display:none;">
-        <div class="modal-content">
-          <h3>Start New Direct Message</h3>
-          <input type="text" id="newDMUsername" placeholder="Enter username to message" />
-          <div id="dmSearchResults" class="dm-search-results"></div>
-          <button id="closeDMModalBtn">Cancel</button>
-        </div>
-      </div>
-    </div>
+        <input id="newAvatar" type="text" />
+        <button id="updateProfileBtn" class="btn pink">Update Profile</button>
+        <div id="updateStatus"></div>
+      </section>
+    </main>
   </div>
 
-  <script src="script.js"></script>
 </body>
 </html>
