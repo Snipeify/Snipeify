@@ -1,8 +1,4 @@
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-
-// Your Firebase config (replace with your actual config)
+// Firebase config + init
 const firebaseConfig = {
   apiKey: "AIzaSyD40qt-7ahGKcKEf3NLlDFaNVA3Zza-UiQ",
   authDomain: "aboutmesite-f445b.firebaseapp.com",
@@ -13,12 +9,11 @@ const firebaseConfig = {
   appId: "1:892937379864:web:e3c2773dd9eb431903636d"
 };
 
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-
 const auth = firebase.auth();
 const db = firebase.database();
 
+// UI refs
 const authPage = document.getElementById("authPage");
 const app = document.getElementById("app");
 
@@ -38,7 +33,6 @@ const settingsArea = document.getElementById("settingsArea");
 const chatTitle = document.getElementById("chatTitle");
 
 const messagesContainer = document.getElementById("messages");
-const typingIndicator = document.getElementById("typingIndicator");
 const chatInput = document.getElementById("chatInput");
 const sendBtn = document.getElementById("sendBtn");
 
@@ -50,23 +44,15 @@ const newAvatarInput = document.getElementById("newAvatar");
 const updateProfileBtn = document.getElementById("updateProfileBtn");
 const updateStatus = document.getElementById("updateStatus");
 
-const newDMBtn = document.getElementById("newDMBtn");
-const newDMModal = document.getElementById("newDMModal");
-const newDMUsernameInput = document.getElementById("newDMUsername");
-const dmSearchResults = document.getElementById("dmSearchResults");
-const closeDMModalBtn = document.getElementById("closeDMModalBtn");
-
 // Global state
 let currentUser = null;
-let currentChatId = "group"; // default to group chat
+let currentChatId = "group"; // default group chat
 let chatListeners = {};
-let onlineUsers = {};
 let chats = {
-  group: { id: "group", name: "Group Chat", members: null }
+  group: { id: "group", name: "Group Chat" }
 };
-let typingTimeout = null;
 
-// ===== AUTH HANDLERS =====
+// AUTH HANDLERS
 
 loginBtn.onclick = () => {
   const email = emailInput.value.trim();
@@ -76,9 +62,7 @@ loginBtn.onclick = () => {
     return;
   }
   auth.signInWithEmailAndPassword(email, pass)
-    .then(() => {
-      clearInputs();
-    })
+    .then(() => clearInputs())
     .catch(e => alert(e.message));
 };
 
@@ -91,7 +75,7 @@ registerBtn.onclick = () => {
   }
   auth.createUserWithEmailAndPassword(email, pass)
     .then(cred => {
-      // Add default profile data
+      // Default profile data on new user
       db.ref("users/" + cred.user.uid).set({
         username: "New User",
         avatar: "https://i.imgur.com/Zq6YFZT.png",
@@ -107,14 +91,14 @@ logoutBtn.onclick = () => {
   auth.signOut();
   detachChatListeners();
   currentUser = null;
-  chats = { group: { id: "group", name: "Group Chat", members: null } };
+  chats = { group: { id: "group", name: "Group Chat" } };
   currentChatId = "group";
   chatTabsContainer.innerHTML = "";
   onlineUsersContainer.innerHTML = "";
   messagesContainer.innerHTML = "";
   chatTitle.innerText = "";
-  app.style.display = "none";
-  authPage.style.display = "flex";
+  app.classList.add("hidden");
+  authPage.classList.remove("hidden");
 };
 
 function clearInputs() {
@@ -122,7 +106,7 @@ function clearInputs() {
   passInput.value = "";
 }
 
-// ===== AUTH STATE =====
+// AUTH STATE
 
 auth.onAuthStateChanged(user => {
   if (user) {
@@ -132,17 +116,17 @@ auth.onAuthStateChanged(user => {
     showApp();
   } else {
     currentUser = null;
-    app.style.display = "none";
-    authPage.style.display = "flex";
+    app.classList.add("hidden");
+    authPage.classList.remove("hidden");
   }
 });
 
 function showApp() {
-  authPage.style.display = "none";
-  app.style.display = "flex";
+  authPage.classList.add("hidden");
+  app.classList.remove("hidden");
 }
 
-// ===== USER ONLINE STATUS =====
+// USER ONLINE STATUS
 
 function setupUserOnline() {
   if (!currentUser) return;
@@ -151,16 +135,14 @@ function setupUserOnline() {
 
   userRef.update({ online: true, lastActive: Date.now() });
 
-  // On disconnect set offline
   userRef.onDisconnect().update({ online: false });
 
-  // Update lastActive every 60 seconds
   setInterval(() => {
     userRef.update({ lastActive: Date.now() });
   }, 60000);
 }
 
-// ===== LOAD USER DATA & UI =====
+// LOAD USER DATA & UI
 
 function loadUserData(uid) {
   db.ref("users/" + uid).on("value", snap => {
@@ -176,28 +158,14 @@ function loadUserData(uid) {
   loadOnlineUsers();
 }
 
-// ===== LOAD CHATS =====
+// LOAD CHATS
 
 function loadChats() {
   addChatTab(chats.group.id, chats.group.name, true);
-
-  db.ref("user_chats/" + currentUser.uid).on("value", snap => {
-    const val = snap.val() || {};
-    for (const chatId in val) {
-      if (chatId === "group") continue;
-      if (!chats[chatId]) {
-        db.ref("chats/" + chatId).once("value").then(snapChat => {
-          const chatMeta = snapChat.val();
-          if (!chatMeta) return;
-          chats[chatId] = chatMeta;
-          addChatTab(chatId, chatMeta.name);
-        });
-      }
-    }
-  });
-
   switchChat("group");
 }
+
+// CHAT TAB MANAGEMENT
 
 function addChatTab(chatId, name, isActive = false) {
   if (document.getElementById("chat-tab-" + chatId)) return;
@@ -238,6 +206,8 @@ function switchChat(chatId) {
   listenToMessages(chatId);
 }
 
+// LISTEN TO MESSAGES
+
 function listenToMessages(chatId) {
   const chatRef = chatId === "group" ? db.ref("chat") : db.ref("messages/" + chatId);
 
@@ -251,12 +221,14 @@ function listenToMessages(chatId) {
   });
 }
 
+// DISPLAY MESSAGE
+
 function displayMessage(msg, sentByCurrentUser) {
   const msgDiv = document.createElement("div");
   msgDiv.className = "message " + (sentByCurrentUser ? "sent" : "received");
 
   msgDiv.innerHTML = `
-    <div class="username">${msg.username}</div>
+    <div class="username">${escapeHtml(msg.username)}</div>
     <div class="text">${escapeHtml(msg.text)}</div>
     <div class="time">${formatTimestamp(msg.timestamp)}</div>
   `;
@@ -282,7 +254,7 @@ function formatTimestamp(ts) {
   return `${hours}:${mStr} ${ampm}`;
 }
 
-// ===== SEND MESSAGES =====
+// SEND MESSAGE
 
 sendBtn.onclick = () => {
   sendMessage();
@@ -297,13 +269,12 @@ chatInput.addEventListener("keydown", e => {
 function sendMessage() {
   const text = chatInput.value.trim();
   if (!text) return;
-  const timestamp = Date.now();
 
   const msgData = {
     uid: currentUser.uid,
     username: userNameDisplay.innerText,
     text: text,
-    timestamp: timestamp
+    timestamp: Date.now()
   };
 
   let msgRef;
@@ -317,32 +288,32 @@ function sendMessage() {
   chatInput.value = "";
 }
 
-// ===== ONLINE USERS =====
+// ONLINE USERS
 
 function loadOnlineUsers() {
   db.ref("users").on("value", snap => {
-    onlineUsers = snap.val() || {};
-    renderOnlineUsers();
+    const onlineUsers = snap.val() || {};
+    renderOnlineUsers(onlineUsers);
   });
 }
 
-function renderOnlineUsers() {
+function renderOnlineUsers(users) {
   onlineUsersContainer.innerHTML = "";
 
-  for (const uid in onlineUsers) {
-    if (!onlineUsers[uid].online) continue;
+  for (const uid in users) {
+    if (!users[uid].online) continue;
     if (uid === currentUser.uid) continue;
 
-    const user = onlineUsers[uid];
+    const user = users[uid];
     const userDiv = document.createElement("div");
     userDiv.className = "user";
     userDiv.title = user.username;
-    userDiv.innerHTML = `<img src="${user.avatar}" alt="pfp" /> ${user.username}`;
+    userDiv.innerHTML = `<img src="${user.avatar}" alt="pfp" /> ${escapeHtml(user.username)}`;
     onlineUsersContainer.appendChild(userDiv);
   }
 }
 
-// ===== SETTINGS =====
+// SETTINGS
 
 settingsTabBtn.onclick = () => {
   chatArea.style.display = "none";
@@ -377,7 +348,7 @@ function clearActiveChatTabs() {
   tabs.forEach(tab => tab.classList.remove("active"));
 }
 
-// ===== UTILS =====
+// UTILS
 
 function detachChatListeners() {
   for (const chatId in chatListeners) {
