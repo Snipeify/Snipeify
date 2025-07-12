@@ -1,14 +1,27 @@
-// Firebase Setup (Replace with your actual config)
+// Initialize Firebase using Firebase 9 CDN style
 const firebaseConfig = {
-  apiKey: "YOUR-API-KEY",
-  authDomain: "YOUR-PROJECT.firebaseapp.com",
-  projectId: "YOUR-PROJECT-ID",
-  storageBucket: "YOUR-PROJECT.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abc123"
+  apiKey: "AIzaSyD40qt-7ahGKcKEf3NLlDFaNVA3Zza-UiQ",
+  authDomain: "aboutmesite-f445b.firebaseapp.com",
+  projectId: "aboutmesite-f445b",
+  storageBucket: "aboutmesite-f445b.firebasestorage.app",
+  messagingSenderId: "892937379864",
+  appId: "1:892937379864:web:e3c2773dd9eb431903636d",
+  measurementId: "G-JH905LFJVK"
 };
+
+// Firebase v9 compat-style for browser
 firebase.initializeApp(firebaseConfig);
 
+// Optional: Analytics (not needed unless you want it)
+if ("measurementId" in firebaseConfig) {
+  try {
+    firebase.analytics();
+  } catch (e) {
+    console.warn("Analytics could not be initialized", e);
+  }
+}
+
+// Login/Register functions
 function toggleLogin() {
   const modal = document.getElementById('loginModal');
   modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
@@ -30,6 +43,7 @@ function register() {
     .catch(err => alert(err.message));
 }
 
+// Particles.js setup
 particlesJS('particles-js', {
   "particles": {
     "number": { "value": 60 },
